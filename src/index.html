@@ -5,40 +5,68 @@
     <title>habemus editor</title>
 
     <!-- webcomponents-lite -->
-    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 
     <!-- polymer -->
-    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="bower_components/polymer/polymer.html">
 
     <!-- polymer iron elements -->
-    <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-    <link rel="import" href="../bower_components/iron-icons/editor-icons.html">
-    <link rel="import" href="../bower_components/iron-icons/editor-icons.html">
-    <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="bower_components/iron-icons/editor-icons.html">
+    <link rel="import" href="bower_components/iron-icons/editor-icons.html">
+    <link rel="import" href="bower_components/iron-icon/iron-icon.html">
 
     <!-- habemus's version of ace editor -->
-    <script src="../bower_components/ace-builds/src-noconflict/ace.js"></script>
-    <script src="../bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
-    <script src="../bower_components/ace-builds/src-noconflict/ext-emmet.js"></script>
-    <script src="../bower_components/ace-emmet-core/emmet.js"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ace.js"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-emmet.js"></script>
+    <script src="bower_components/ace-emmet-core/emmet.js"></script>
     <!-- dependencies -->
 
     <!-- keypress -->
-    <script src="../bower_components/Keypress/keypress-2.1.3.min.js" charset="utf-8"></script>
+    <script src="bower_components/Keypress/keypress-2.1.3.min.js" charset="utf-8"></script>
 
 
-    <!-- our own elements -->
+    <!-- hab elements (candidates to becoming separate elements) -->
     <link rel="import" href="elements/hab-context-menu/hab-context-menu.html">
     <link rel="import" href="elements/hab-editable-label/hab-editable-label.html">
+
+    <!-- editor elements -->
+    <link rel="import" href="elements/elements.html">
 
     <!-- happiness-tree styles -->
     <!-- TODO: transform the tree in polymer element and include styles within -->
     <link rel="stylesheet" type="text/css" href="bower_components/happiness-tree/lib/styles.css">
 
+    <!-- bundled stylesheet -->
+    <link rel="stylesheet" type="text/css" href="index.bundle.css">
   </head>
   <body>
 
+    <!-- create a root for Polymer data binding -->
+    <template id="habemus" is="dom-bind">
 
+      <habemus-structure id="structure" preview-mode="{{ previewMode }}">
+
+        <div panel="left">
+          <div id="file-tree-container">
+
+          </div>
+        </div>
+        <div panel="center">
+          <div id="tabbed-editor"></div>
+
+        </div>
+
+        <div panel="right" class$="right {{ previewMode }}">
+
+        </div>
+      </habemus-structure>
+
+    </template>
+
+    <!-- entrypoint -->
+    <script src="index.js"></script>
 
   </body>
 </html>

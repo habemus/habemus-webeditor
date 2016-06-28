@@ -5,12 +5,23 @@ const proc = require('child_process')
 const gulp = require('gulp');
 const electron = require('electron-prebuilt');
 
+
+// Load all installed gulp plugins into $
+var $ = require('gulp-load-plugins')();
+
 // test
 const istanbul = require('gulp-istanbul');
-// We'll use mocha in this example, but any test framework will work
-const mocha = require('gulp-mocha');
+const mocha    = require('gulp-mocha');
+
+
+// Internal dependencies
+const config = require('./tasks/config');
 
 gulp.task('develop', () => {
+
+  // LESS autorecompile
+  gulp.watch(config.srcDir + '/**/*.less', ['less']);
+
   // spawn electron 
   var child = proc.spawn(electron, ['electron/main.js']);
 });
@@ -34,3 +45,6 @@ gulp.task('test', ['pre-test'], function () {
       this.emit('error', err);
     });
 });
+
+// load task definers
+require('./tasks/build/less')(gulp, $);
