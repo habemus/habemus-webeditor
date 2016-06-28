@@ -1,74 +1,121 @@
 @import '../../less/variables.less';
 
-#editor-tabs {
-  height: 32px;
+@tab-height: 32px;
+@tab-color: #585858;
+
+#tabs {
+  height: @tab-height;
 
   background-color: #3C3C3C;
 
-  width: calc(~'100%-32px');
+  width: 100%;
 
-  overflow: hidden;
+  // overflow: hidden;
 
   display: flex;
   flex-direction: row;
+}
 
-  .editor-tab {
-    height: 100%;
+.tab {
+  height: 100%;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  position: relative;
 
-    color: #cecece;
-    white-space: nowrap;
-    background-color: #585858;
-    padding-left: 8px;
-    margin-right: 1px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-    user-select: none;
-    cursor: pointer;
+  color: #cecece;
+  white-space: nowrap;
+  background-color: @tab-color;
+  padding-left: 8px;
+  padding-right: 8px;
 
-    transition: all ease 0.3s;
+  width: 120px;
 
-    &:hover, &.iron-selected {
-      color: white;
-      background-color: #272822;
-      // cursor: pointer;
-    }
+  margin-right: 1px;
 
-    // * unsaved marker
-    .unsaved {
-      display: block;
-      margin-left: 2px;
-      font-size: 16px;
-      color: #e29a27;
-    }
+  font-size: 13px;
 
-    button.close {
-      display: flex;
+  user-select: none;
+  // cursor: pointer;
 
-      border: none;
-      outline: none;
-      color: lightgray;
+  // transition: all ease 0.3s;
 
-      height: 15px;
-      width: 15px;
-
-      margin-left: 4px;
-      margin-right: 4px;
-
-      padding: 0 0;
-
-      cursor: auto;
-
-      iron-icon {
-        --iron-icon-width: 15px;
-        --iron-icon-height: 15px;
-      }
-
-      &:hover {
-        background-color: lighten(black, 30%);
-      }
-    }
+  // remove :hover, as it keeps styles
+  // on drop splice
+  // &:hover,
+  &.iron-selected {
+    color: white;
+    background-color: #272822;
+    // cursor: pointer;
   }
+
+
+  // * unsaved marker
+  // .unsaved {
+  //   display: block;
+  //   margin-left: 2px;
+  //   font-size: 16px;
+  //   color: #e29a27;
+  // }
+
+  // button.close {
+  //   display: flex;
+
+  //   border: none;
+  //   outline: none;
+  //   color: lightgray;
+
+  //   height: 15px;
+  //   width: 15px;
+
+  //   margin-left: 4px;
+  //   margin-right: 4px;
+
+  //   padding: 0 0;
+
+  //   cursor: auto;
+
+  //   iron-icon {
+  //     --iron-icon-width: 15px;
+  //     --iron-icon-height: 15px;
+  //   }
+
+  //   &:hover {
+  //     background-color: lighten(black, 30%);
+  //   }
+  // }
+}
+
+.tab.dragging {
+  opacity: 0.2;
+}
+
+.tab.dragover:before {
+  content: "";
+  position: absolute;
+
+  width: 5px; 
+  height: 70%;
+  background-color: white;
+
+  // triangle
+  // border-top: 5px solid transparent;
+  // border-bottom: 5px solid transparent;
+  
+  // border-left: 5px solid white;
+
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 9999;
+}
+
+.tab.dragover-left:before {
+  left: 0;
+}
+
+.tab.dragover-right:before {
+  right: -6px;
 }

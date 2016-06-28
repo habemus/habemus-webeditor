@@ -9,19 +9,30 @@
 
   <template>
     <iron-selector
-      id="editor-tabs"
-      attr-for-selected="id"
-      selected="{{ selected }}">
+      id="tabs"
+      attr-for-selected="value"
+      selected="{{ selected }}"
+
+      on-dragend="_handleTabsDragend">
 
       <template is="dom-repeat" items="{{ files }}">
         <div
-          class="editor-tab"
-          id="{{ item.id }}">
+          class="tab"
+          value="{{ item.id }}"
+
+          draggable
+          on-dragstart="_handleTabDragstart"
+          on-dragover="_handleTabDragover"
+          on-dragleave="_handleTabDragleave"
+          on-drop="_handleTabDrop">
+
           {{ item.name }}
-          <div hidden$="{{ !item.unsaved }}" class="unsaved"> * </div>
-          <button class="close" on-tap="handleCloseTap">
+
+
+          <!-- <div hidden$="{{ !item.unsaved }}" class="unsaved"> * </div> -->
+         <!--  <button class="close" on-tap="handleCloseTap">
             <iron-icon icon="close"></iron-icon>
-          </button>
+          </button> -->
           
         </div>
       </template>

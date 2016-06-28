@@ -5,7 +5,8 @@ function TabbedEditor(options) {
   if (!options.fileTree) { throw new Error('fileTree is required'); }
   if (!options.hfs) { throw new Error('hfs is required'); }
 
-  var fileTree = this.fileTree = options.fileTree;
+  var self = this;
+  var fileTree = self.fileTree = options.fileTree;
 
   fileTree.ui.addTreeEventListener('click', 'leaf', function (data) {
 
@@ -13,33 +14,35 @@ function TabbedEditor(options) {
     var editorEl = document.createElement('div');
     editorEl.style.height = '100%';
 
-    this.editorContainer.appendChild(editorEl);
-
-    console.log(data.model.path)
+    self.editorContainer.appendChild(editorEl);
+    var fileEditor = new FileEditor(window.ace, editorEl, options.hfs);
+    fileEditor.aceEditor.setTheme('ace/theme/monokai');
 
     // create new file object
     var newFile = {
+      // make the file object be identified by the path
+      id: data.model.path,
+
       name: data.model.name,
       path: data.model.path,
-      fileEditor: new FileEditor(window.ace, editorEl, options.hfs),
+      fileEditor: fileEditor,
     };
 
     newFile.fileEditor.load(data.model.path)
       .then(function () {
 
-        this.tabs.push('files', newFile);
-      }.bind(this))
+        self.tabs.push('files', newFile);
+      });
 
-    // // read file contents
-    // setTimeout(function () {
-
-
-    // }.bind(this), 300);
-
-  }.bind(this));
+  });
 
   var tabs = this.tabs = document.createElement('habemus-editor-tabs');
-  tabs.set('files', []);
+  tabs.set('files', [
+    { id: 'f1', name: 'file-1', path: 'file-1' },
+    { id: 'f2', name: 'file-2', path: 'file-2' },
+    { id: 'f3', name: 'file-3', path: 'file-3' },
+    { id: 'f4', name: 'file-4', path: 'file-4' },
+  ]);
 
 
   this.editorContainer = document.createElement('div');

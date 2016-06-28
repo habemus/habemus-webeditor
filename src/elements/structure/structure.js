@@ -24,7 +24,7 @@
       x1: {
         type: Number,
         notify: true,
-        value: 160
+        value: 250
       },
       x2: {
         type: Number,
