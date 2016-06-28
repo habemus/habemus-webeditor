@@ -8,7 +8,8 @@ module.exports = function (habemus, options) {
   });
   var tabbedEditor = require('./tabbed-editor')({
     fileTree: fileTree,
-    hfs: habemus.services.hfs
+    hfs: habemus.services.hfs,
+    ace: window.ace
   });
 
   return Bluebird.resolve();

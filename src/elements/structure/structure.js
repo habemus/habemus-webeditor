@@ -29,7 +29,7 @@
       x2: {
         type: Number,
         notify: true,
-        value: 900
+        value: 1200
       },
       x3: {
         type: Number,

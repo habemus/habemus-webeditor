@@ -1,69 +1,127 @@
-const FileEditor = require('h-ui-file-editor');
+const EditorContainer = require('./editor-container');
 
 function TabbedEditor(options) {
 
   if (!options.fileTree) { throw new Error('fileTree is required'); }
   if (!options.hfs) { throw new Error('hfs is required'); }
+  if (!options.ace) { throw new Error('ace is required'); }
 
-  var self = this;
-  var fileTree = self.fileTree = options.fileTree;
+  this.fileTree = options.fileTree;
+  this.hfs      = options.hfs;
+  this.ace      = options.ace;
 
-  fileTree.ui.addTreeEventListener('click', 'leaf', function (data) {
+  // tabs
+  this.tabs = document.createElement('habemus-editor-tabs');
 
-    // create an element for the editor
-    var editorEl = document.createElement('div');
-    editorEl.style.height = '100%';
-
-    self.editorContainer.appendChild(editorEl);
-    var fileEditor = new FileEditor(window.ace, editorEl, options.hfs);
-    fileEditor.aceEditor.setTheme('ace/theme/monokai');
-
-    // create new file object
-    var newFile = {
-      // make the file object be identified by the path
-      id: data.model.path,
-
-      name: data.model.name,
-      path: data.model.path,
-      fileEditor: fileEditor,
-    };
-
-    newFile.fileEditor.load(data.model.path)
-      .then(function () {
-
-        self.tabs.push('files', newFile);
-      });
-
+  // editor container manages open editors
+  // it is not a Polymer element because ace-editor
+  // appears to lose performance inside shady/shadow dom.
+  // at least, it was not made for perfectly working inside shadow dom.
+  // TODO: investigate ace editor and shadow/shady dom.
+  this.editorContainer = new EditorContainer({
+    hfs: this.hfs,
+    ace: this.ace,
   });
 
-  var tabs = this.tabs = document.createElement('habemus-editor-tabs');
-  tabs.set('files', [
-    { id: 'f1', name: 'file-1', path: 'file-1' },
-    { id: 'f2', name: 'file-2', path: 'file-2' },
-    { id: 'f3', name: 'file-3', path: 'file-3' },
-    { id: 'f4', name: 'file-4', path: 'file-4' },
-  ]);
+  /**
+   * Listen to select events on the fileTree ui
+   */
+  this.fileTree.ui.addTreeEventListener('dblclick', 'leaf', function (data) {
 
+    var path = data.model.path;
 
-  this.editorContainer = document.createElement('div');
-  this.editorContainer.style.height = 'calc(100vh - 40px)';
-  this.editorContainer.style.position = 'relative';
+    this.openFile(path);
 
-  this.element = document.createElement('div');
-  this.element.appendChild(tabs);
-  this.element.appendChild(this.editorContainer);
+  }.bind(this));
+
+  /**
+   * Listen to select events on the tabs element
+   */
+  this.tabs.addEventListener('iron-select', function (e) {
+    var filepath = tabs.selected;
+    this.editorContainer.activateEditor(filepath);
+  }.bind(this));
+
+  /**
+   * When tabs emit a close-intention, destroy the editor and
+   * confirm closing
+   */
+  this.tabs.addEventListener('close-intention', function (e) {
+
+    var filepath = e.detail.item.path;
+
+    // destroy the corresponding editor
+    this.editorContainer.destroyEditor(filepath);
+
+    console.log('closed', filepath)
+
+    // confirm the close
+    e.detail.confirm();
+  }.bind(this));
+
+  // tabs.addEventListener('create-intention', function (e) {
+  //   setTimeout(function () {
+
+  //     var tab = {
+  //       id: 'f-new',
+
+  //       name: 'untitled',
+  //       path: 'somepath',
+
+  //       status: 'preview',
+  //     };
+
+  //     e.detail.confirm(tab);
+
+  //   }, 100);
+  // });
 }
 
-TabbedEditor.prototype.createTab = function (filepath) {
+/**
+ * Attempts to open an in-memory file editor
+ * for the given filepath.
+ *
+ * If the file is not open, create the editor,
+ * load it and then open its tab
+ * 
+ * @param  {String} filepath
+ * @return {Bluebird -> tabData}          [description]
+ */
+TabbedEditor.prototype.openFile = function (filepath) {
 
+  // check if the file is already open
+  var tab = this.tabs.getTab(filepath);
+
+  if (tab) {
+    this.tabs.select(tab.id);
+    return;
+  }
+
+  return this.editorContainer.createEditor(filepath)
+    .then(function () {
+
+      // create new tabData object
+      var tabData = {
+        // make the tab be identified by the path
+        id: filepath,
+
+        name: filepath,
+        path: filepath,
+      };
+
+      // add to the tabs and select it
+      this.tabs.createTab(tabData, { select: true });
+    }.bind(this));
 };
 
-TabbedEditor.prototype.destroyTab = function (filepath) {
+TabbedEditor.prototype.closeFile = function (filepath) {
 
 };
 
 TabbedEditor.prototype.attach = function (containerElement) {
-  containerElement.appendChild(this.element);
+  containerElement.appendChild(this.tabs);
+
+  this.editorContainer.attach(containerElement);
 
   this.containerElement = containerElement;
 }

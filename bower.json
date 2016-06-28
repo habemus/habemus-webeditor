@@ -12,6 +12,7 @@
     "h-ui-file-editor": "git@bitbucket.org:habemus-tutti/h-ui-file-editor.git",
     "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git",
     "Keypress": "^2.1.4",
-    "iron-selector": "^1.5.2"
+    "iron-selector": "^1.5.2",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.7"
   }
 }

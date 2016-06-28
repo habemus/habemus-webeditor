@@ -90,7 +90,7 @@ module.exports = function (options) {
     },
 
     publish: function (eventName, eventData) {
-      console.log('event ', eventName, eventData);
+      // console.log('event ', eventName, eventData);
     }
   };
 

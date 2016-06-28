@@ -13,12 +13,15 @@
       attr-for-selected="value"
       selected="{{ selected }}"
 
-      on-dragend="_handleTabsDragend">
+      on-dragend="_handleTabsDragend"
+      on-dblclick="_handleTabsDblclick">
 
-      <template is="dom-repeat" items="{{ files }}">
+      <template is="dom-repeat" items="{{ tabs }}">
         <div
           class="tab"
           value="{{ item.id }}"
+
+          status$="{{ item.status }}"
 
           draggable
           on-dragstart="_handleTabDragstart"
@@ -26,13 +29,13 @@
           on-dragleave="_handleTabDragleave"
           on-drop="_handleTabDrop">
 
-          {{ item.name }}
-
+          <span class="tab-name">{{ item.name }}</span>
 
           <!-- <div hidden$="{{ !item.unsaved }}" class="unsaved"> * </div> -->
-         <!--  <button class="close" on-tap="handleCloseTap">
+          <button on-tap="_handleButtonTap">
             <iron-icon icon="close"></iron-icon>
-          </button> -->
+            <iron-icon icon="refresh"></iron-icon>
+          </button>
           
         </div>
       </template>
