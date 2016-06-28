@@ -1,0 +1,15 @@
+{
+  "name": "habemus-editor-v2",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Simon <simonxd@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "dependencies": {
+    "h-ui-file-editor": "git@bitbucket.org:habemus-tutti/h-ui-file-editor.git",
+    "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git"
+  }
+}

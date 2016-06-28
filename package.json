@@ -7,5 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "h-ui-file-editor": "git+ssh://git@bitbucket.org/habemus-tutti/h-ui-file-editor.git",
+    "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.5",
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-mocha": "^2.2.0"
+  }
 }
