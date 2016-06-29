@@ -1,4 +1,4 @@
-const EditorContainer = require('./editor-container');
+const EditorManager = require('./editor-manager');
 
 /**
  * TabbedEditor constructor
@@ -6,11 +6,11 @@ const EditorContainer = require('./editor-container');
  */
 function TabbedEditor(options) {
 
-  if (!options.fileTree) { throw new Error('fileTree is required'); }
+  // if (!options.fileTree) { throw new Error('fileTree is required'); }
   if (!options.hfs) { throw new Error('hfs is required'); }
   if (!options.ace) { throw new Error('ace is required'); }
 
-  this.fileTree = options.fileTree;
+  // this.fileTree = options.fileTree;
   this.hfs      = options.hfs;
   this.ace      = options.ace;
 
@@ -28,21 +28,10 @@ function TabbedEditor(options) {
   // appears to lose performance inside shady/shadow dom.
   // at least, it was not made for perfectly working inside shadow dom.
   // TODO: investigate ace editor and shadow/shady dom.
-  this.editorContainer = new EditorContainer({
+  this.editorManager = new EditorManager({
     hfs: this.hfs,
     ace: this.ace,
   });
-
-  /**
-   * Listen to select events on the fileTree ui
-   */
-  this.fileTree.ui.addTreeEventListener('dblclick', 'leaf', function (data) {
-
-    var path = data.model.path;
-
-    this.openFile(path);
-
-  }.bind(this));
 
   /**
    * Listen to select events on the tabs element
@@ -51,8 +40,11 @@ function TabbedEditor(options) {
     var filepath = tabs.selected;
 
     this.activeFile = filepath;
+    // open an editor and set it not to be persistent
+    this.editorManager.openEditor(filepath, {
+      persistent: true
+    });
 
-    this.editorContainer.activateEditor(filepath);
   }.bind(this));
 
   /**
@@ -64,7 +56,7 @@ function TabbedEditor(options) {
     var filepath = e.detail.item.path;
 
     // destroy the corresponding editor
-    this.editorContainer.destroyEditor(filepath);
+    this.editorManager.destroyEditor(filepath);
 
     // confirm the close
     e.detail.confirm();
@@ -95,9 +87,37 @@ function TabbedEditor(options) {
 TabbedEditor.prototype.attach = function (containerElement) {
   containerElement.appendChild(this.tabs);
 
-  this.editorContainer.attach(containerElement);
+  this.editorManager.attach(containerElement);
 
   this.containerElement = containerElement;
+};
+
+/**
+ * Opens a non-persistent editor with the required file
+ * @param  {String} filepath
+ * @return {Bluebird}
+ */
+TabbedEditor.prototype.viewFile = function (filepath) {
+
+  if (this.tabs.getTab(filepath)) {
+    this.tabs.select(filepath);
+    return Bluebird.resolve();
+  }
+
+  // undo selection on tabs
+  this.tabs.clearSelection();
+
+  return this.editorManager.openEditor(filepath, {
+    persistent: false
+  })
+  .then(function (fileEditor) {
+
+    // once any changes happen on the file editor,
+    // effectively open the file
+    fileEditor.once('change', this.openFile.bind(this, filepath));
+
+    return;
+  }.bind(this));
 };
 
 /**
@@ -112,23 +132,19 @@ TabbedEditor.prototype.attach = function (containerElement) {
  */
 TabbedEditor.prototype.openFile = function (filepath) {
 
-  // check if the file is already open
-  var tab = this.tabs.getTab(filepath);
-
-  if (tab) {
-    this.tabs.select(tab.id);
-    return;
+  if (this.tabs.getTab(filepath)) {
+    this.tabs.select(filepath);
+    return Bluebird.resolve();
   }
 
-  return this.editorContainer.createEditor(filepath)
+  // open a persistent editor
+  return this.editorManager.openEditor(filepath, { persistent: true })
     .then(function (fileEditor) {
 
       // create new tabData object
       var tabData = {
         // make the tab be identified by the path
         id: filepath,
-
-        name: filepath,
         path: filepath,
       };
 
@@ -158,7 +174,7 @@ TabbedEditor.prototype.openFile = function (filepath) {
  */
 TabbedEditor.prototype.closeFile = function (filepath) {
   this.tabs.closeTab(filepath);
-  this.editorContainer.destroyEditor(filepath);
+  this.editorManager.destroyEditor(filepath);
 
   return Bluebird.resolve();
 };
@@ -169,7 +185,7 @@ TabbedEditor.prototype.closeFile = function (filepath) {
  * @return {Bluebird}
  */
 TabbedEditor.prototype.saveFile = function (filepath) {
-  return this.editorContainer.getEditor(filepath).save().then(function () {
+  return this.editorManager.getEditor(filepath).save().then(function () {
     this.tabs.setTabData(filepath, 'status', '');
   }.bind(this));
 };

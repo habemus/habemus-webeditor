@@ -15,7 +15,7 @@ const _move      = Bluebird.promisify(fse.move);
 const _remove    = Bluebird.promisify(fse.remove);
 
 // constants
-const FS_ROOT_PATH = path.join(__dirname, '../../tmp');
+const FS_ROOT_PATH = path.join(__dirname, '../../');
 
 function wait(ms) {
   return new Bluebird((resolve, reject) => {
