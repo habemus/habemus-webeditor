@@ -4,6 +4,7 @@ const Bluebird = require('bluebird');
 // own dependencies
 const initServices = require('./services/init');
 const initUI       = require('./ui/init');
+const initKeyboard = require('./keyboard/init');
 
 function connect() {
   return new Bluebird((resolve, reject) => {
@@ -25,16 +26,10 @@ window.addEventListener('WebComponentsReady', function () {
     return Bluebird.resolve(initServices(habemus, options))
       .then(() => {
         return Bluebird.resolve(initUI(habemus, options));
+      })
+      .then(() => {
+        return Bluebird.resolve(initKeyboard(habemus, options));
       });
-  });
-
-
-  ////////////////////
-  // setup Keypress //
-  var listener = new window.keypress.Listener();
-
-  listener.simple_combo('cmd s', function() {
-    habemus.saveActiveFile();
   });
 });
 

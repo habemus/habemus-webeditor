@@ -1,6 +1,3 @@
-// third-party dependencies
-
-
 // external habemus-modules
 const happinessTree = require('happiness-tree');
 

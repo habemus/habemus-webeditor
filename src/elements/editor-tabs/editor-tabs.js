@@ -330,8 +330,10 @@
         throw new Error('tab ' + tabId + ' not found');
       }
 
-      if (this.tabs.length > 1) {
-        // if there are more open tabs
+      if (tabId === this.selected && this.tabs.length > 1) {
+        // if the tab to be closed is the 
+        // same that is selected
+        // and there are more open tabs
         // try to open another tab:
         // the previous tab if there is one and the next tab else
         var anotherTabIndex = (index > 0) ? index - 1 : index + 1;
@@ -353,7 +355,21 @@
       return this.tabs.find(function (tab) {
         return tab.id === tabId;
       });
-    }
+    },
+
+    /**
+     * Sets data on the tab
+     * @param {String} tabId
+     * @param {String} key
+     * @param {*} value
+     */
+    setTabData: function (tabId, key, value) {
+      var index = this.tabs.findIndex(function (tab) {
+        return tab.id === tabId;
+      });
+
+      this.set('tabs.' + index + '.' + key, value);
+    },
   });
 
 })();

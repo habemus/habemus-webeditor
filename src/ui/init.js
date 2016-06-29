@@ -12,5 +12,9 @@ module.exports = function (habemus, options) {
     ace: window.ace
   });
 
+  habemus.ui = {};
+  habemus.ui.fileTree     = fileTree;
+  habemus.ui.tabbedEditor = tabbedEditor;
+
   return Bluebird.resolve();
 };

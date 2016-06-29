@@ -26,26 +26,6 @@ EditorContainer.prototype.attach = function (containerElement) {
 };
 
 /**
- * Checks if an editor already exists and returns it if it does.
- * If it doesn't, creates a new instance of the editor and returns
- * @param  {String} filepath
- * @return {Bluebird -> FileEditor}
- */
-// EditorContainer.prototype.ensureEditorExists = function (filepath) {
-//   if (!filepath) { throw new Error('filepath is required'); }
-
-//   var editor = this._editors.find(function (editor) {
-//     return editor.filepath === filepath;
-//   });
-
-//   if (editor) {
-//     return Bluebird.resolve(editor);
-//   } else {
-//     return this.createEditor(filepath);
-//   }
-// };
-
-/**
  * Create an editor
  * @return {Promise -> UIFileEditor}
  */
@@ -86,8 +66,6 @@ EditorContainer.prototype.createEditor = function (filepath) {
  */
 EditorContainer.prototype.activateEditor = function (filepath) {
 
-  // console.log('activate', filepath)
-
   if (!filepath) { throw new Error('filepath is required'); }
 
   var exists = false;
@@ -105,6 +83,23 @@ EditorContainer.prototype.activateEditor = function (filepath) {
 
   if (!exists) {
     throw new Error('editor for file ' + filepath + ' does not exist')
+  }
+};
+
+/**
+ * Retrieves the file editor for the given filepath
+ * @param  {String} filepath
+ * @return {FileEditor}
+ */
+EditorContainer.prototype.getEditor = function (filepath) {
+  var e = this._editors.find(function (editor) {
+    return editor.filepath === filepath;
+  });
+
+  if (!e) {
+    throw new Error('no editor for ' + filepath);
+  } else {
+    return e;
   }
 };
 

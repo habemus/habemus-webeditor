@@ -1,5 +1,9 @@
 const EditorContainer = require('./editor-container');
 
+/**
+ * TabbedEditor constructor
+ * @param {Object} options
+ */
 function TabbedEditor(options) {
 
   if (!options.fileTree) { throw new Error('fileTree is required'); }
@@ -9,6 +13,12 @@ function TabbedEditor(options) {
   this.fileTree = options.fileTree;
   this.hfs      = options.hfs;
   this.ace      = options.ace;
+
+  /**
+   * Path to the active file.
+   * @type {Boolean}
+   */
+  this.activeFile = false;
 
   // tabs
   this.tabs = document.createElement('habemus-editor-tabs');
@@ -39,6 +49,9 @@ function TabbedEditor(options) {
    */
   this.tabs.addEventListener('iron-select', function (e) {
     var filepath = tabs.selected;
+
+    this.activeFile = filepath;
+
     this.editorContainer.activateEditor(filepath);
   }.bind(this));
 
@@ -52,8 +65,6 @@ function TabbedEditor(options) {
 
     // destroy the corresponding editor
     this.editorContainer.destroyEditor(filepath);
-
-    console.log('closed', filepath)
 
     // confirm the close
     e.detail.confirm();
@@ -78,6 +89,18 @@ function TabbedEditor(options) {
 }
 
 /**
+ * Attaches the element to the DOM
+ * @param  {DOM Element} containerElement
+ */
+TabbedEditor.prototype.attach = function (containerElement) {
+  containerElement.appendChild(this.tabs);
+
+  this.editorContainer.attach(containerElement);
+
+  this.containerElement = containerElement;
+};
+
+/**
  * Attempts to open an in-memory file editor
  * for the given filepath.
  *
@@ -85,7 +108,7 @@ function TabbedEditor(options) {
  * load it and then open its tab
  * 
  * @param  {String} filepath
- * @return {Bluebird -> tabData}          [description]
+ * @return {Bluebird -> tabData}
  */
 TabbedEditor.prototype.openFile = function (filepath) {
 
@@ -98,7 +121,7 @@ TabbedEditor.prototype.openFile = function (filepath) {
   }
 
   return this.editorContainer.createEditor(filepath)
-    .then(function () {
+    .then(function (fileEditor) {
 
       // create new tabData object
       var tabData = {
@@ -111,19 +134,68 @@ TabbedEditor.prototype.openFile = function (filepath) {
 
       // add to the tabs and select it
       this.tabs.createTab(tabData, { select: true });
+
+      // associate the fileEditor events to the tab
+      fileEditor.aceEditor.on('change', function () {
+
+        if (fileEditor.changeManager.hasUnsavedChanges()) {
+
+          this.tabs.setTabData(filepath, 'status', 'unsaved');
+
+        } else {
+
+          this.tabs.setTabData(filepath, 'status', '');
+
+        }
+      }.bind(this));
     }.bind(this));
 };
 
+/**
+ * Closes the editor for the filepath
+ * @param  {String} filepath
+ * @return {Bluebird}
+ */
 TabbedEditor.prototype.closeFile = function (filepath) {
+  this.tabs.closeTab(filepath);
+  this.editorContainer.destroyEditor(filepath);
 
+  return Bluebird.resolve();
 };
 
-TabbedEditor.prototype.attach = function (containerElement) {
-  containerElement.appendChild(this.tabs);
+/**
+ * Saves the editor for the filepath
+ * @param  {String} filepath
+ * @return {Bluebird}
+ */
+TabbedEditor.prototype.saveFile = function (filepath) {
+  return this.editorContainer.getEditor(filepath).save().then(function () {
+    this.tabs.setTabData(filepath, 'status', '');
+  }.bind(this));
+};
 
-  this.editorContainer.attach(containerElement);
+/**
+ * Saves the active file
+ * @return {Bluebird}
+ */
+TabbedEditor.prototype.saveActiveFile = function () {
+  if (this.activeFile) {
+    return this.saveFile(this.activeFile);
+  } else {
+    return Bluebird.resolve();
+  }
+};
 
-  this.containerElement = containerElement;
-}
+/**
+ * Closes the active file
+ * @return {Bluebird}
+ */
+TabbedEditor.prototype.closeActiveFile = function () {
+  if (this.activeFile) {
+    return this.closeFile(this.activeFile);
+  } else {
+    return Bluebird.resolve();
+  }
+};
 
 module.exports = TabbedEditor;
