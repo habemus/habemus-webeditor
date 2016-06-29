@@ -145,7 +145,7 @@
         Polymer.Base.toggleClass('viewport-resizing', false, this.$['panel-container']);
       }.bind(this), 500);
 
-      console.log('vw', vw);
+      // console.log('vw', vw);
 
       var dvw = vw - oldVw;
 

@@ -1,12 +1,32 @@
-const initHFS = require('./hfs');
+/**
+ * This module initializes all services and makes
+ * them available to the editor.
+ * 
+ * All services must be instantiated by this script.
+ * 
+ * Service constructors may be replaced for custom builds
+ * for differing environments (browser, local, etc)
+ */
+
+// third-party dependencies
+const Bluebird = require('bluebird');
+
+const initHFS = require('service-hfs');
 
 module.exports = function (habemus, options) {
 
   habemus.services = {};
-
-  return initHFS(options)
-    .then((hfs) => {
-      habemus.services.hfs = hfs;
-    });
-
+  
+  return Bluebird.all([
+    initHFS(options),
+  ])
+  .then(function (services) {
+    
+    habemus.services.hfs = services[0];
+    
+    // localStorage is the browser's localStorage
+    habemus.services.localStorage = window.localStorage;
+    
+    return;
+  });
 };

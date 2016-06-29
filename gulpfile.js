@@ -1,4 +1,5 @@
 // native dependencies
+const path = require('path');
 const proc = require('child_process')
 
 // third-party dependencies
@@ -17,7 +18,7 @@ const mocha    = require('gulp-mocha');
 // Internal dependencies
 const config = require('./tasks/config');
 
-gulp.task('develop', () => {
+gulp.task('develop-electron', () => {
 
   // LESS autorecompile
   gulp.watch(config.srcDir + '/**/*.less', ['less']);

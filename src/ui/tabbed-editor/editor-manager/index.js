@@ -1,12 +1,16 @@
+// native dependencies
+const EventEmitter = require('events');
+
+// third-party dependencies
 const Bluebird = require('bluebird');
 
 const FileEditor = require('h-ui-file-editor');
 
-const FULL_EDITOR  = 'full-editor';
-const GHOST_EDITOR = 'ghost-editor';
-
 /**
  * Editor container constructor
+ * @param {Object} options
+ *        - ace
+ *        - hfs
  */
 function EditorManager(options) {
   

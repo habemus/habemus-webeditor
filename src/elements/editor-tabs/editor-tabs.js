@@ -56,6 +56,7 @@
       var tabPosition = e.model.index;
 
       e.dataTransfer.setData(TAB_POSITION, tabPosition);
+      e.dataTransfer.effectAllowed = 'move';
 
       // select on dragstart
       this.select(e.model.item.id);

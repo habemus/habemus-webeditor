@@ -13,7 +13,13 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 800, height: 600,
+    webPreferences: {
+      // load this script before running the application
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + path.join(__dirname, '../src/index.html'))

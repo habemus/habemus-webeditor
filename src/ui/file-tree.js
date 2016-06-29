@@ -28,7 +28,7 @@ module.exports = function (options) {
   });
   
   // run initial load
-  tree.model.fsLoadContents();
+  tree.model.fsRead();
 
   return tree;
 }
