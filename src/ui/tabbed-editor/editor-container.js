@@ -47,6 +47,16 @@ EditorContainer.prototype.createEditor = function (filepath) {
   );
   fileEditor.aceEditor.setTheme('ace/theme/monokai');
 
+  // apply styles
+  fileEditor.element.style.fontFamily = 'Source Code Pro';
+  // fileEditor.element.style.fontFamily = 'Monaco';
+  // fileEditor.element.style.fontFamily = 'Menlo';
+  fileEditor.element.style.fontSize = '15px';
+
+  // set aceEditor options
+  fileEditor.aceEditor.setOption('scrollPastEnd', true);
+  fileEditor.aceEditor.setHighlightActiveLine(true);
+
   // append it to the element container
   this.element.appendChild(editorEl);
 
