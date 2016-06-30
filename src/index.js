@@ -19,6 +19,8 @@ function connect() {
 // The application wrapper
 var habemus = document.querySelector('#habemus');
 
+window.habemus = habemus;
+
 // Only start setting up thing when WebComponentsReady event is fired
 window.addEventListener('WebComponentsReady', function () {
 

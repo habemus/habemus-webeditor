@@ -15,20 +15,31 @@ module.exports = function (options) {
     hfs: options.hfs,
     rootName: 'my project'
   });
-  tree.ui.attach(document.querySelector('#file-tree-container'));
+  tree.attach(document.querySelector('#file-tree-container'));
 
   /**
    * Wire up the tree ui with the tabbedEditor
    */
-  tree.ui.addTreeEventListener('dblclick', 'leaf', function (data) {
+  tree.uiAddTreeEventListener('dblclick', 'leaf', function (data) {
     tabbedEditor.openFile(data.model.path);
   });
-  tree.ui.addTreeEventListener('click', 'leaf', function (data) {
+  tree.uiAddTreeEventListener('click', 'leaf', function (data) {
     tabbedEditor.viewFile(data.model.path);
+  });
+  tabbedEditor.on('active-filepath-changed', function (current, previous) {
+
+    if (tree.rootModel.getNodeByPath(current)) {
+
+      // if the current filepath is in the tree
+      // mark it as selected and deselect all others
+      tree.uiSelect(current, {
+        clearSelection: true
+      });
+    }
   });
   
   // run initial load
-  tree.model.fsRead();
+  tree.openDirectory('');
 
   return tree;
 }
