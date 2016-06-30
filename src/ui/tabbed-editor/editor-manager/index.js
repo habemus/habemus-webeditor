@@ -6,6 +6,9 @@ const Bluebird = require('bluebird');
 
 const FileEditor = require('h-ui-file-editor');
 
+const CLEAN_UP_INTERVAL = 4000;
+const CLEAN_UP_DELAY    = 10000;
+
 /**
  * Editor container constructor
  * @param {Object} options
@@ -37,7 +40,36 @@ function EditorManager(options) {
    * @type {Array}
    */
   this._fileEditors = [];
+  
+  /**
+   * Set an interval for temporary fileEditor clean up
+   */
+  this._setCleanUpInterval(CLEAN_UP_INTERVAL);
 }
+
+/**
+ * Editors may be flagged as temporary.
+ * Temporary editors are cleaned up in the cleanup interval.
+ */
+EditorManager.prototype._setCleanUpInterval = function (ms) {
+  this._cleanUpInterval = setInterval(function () {
+    
+    this._fileEditors.forEach(function (fileEditor) {
+      if (!fileEditor.persistent &&
+          (Date.now() - fileEditor.createdAt) > CLEAN_UP_DELAY && 
+          fileEditor.element.getAttribute('hidden')) {
+        // only destroy non-persistent and hidden editors
+        // TODO: make the hidden flag become internal to the fileEditor
+        this.destroyEditor(fileEditor.filepath);
+      }
+    }.bind(this));
+    
+  }.bind(this), ms);
+};
+
+EditorManager.prototype._clearCleanUpInterval = function (ms) {
+  clearInterval(this._cleanUpInterval);
+};
 
 /**
  * Attaches the element to the DOM
@@ -51,8 +83,10 @@ EditorManager.prototype.attach = function (containerElement) {
 /**
  * Creates a file editor object
  * attaches to the container and adds to the _fileEditors array
+ * 
+ * Flags the editor's persistence
  */
-EditorManager.prototype.createEditor = function () {
+EditorManager.prototype.createEditor = function (persistent) {
   // create an element for the editor
   var editorEl = document.createElement('div');
   editorEl.style.height = '100%';
@@ -86,6 +120,13 @@ EditorManager.prototype.createEditor = function () {
 
   // append it to the element container
   this.element.appendChild(editorEl);
+  
+  // set the persistence flag
+  // by default the editor is not persistent
+  fileEditor.persistent = persistent || false;
+  
+  // set the creation timestamp onto the fileEditor
+  fileEditor.createdAt = Date.now();
 
   // save the editor to the editors array
   this._fileEditors.push(fileEditor);
@@ -115,8 +156,6 @@ EditorManager.prototype.openEditor = function (filepath, options) {
     // may become in this moment
     editor.persistent = options.persistent;
 
-    // console.log('editor exists');
-
     this.showEditor(filepath);
 
     return Bluebird.resolve(editor);
@@ -124,15 +163,10 @@ EditorManager.prototype.openEditor = function (filepath, options) {
   } else {
 
     // create a new editor
-    editor = this.createEditor();
-    editor.persistent = options.persistent;
-
-    // console.log(filepath, 'created new editor')
+    editor = this.createEditor(options.persistent);
 
     return editor.load(filepath)
       .then(function () {
-
-        // console.log(filepath, 'loaded editor');
 
         // show the editor after loading
         this.showEditor(filepath);
@@ -148,11 +182,6 @@ EditorManager.prototype.openEditor = function (filepath, options) {
  * Shows the editor for the given filepath.
  * Once an editor is shown, all other editors
  * are hidden.
- *
- * Once an editor is hidden, we should check if it is a persistent
- * editor or a temporary one.
- * If it is a temporary editor, schedule its complete teardown
- * and removal.
  * 
  * @param  {String} filepath
  */
@@ -162,27 +191,11 @@ EditorManager.prototype.showEditor = function (filepath) {
 
   this._fileEditors.forEach(function (fileEditor) {
     if (fileEditor.filepath === filepath) {
-
-      // console.log(filepath, 'show')
-
       // show
       fileEditor.element.removeAttribute('hidden');
 
     } else {
-
-      // console.log(filepath, fileEditor.filepath, 'hide');
-
-      if (!fileEditor.persistent) {
-        // destroy the editor on the event loop's nextTick
-        // in order not to interfere in the current loop
-        setTimeout(function () {
-          self.destroyEditor(fileEditor.filepath);
-        }, 0);
-        fileEditor.element.setAttribute('hidden', true);
-      } else {
-        // the editor is persistent, only needs to be hidden
-        fileEditor.element.setAttribute('hidden', true);
-      }
+      fileEditor.element.setAttribute('hidden', true);
     }
   });
 };
@@ -201,6 +214,7 @@ EditorManager.prototype.getEditor = function (filepath) {
 /**
  * Destroys the editor for the given filepath
  * @param  {String} filepath
+ * @return {Bluebird}
  */
 EditorManager.prototype.destroyEditor = function (filepath) {
 
@@ -216,11 +230,14 @@ EditorManager.prototype.destroyEditor = function (filepath) {
 
   // splice it from the array
   var fileEditor = this._fileEditors.splice(editorIndex, 1)[0];
+  
+  // remove all eventListeners
+  fileEditor.removeAllListeners();
 
   // TODO verify teardown of the editor
   fileEditor.element.remove();
-
-  // console.log(filepath, 'removed editor')
+  
+  return Bluebird.resolve();
 };
 
 module.exports = EditorManager;

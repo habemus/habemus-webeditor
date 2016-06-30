@@ -5,11 +5,13 @@ module.exports = function (habemus, options) {
 
   var listener = new window.keypress.Listener();
 
-  function _saveActiveFile() {
+  function _saveActiveFile(e) {
+    e.preventDefault();
     habemus.ui.tabbedEditor.saveActiveFile();
   }
 
-  function _closeActiveFile() {
+  function _closeActiveFile(e) {
+    e.preventDefault();
     habemus.ui.tabbedEditor.closeActiveFile();
   }
 

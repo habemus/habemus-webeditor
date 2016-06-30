@@ -54,6 +54,14 @@
       //   observer: '_previewModeChanged'
       // }
     },
+    
+    ready: function () {
+      window.addEventListener('resize', function () {
+        // TODO!!!!!
+        // RAF
+        this.set('vw', window.innerWidth);
+      }.bind(this));
+    },
 
     handleTrackX1: function (e) {
       // make handles larger when dragging happens
@@ -135,45 +143,48 @@
     },
 
     _viewportWidthChanged: function (vw, oldVw) {
+      
+      console.log('vw changed')
+  
+      this.set('x2', vw);
 
+      // this.set('x3', vw);
 
-      this.set('x3', vw);
+      // Polymer.Base.toggleClass('viewport-resizing', true, this.$['panel-container']);
 
-      Polymer.Base.toggleClass('viewport-resizing', true, this.$['panel-container']);
+      // setTimeout(function () {
+      //   Polymer.Base.toggleClass('viewport-resizing', false, this.$['panel-container']);
+      // }.bind(this), 500);
 
-      setTimeout(function () {
-        Polymer.Base.toggleClass('viewport-resizing', false, this.$['panel-container']);
-      }.bind(this), 500);
+      // // console.log('vw', vw);
 
-      // console.log('vw', vw);
+      // var dvw = vw - oldVw;
 
-      var dvw = vw - oldVw;
+      // var x1 = this.get('x1');
+      // var x2 = this.get('x2');
+      // var x3 = this.get('x3');
 
-      var x1 = this.get('x1');
-      var x2 = this.get('x2');
-      var x3 = this.get('x3');
-
-      if (dvw < 0) {
-        // smaller
+      // if (dvw < 0) {
+      //   // smaller
         
-        if (vw - PREVIEWER_WIDTH.min < x2) {
-          // make sure previewer has its minimum size
-          this.set('x2', vw - PREVIEWER_WIDTH.min);
-        }
+      //   if (vw - PREVIEWER_WIDTH.min < x2) {
+      //     // make sure previewer has its minimum size
+      //     this.set('x2', vw - PREVIEWER_WIDTH.min);
+      //   }
 
-      } else {
-        // bigger
-        // var editorWidth = this.calcEditorWidth(x1, x2, x3);
+      // } else {
+      //   // bigger
+      //   // var editorWidth = this.calcEditorWidth(x1, x2, x3);
 
-        // if (editorWidth >= EDITOR_WIDTH.ideal) {
-        //   // do nothing, everybody is happy, let the previewer take the
-        //   // space
-        // } else {
+      //   // if (editorWidth >= EDITOR_WIDTH.ideal) {
+      //   //   // do nothing, everybody is happy, let the previewer take the
+      //   //   // space
+      //   // } else {
 
-        //   // editor needs space
-        //   this.set('x2', x2 + dvw);
-        // }
-      }
+      //   //   // editor needs space
+      //   //   this.set('x2', x2 + dvw);
+      //   // }
+      // }
     },
 
 

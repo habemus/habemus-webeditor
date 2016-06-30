@@ -21,7 +21,7 @@
         value: [],
       },
     },
-
+    
     /**
      * If there are tabs defined, validate them
      */
@@ -29,7 +29,7 @@
       if (this.tabs) {
         // validate tab format
         this.tabs.forEach(function (tab, index) {
-          if (!tab.id) { throw new Error('tab is is required'); }
+          if (!tab.path) { throw new Error('tab path is required'); }
 
           // var pathSplit = tab.path.split('/');
 
@@ -59,7 +59,7 @@
       e.dataTransfer.effectAllowed = 'move';
 
       // select on dragstart
-      this.select(e.model.item.id);
+      this.select(e.model.item.path);
     },
 
     /**
@@ -232,54 +232,31 @@
 
       this.fire('close-intention', {
         item: item,
-        confirm: function () {
-
-          this.closeTab(item.id);
-
-        }.bind(this),
-        cancel: function () {
-
-          // do nothing
-
-        }.bind(this)
       });
     },
 
     /**
      * Emits the 'create-intention' event
-     * and provides listeners a manner of confirming new tab creation
-     *
-     * @private
-     * 
-     * @param  {Polymer DOM Event} e
-     *         - detail:
-     *           - confirm {Function}
-     *           - cancel {Function}
      */
     _handleTabsDblclick: function (e) {
-
-      this.fire('create-intention', {
-        confirm: function (item) {
-
-          if (typeof item !== 'object' || typeof item.id !== 'string') {
-            throw new Error('item must not be empty and must have an id');
-          }
-
-          this.push('tabs', item);
-
-        }.bind(this),
-        cancel: function () {
-
-        }.bind(this)
-      })
+      this.fire('create-intention');
+    },
+    
+    /**
+     * Selects a tab by path.
+     * @param  {String} path
+     */
+    select: function (path) {
+      this.$.tabs.select(path);
+      return;
     },
 
     /**
-     * Selects a tab by id.
-     * @param  {String} id
+     * Selects a tab by index
+     * @param  {Number} index
      */
-    select: function (id) {
-      this.$.tabs.select(id);
+    selectIndex: function (index) {
+      this.$.tabs.selectIndex(index);
       return;
     },
 
@@ -295,15 +272,15 @@
      * Creates a new tab
      * and makes it selected
      * @param  {Object} tabData
-     *         - id
+     *         - path
      * @param  {Object} options
      *         - select: Boolean
      */
     createTab: function (tabData, options) {
       // create a new tab immediately after currently selected tab
       // and select it
-      if (!tabData || !tabData.id || !tabData.path) {
-        throw new Error('tabData is required and must have an id and a path');
+      if (!tabData || !tabData.path) {
+        throw new Error('tabData is required and must have a path');
       }
 
       // normalize tabData
@@ -314,24 +291,24 @@
       this.push('tabs', tabData);
 
       if (options && options.select) {
-        this.select(tabData.id);
+        this.select(tabData.path);
       }
     },
 
     /**
-     * Closes the tab with the given id.
-     * @param  {String} tabId
+     * Closes the tab with the given path.
+     * @param  {String} tabPath
      */
-    closeTab: function (tabId) {
+    closeTab: function (tabPath) {
       var index = this.tabs.findIndex(function (tab) {
-        return tab.id === tabId;
+        return tab.path === tabPath;
       });
 
       if (index === -1) {
-        throw new Error('tab ' + tabId + ' not found');
+        throw new Error('tab ' + tabPath + ' not found');
       }
 
-      if (tabId === this.selected && this.tabs.length > 1) {
+      if (tabPath === this.$.tabs.selected && this.tabs.length > 1) {
         // if the tab to be closed is the 
         // same that is selected
         // and there are more open tabs
@@ -340,7 +317,7 @@
         var anotherTabIndex = (index > 0) ? index - 1 : index + 1;
         var anotherTab = this.tabs[anotherTabIndex];
 
-        this.select(anotherTab.id);
+        this.select(anotherTab.path);
       }
 
       // remove the tab
@@ -348,25 +325,36 @@
     },
 
     /**
-     * Retrieves a tab by its id
-     * @param  {String} tabId
+     * Retrieves a tab by its path
+     * @param  {String} tabPath
      * @return {Object}
      */
-    getTab: function (tabId) {
+    getTab: function (tabPath) {
       return this.tabs.find(function (tab) {
-        return tab.id === tabId;
+        return tab.path === tabPath;
+      });
+    },
+
+    /**
+     * Returns the tab's position.
+     * @param  {String} tabPath
+     * @return {Number}
+     */
+    getTabIndex: function (tabPath) {
+      return this.tabs.findIndex(function (tab) {
+        return tab.path === tabPath;
       });
     },
 
     /**
      * Sets data on the tab
-     * @param {String} tabId
+     * @param {String} tabPath
      * @param {String} key
      * @param {*} value
      */
-    setTabData: function (tabId, key, value) {
+    setTabData: function (tabPath, key, value) {
       var index = this.tabs.findIndex(function (tab) {
-        return tab.id === tabId;
+        return tab.path === tabPath;
       });
 
       this.set('tabs.' + index + '.' + key, value);
