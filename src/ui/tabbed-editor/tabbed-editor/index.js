@@ -211,8 +211,10 @@ TabbedEditor.prototype.viewFile = function (filepath) {
   // undo selection on tabs
   this.tabsEl.clearSelection();
 
+  // open a non-persistent editor and set focus to it
   return this.editorManager.openEditor(filepath, {
-    persistent: false
+    persistent: false,
+    focus: true
   })
   .then(function (fileEditor) {
     // set the active filepath manually
@@ -257,8 +259,11 @@ TabbedEditor.prototype.openFile = function (filepath) {
     this.tabsEl.createTab(newTabData, { select: true });
   }
 
-  // open a persistent editor
-  return this.editorManager.openEditor(filepath, { persistent: true })
+  // open a persistent editor and set the focus to it
+  return this.editorManager.openEditor(filepath, {
+      persistent: true,
+      focus: true,
+    })
     .then(function (fileEditor) {
 
       this._setActiveFilepath(filepath);

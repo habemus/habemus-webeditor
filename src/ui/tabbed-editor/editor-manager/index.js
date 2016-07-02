@@ -156,7 +156,7 @@ EditorManager.prototype.openEditor = function (filepath, options) {
     // may become in this moment
     editor.persistent = options.persistent;
 
-    this.showEditor(filepath);
+    this.showEditor(filepath, options);
 
     return Bluebird.resolve(editor);
 
@@ -169,7 +169,7 @@ EditorManager.prototype.openEditor = function (filepath, options) {
       .then(function () {
 
         // show the editor after loading
-        this.showEditor(filepath);
+        this.showEditor(filepath, options);
 
         // return the editor at the end
         return editor;
@@ -185,7 +185,8 @@ EditorManager.prototype.openEditor = function (filepath, options) {
  * 
  * @param  {String} filepath
  */
-EditorManager.prototype.showEditor = function (filepath) {
+EditorManager.prototype.showEditor = function (filepath, options) {
+  options = options || {};
 
   var self = this;
 
@@ -193,6 +194,13 @@ EditorManager.prototype.showEditor = function (filepath) {
     if (fileEditor.filepath === filepath) {
       // show
       fileEditor.element.removeAttribute('hidden');
+
+      // if focus is required, focus the editor
+      if (options.focus) {
+        // TODO: internalize focus method
+        // into the fileEditor component
+        fileEditor.aceEditor.focus();
+      }
 
     } else {
       fileEditor.element.setAttribute('hidden', true);
