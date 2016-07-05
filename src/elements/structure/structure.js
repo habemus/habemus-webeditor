@@ -144,7 +144,7 @@
 
     _viewportWidthChanged: function (vw, oldVw) {
       
-      console.log('vw changed')
+      // console.log('vw changed')
   
       this.set('x2', vw);
 

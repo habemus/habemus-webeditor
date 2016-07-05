@@ -11,7 +11,7 @@
 // third-party dependencies
 const Bluebird = require('bluebird');
 
-const initHFS = require('service-hfs');
+const initHFS = require('hb-service-hfs');
 
 module.exports = function (habemus, options) {
 
@@ -28,5 +28,11 @@ module.exports = function (habemus, options) {
     habemus.services.localStorage = window.localStorage;
     
     return;
+  })
+  .catch(function (err) {
+
+    alert('there was an error setting up services');
+    console.warn(err);
+
   });
 };
