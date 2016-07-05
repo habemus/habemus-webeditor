@@ -16,6 +16,8 @@ function connect() {
   });
 }
 
+alert('wq')
+
 // The application wrapper
 var habemus = document.querySelector('#habemus');
 
