@@ -2,6 +2,9 @@
 const util          = require('util');
 const EventEmitter  = require('events');
 
+// third-party dependencies
+const Bluebird = require('bluebird');
+
 // own dependencies
 const EditorManager = require('../editor-manager');
 

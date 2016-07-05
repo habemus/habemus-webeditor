@@ -12,6 +12,8 @@ module.exports = function (gulp, $, config) {
     });
 
     var watchFilesForBuildJS = [
+      './browser/**/*.js',
+
       './src/index.js',
       './src/ui/**/*.js',
       './src/services/**/*.js',
