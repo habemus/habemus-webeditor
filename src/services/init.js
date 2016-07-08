@@ -11,10 +11,20 @@
 // third-party dependencies
 const Bluebird = require('bluebird');
 
+const ScopedWebStorage = require('./scoped-web-storage');
+
 const initHFS = require('hb-service-hfs');
 
 module.exports = function (habemus, options) {
+  
+  if (!options.projectId) {
+    throw new Error('projectId is a required option');
+  }
 
+  // use the projectId in the prefix
+  const PROJECT_CONFIG_PREFIX = 'habemus_config_' + options.projectId;
+
+  // define the services singleton
   habemus.services = {};
   
   return Bluebird.all([
@@ -23,16 +33,18 @@ module.exports = function (habemus, options) {
   .then(function (services) {
     
     habemus.services.hfs = services[0];
-    
-    // localStorage is the browser's localStorage
-    habemus.services.localStorage = window.localStorage;
-    
+
+    habemus.services.projectConfigStorage = 
+      new ScopedWebStorage(PROJECT_CONFIG_PREFIX, window.localStorage);
+
+    // TODO: deprecate services.localStorage
+    habemus.services.localStorage = habemus.services.projectConfigStorage;
+
     return;
   })
   .catch(function (err) {
 
     alert('there was an error setting up services');
     console.warn(err);
-
   });
 };
