@@ -14,6 +14,8 @@
     "Keypress": "^2.1.4",
     "iron-selector": "^1.5.2",
     "iron-pages": "PolymerElements/iron-pages#^1.0.7",
-    "source-code-pro": "git://github.com/adobe-fonts/source-code-pro.git#release"
+    "source-code-pro": "git://github.com/adobe-fonts/source-code-pro.git#release",
+    "hab-editable-label": "git@github.com:habemus/hab-editable-label.git",
+    "hab-context-menu": "git@github.com:habemus/hab-context-menu.git"
   }
 }

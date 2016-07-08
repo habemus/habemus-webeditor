@@ -12,6 +12,8 @@ module.exports = function (habemus, options) {
   var fileTree = require('./file-tree')({
     hfs: habemus.services.hfs,
     tabbedEditor: tabbedEditor,
+
+    projectName: options.projectName,
   });
 
   habemus.ui = {};

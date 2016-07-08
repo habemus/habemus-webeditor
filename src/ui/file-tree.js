@@ -13,7 +13,7 @@ module.exports = function (options) {
   // instantiate a tree navigator
   var tree = happinessTree({
     hfs: options.hfs,
-    rootName: 'my project'
+    rootName: options.projectName,
   });
   tree.attach(document.querySelector('#file-tree-container'));
 
