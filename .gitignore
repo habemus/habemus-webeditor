@@ -6,3 +6,5 @@ tmp-browser
 
 *.bundle.*
 *-styles.html
+
+.DS_Store

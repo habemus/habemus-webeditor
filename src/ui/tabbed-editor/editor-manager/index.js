@@ -13,7 +13,7 @@ const CLEAN_UP_DELAY    = 10000;
  * Editor container constructor
  * @param {Object} options
  *        - ace
- *        - hfs
+ *        - hDev
  */
 function EditorManager(options) {
   
@@ -25,7 +25,7 @@ function EditorManager(options) {
   /**
    * The HFS Api to be used by all editors
    */
-  this.hfs = options.hfs;
+  this.hDev = options.hDev;
   
   /**
    * The editor manager wrapping element.
@@ -95,7 +95,7 @@ EditorManager.prototype.createEditor = function (persistent) {
   var fileEditor = new FileEditor(
     this.ace,
     editorEl,
-    this.hfs
+    this.hDev
   );
 
   ////////////////////////

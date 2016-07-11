@@ -13,7 +13,7 @@ const Bluebird = require('bluebird');
 
 const ScopedWebStorage = require('./scoped-web-storage');
 
-const initHFS = require('hb-service-hfs');
+const initHDev = require('hb-service-h-dev');
 
 module.exports = function (habemus, options) {
   
@@ -28,11 +28,11 @@ module.exports = function (habemus, options) {
   habemus.services = {};
   
   return Bluebird.all([
-    initHFS(options),
+    initHDev(options),
   ])
   .then(function (services) {
     
-    habemus.services.hfs = services[0];
+    habemus.services.hDev = services[0];
 
     habemus.services.projectConfigStorage = 
       new ScopedWebStorage(PROJECT_CONFIG_PREFIX, window.localStorage);

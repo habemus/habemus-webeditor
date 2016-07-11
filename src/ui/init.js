@@ -4,13 +4,13 @@ const Bluebird = require('bluebird');
 module.exports = function (habemus, options) {
 
   var tabbedEditor = require('./tabbed-editor')({
-    hfs: habemus.services.hfs,
+    hDev: habemus.services.hDev,
     ace: window.ace,
     localStorage: habemus.services.localStorage,
   });
 
   var fileTree = require('./file-tree')({
-    hfs: habemus.services.hfs,
+    hDev: habemus.services.hDev,
     tabbedEditor: tabbedEditor,
 
     projectName: options.projectName,

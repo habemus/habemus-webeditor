@@ -17,13 +17,18 @@ const LS_PREFIX = 'habemus_editor_tabbed_editor_';
  */
 function TabbedEditor(options) {
 
-  if (!options.hfs) { throw new Error('hfs is required'); }
+  if (!options.hDev) { throw new Error('hDev is required'); }
   if (!options.ace) { throw new Error('ace is required'); }
   if (!options.localStorage) { throw new Error('localStorage is required'); }
 
-  this.hfs = options.hfs;
+  this.hDev = options.hDev;
   this.ace = options.ace;
   this.localStorage = options.localStorage;
+
+  // ensure hDev api
+  if (typeof this.hDev.pathExists !== 'function') {
+    throw new TypeError('hDev.pathExists MUST be a function');
+  }
 
   /**
    * Path to the active file.
@@ -40,7 +45,7 @@ function TabbedEditor(options) {
   // at least, it was not made for perfectly working inside shadow dom.
   // TODO: investigate ace editor and shadow/shady dom.
   this.editorManager = new EditorManager({
-    hfs: this.hfs,
+    hDev: this.hDev,
     ace: this.ace,
   });
 
@@ -172,9 +177,16 @@ TabbedEditor.prototype.restoreSession = function (session) {
   tabs.forEach(function (tabData) {
 
     if (!this.tabsEl.getTab(tabData.id)) {
-      this.tabsEl.createTab(tabData, {
-        select: (tabData.path === activeFilepath)
-      });
+      // before creating the tab, check if the
+      // file exists
+      this.hDev.pathExists(tabData.path, 'file')
+        .then(function (exists) {
+          if (exists) {
+            this.tabsEl.createTab(tabData, {
+              select: (tabData.path === activeFilepath)
+            });
+          }
+        }.bind(this));
     }
 
   }.bind(this));
@@ -279,6 +291,10 @@ TabbedEditor.prototype.openFile = function (filepath) {
           this.tabsEl.setTabData(filepath, 'status', '');
         }
       }.bind(this));
+      
+      fileEditor.on('loaded-file-removed', function () {
+        this.tabsEl.setTabData(filepath, 'status', 'unsaved');
+      }.bind(this));
 
     }.bind(this));
 };
@@ -329,7 +345,12 @@ TabbedEditor.prototype.closeFile = function (filepath) {
 TabbedEditor.prototype.saveFile = function (filepath) {
   return this.editorManager.getEditor(filepath).save().then(function () {
     this.tabsEl.setTabData(filepath, 'status', '');
-  }.bind(this));
+  }.bind(this))
+  .catch(function (err) {
+    console.warn(err);
+    
+    alert('could not save file ', err.name);
+  });
 };
 
 /**

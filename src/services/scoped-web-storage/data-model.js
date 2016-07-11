@@ -1,3 +1,5 @@
+// TODO: data-model might be very useful as an isolate module
+
 // native dependencies
 const util         = require('util');
 const EventEmitter = require('events');
