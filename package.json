@@ -10,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.1",
-    "fs-extra": "^0.30.0",
-    "h-fs": "git+ssh://git@bitbucket.org/habemus-tutti/h-fs.git",
+    "h-dev-electron": "git+ssh://git@bitbucket.org/habemus-tutti/h-dev-electron.git",
     "h-ui-file-editor": "git+ssh://git@bitbucket.org/habemus-tutti/h-ui-file-editor.git",
     "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git"
   },
