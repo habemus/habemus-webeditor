@@ -186,7 +186,10 @@ TabbedEditor.prototype.restoreSession = function (session) {
               select: (tabData.path === activeFilepath)
             });
           }
-        }.bind(this));
+        }.bind(this))
+        .catch(function (err) {
+          console.warn(err);
+        });
     }
 
   }.bind(this));

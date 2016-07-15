@@ -19,8 +19,8 @@ module.exports = function (gulp, $, config) {
     });
 
     // inject modules
-    b.require('./browser/injected_node_modules/hb-service-hfs/index.js', {
-      expose: 'hb-service-hfs'
+    b.require('./browser/injected_node_modules/hb-service-h-dev/index.js', {
+      expose: 'hb-service-h-dev'
     });
     b.require('./browser/injected_node_modules/hb-service-config/index.js', {
       expose: 'hb-service-config'
