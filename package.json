@@ -34,9 +34,11 @@
     "gulp-polymerize-css": "0.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-size": "^2.1.0",
+    "gulp-strip-debug": "^1.1.0",
     "gulp-util": "^3.0.7",
     "polybuild": "^1.1.0",
     "rimraf": "^2.5.2",
+    "run-sequence": "^1.2.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

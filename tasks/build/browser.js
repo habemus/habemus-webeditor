@@ -1,12 +1,19 @@
-const browserify = require('browserify');
-const source     = require('vinyl-source-stream');
-const buffer     = require('vinyl-buffer');
-const gutil      = require('gulp-util');
-const envify     = require('envify/custom');
+const browserify  = require('browserify');
+const source      = require('vinyl-source-stream');
+const buffer      = require('vinyl-buffer');
+const gutil       = require('gulp-util');
+const envify      = require('envify/custom');
+const runSequence = require('run-sequence');
 
 const polybuild  = require('polybuild');
 
 const fse        = require('fs-extra');
+
+const jsRe = /.+\.js$/;
+
+function isJs(file) {
+  return jsRe.test(file.path);
+};
 
 module.exports = function (gulp, $, config) {
 
@@ -94,9 +101,9 @@ module.exports = function (gulp, $, config) {
 
     return gulp.src(config.root + '/tmp-browser/index.html')
       // maximumCrush should uglify the js
-      .pipe(polybuild({ maximumCrush: false }))
+      .pipe(polybuild({ maximumCrush: true }))
       // remove debugging (debugger, console.*, alert)
-      // .pipe($.if(isJs, $.stripDebug()))
+      .pipe($.if(isJs, $.stripDebug()))
       .pipe($.if('index.build.html', $.rename('index.html')))
       .pipe($.size({
         title: 'distribute',
@@ -107,5 +114,10 @@ module.exports = function (gulp, $, config) {
 
   });
 
-  gulp.task('browser:distribute', ['browser:polybuild', 'browser:copy-ace']);
+  gulp.task('browser:distribute', function () {
+
+    fse.emptyDirSync(config.distDir);
+
+    runSequence(['browser:polybuild', 'browser:copy-ace'])
+  });
 };
