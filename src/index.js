@@ -19,10 +19,10 @@ window.addEventListener('WebComponentsReady', function () {
 
   hbLoadConfig().then(function (options) {
     return Bluebird.resolve(initServices(habemus, options))
-      .then(() => {
+      .then(function () {
         return Bluebird.resolve(initUI(habemus, options));
       })
-      .then(() => {
+      .then(function () {
         return Bluebird.resolve(initKeyboard(habemus, options));
       });
   });

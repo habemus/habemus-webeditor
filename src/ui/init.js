@@ -13,7 +13,7 @@ module.exports = function (habemus, options) {
     hDev: habemus.services.hDev,
     tabbedEditor: tabbedEditor,
 
-    projectName: options.projectName,
+    rootName: options.projectName,
   });
 
   habemus.ui = {};
