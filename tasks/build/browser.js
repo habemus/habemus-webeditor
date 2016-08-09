@@ -101,9 +101,10 @@ module.exports = function (gulp, $, config) {
 
     return gulp.src(config.root + '/tmp-browser/index.html')
       // maximumCrush should uglify the js
-      .pipe(polybuild({ maximumCrush: true }))
+      // .pipe(polybuild({ maximumCrush: true }))
+      .pipe(polybuild({ maximumCrush: false }))
       // remove debugging (debugger, console.*, alert)
-      .pipe($.if(isJs, $.stripDebug()))
+      // .pipe($.if(isJs, $.stripDebug()))
       .pipe($.if('index.build.html', $.rename('index.html')))
       .pipe($.size({
         title: 'distribute',
