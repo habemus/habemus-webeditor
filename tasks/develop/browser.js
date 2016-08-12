@@ -1,9 +1,22 @@
 const fse       = require('fs-extra');
 
+const auxBrowserify = require('../build/aux-browserify');
+
 var browserSync = require('browser-sync').create();
 
 module.exports = function (gulp, $, config) {
-  gulp.task('browser:serve', ['browser:build'], function () {
+
+  gulp.task('browser:js-dev', function () {
+    return auxBrowserify.createBrowserifyPipe({
+      entry: config.srcDir + '/index.js',
+
+      // careful not to overwrite the original index.js
+      destFilename: 'index.bundle.js',
+    })
+    .pipe(gulp.dest(config.srcDir));
+  });
+
+  gulp.task('browser:serve', ['less', 'browser:js-dev'], function () {
     browserSync.init({
       server: {
         baseDir: './src',
@@ -20,13 +33,13 @@ module.exports = function (gulp, $, config) {
       './src/keyboard/**/*.js',
     ];
 
-    gulp.watch(watchFilesForBuildJS, ['browser:js']);
+    gulp.watch(watchFilesForBuildJS, ['browser:js-dev']);
 
-    // var watchFilesForBuildLESS = [
-    //   './src/**/*.less',
-    // ];
+    var watchFilesForBuildLESS = [
+      './src/**/*.less',
+    ];
 
-    // gulp.watch(watchFilesForBuildLESS, ['less']);
+    gulp.watch(watchFilesForBuildLESS, ['less']);
 
     var watchFilesForReload = [
       './src/index.browser.html',

@@ -7,20 +7,15 @@
   // top: @header-heigth;
   top: 0;
   bottom: 0;
-  overflow-y: hidden;
-  overflow-x: auto;
+  overflow: auto;
+  // overflow-y: hidden;
+  // overflow-x: auto;
   width: 100%;
 
   section.panel {
     position: absolute; // relativo ao pai dele
     top: 0;
     bottom: 0;
-  }
-}
-
-#panel-container.viewport-resizing {
-  section.panel {
-    transition: all ease 0.1s;
   }
 }
 
@@ -47,9 +42,11 @@
 }
 
 #center {
+  overflow: auto;
   background-color: #3C3C3C;
 }
 
 #right {
+  overflow: auto;
   // background-color: @grey-color-light;
 }

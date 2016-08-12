@@ -92,24 +92,6 @@ module.exports = function (gulp, $) {
 
   });
 
-  gulp.task('less:inspector', function () {
-
-    return gulp.src(config.srcDir + '/scripts/inspector/index.less', { base: config.srcDir })
-      .pipe($.changed(config.srcDir, { extension: '.css' }))
-      .pipe($.less({
-        paths: [config.srcDir + '/less/**/*.less']
-      }))
-      .on('error', $.notify.onError(lessErrorNotifyOptions))
-      .pipe($.autoprefixer(autoprefixerOptions))
-      .pipe($.header(cssMessage))
-      .pipe($.rename('inspector.bundle.css'))
-      .pipe(gulp.dest(config.srcDir))
-      .pipe($.size({
-        title: 'less',
-        showFiles: true
-      }));
-  });
-
   /**
    * Compile the less for the application
    * At the end, generate a ".css" file
@@ -135,5 +117,5 @@ module.exports = function (gulp, $) {
   /**
    * Task for less.
    */
-  gulp.task('less', ['less:elements', 'less:application', 'less:inspector']);
+  gulp.task('less', ['less:elements', 'less:application']);
 };
