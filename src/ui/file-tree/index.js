@@ -7,6 +7,10 @@ module.exports = function (options) {
     throw new Error('tabbedEditor is required');
   }
 
+  if (!options.iframeBrowser) {
+    throw new Error('iframeBrowser is required');
+  }
+
   // reference to the tabbed editor instance
   var tabbedEditor = options.tabbedEditor;
 
@@ -14,6 +18,10 @@ module.exports = function (options) {
   var tree = happinessTree({
     hDev: options.hDev,
     rootName: options.rootName,
+
+    // the menu generators
+    dirMenu: require('./dir-menu').bind(null, options),
+    fileMenu: require('./file-menu').bind(null, options),
   });
   tree.attach(document.querySelector('#file-tree-container'));
 

@@ -1,0 +1,63 @@
+@import '../../less/variables.less';
+
+#controls {
+  height: 32px;
+
+  background-color: yellow;
+
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#controls button {
+  background-color: orange;
+  padding: 0 0;
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  margin-left: 0;
+  margin-right: 0;
+
+  height: 16px;
+  width: 16px;
+
+  border: none;
+  outline: none;
+}
+
+#controls button:hover {
+  cursor: pointer;
+  background-color: red;
+}
+
+#controls button:active {
+  background-color: darkred;
+}
+
+#controls button[disabled] {
+  cursor: auto;
+  opacity: 0.5;
+}
+
+#controls button[disabled]:hover {
+  background-color: orange;
+}
+
+#controls button iron-icon {
+  height: 16px;
+  width: 16px;
+}
+
+#location-input {
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-grow: 1;
+
+  background-color: skyblue;
+}
