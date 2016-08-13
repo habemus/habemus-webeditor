@@ -9,21 +9,21 @@
       <section
         id="left"
         class="panel"
-        style$="width: {{ x1 }}px;">
+        style$="width: [[ x1 ]]px;">
         <content select="[panel='left']"></content>
       </section>
 
       <section
         id="center"
         class="panel"
-        style$="left: {{ x1 }}px; width: {{ calcCenterWidth(x1, x2, x3) }}px;">
+        style$="left: [[ x1 ]]px; width: [[ _calcCenterWidth(x1, x2, x3) ]]px;">
         <content select="[panel='center']"></content>
       </section>
 
       <section
         id="right"
         class="panel"
-        style$="left: {{ x2 }}px; width: {{ calcRightWidth(x1, x2, x3) }}px;">
+        style$="left: [[ x2 ]]px; width: [[ _calcRightWidth(x1, x2, x3) ]]px;">
         <content select="[panel='right']"></content>
       </section>
       
@@ -32,14 +32,14 @@
         class="handle"
         id="handle1"
         hidden$="[[ !isOpenL ]]"
-        on-track="handleTrackX1"
-        style$="left: {{ x1 }}px"></div>
+        on-track="_handleTrackX1"
+        style$="left: [[ x1 ]]px"></div>
       <div
         class="handle"
         id="handle2"
         hidden$="[[ !isOpenR ]]"
-        on-track="handleTrackX2"
-        style$="left: {{ x2 }}px"></div>
+        on-track="_handleTrackX2"
+        style$="left: [[ x2 ]]px"></div>
     </div>
   </template>
 

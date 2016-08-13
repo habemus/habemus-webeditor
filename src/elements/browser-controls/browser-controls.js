@@ -4,29 +4,78 @@
     is: 'habemus-browser-controls',
 
     properties: {
+      /**
+       * String that identifies the current location
+       * of the navigator.
+       *
+       * It is designed to be an opaque string with no
+       * real meaning.
+       * 
+       * It cannot be relied upon to be a full URL.
+       * The URL must always be provided by the external
+       * user through the `computeLocationURL` function.
+       * 
+       * @type {String}
+       */
       location: {
         type: String,
         notify: true,
+        // set a value for it to make sure
+        // all bindings are correctly initialized
         value: '',
       },
 
+      /**
+       * Function used to compute the URL of the current location
+       * @type {Function}
+       */
+      computeLocationURL: {
+        type: Function,
+        value: function (location) {
+          return false;
+        },
+      },
+
+      /**
+       * Array that holds the navigation history.
+       * @type {Array}
+       */
       history: {
         type: Array,
         notify: true,
         value: [],
       },
 
+      /**
+       * Position of the navigation in the history.
+       * @type {Number}
+       */
       currentHistoryIndex: {
         type: Number,
         value: -1,
       },
     },
 
-    ready: function () {
-      console.log('browser-controls ready');
-    },
+    /**
+     * Navigates to a given location.
+     *
+     * Pushes the location to the navigation history.
+     *
+     * If location is equal to the currently active location,
+     * ignore navigation request if no `force` option is passed.
+     * 
+     * @param  {String} location
+     * @param  {Object} options
+     */
+    goTo: function (location, options) {
 
-    goTo: function (location) {
+      options = options || {};
+
+      // check if we are already in the requested location
+      if (this.get('location') === location && !options.force) {
+        return;
+      }
+
       // check if we are in the middle of the history
       var currentHistoryIndex = this.get('currentHistoryIndex');
       var history = this.get('history');
@@ -47,6 +96,9 @@
       this.set('currentHistoryIndex', this.get('history').length - 1);
     },
 
+    /**
+     * Goes back in the history stack
+     */
     goBack: function () {
 
       var history = this.get('history');
@@ -72,6 +124,9 @@
       this.set('currentHistoryIndex', targetHistoryIndex);
     },
 
+    /**
+     * Goes forward in the history stack
+     */
     goForward: function () {
 
       var history = this.get('history');
@@ -90,11 +145,14 @@
       this.set('currentHistoryIndex', targetHistoryIndex);
     },
 
+    /**
+     * Emits a 'close-intent' event
+     */
     close: function () {
       this.fire('close-intent');
     },
 
-    handleLocationInputClick: function (e) {
+    _handleLocationInputClick: function (e) {
 
       this.$['location-input'].edit(function (location) {
         this.goTo(location);
@@ -119,6 +177,11 @@
       } else {
         return true;
       }
+    },
+
+    _hasLocation: function (location) {
+      console.log('_hasLocation', location)
+      return location ? true : false;
     },
   })
 })();

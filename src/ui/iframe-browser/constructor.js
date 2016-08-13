@@ -6,7 +6,9 @@ const STARTING_SLASH_RE = /^\//;
 const TRAILING_SLASH_RE = /\/$/;
 
 function _joinPaths(part1, part2) {
-  return part1.replace(TRAILING_SLASH_RE, '') + '/' + part2.replace(STARTING_SLASH_RE, '');
+  part1 = part1.replace(TRAILING_SLASH_RE, '');
+  part2 = part2.replace(STARTING_SLASH_RE, '');
+  return part1 + '/' + part2;
 }
 
 /**
@@ -40,7 +42,11 @@ function IframeBrowser(options) {
    * Browser control element
    * @type {DOMElement}
    */
-  this.controlsEl = document.createElement('habemus-browser-controls');
+  this.controlsEl = Polymer.Base.create('habemus-browser-controls', {
+    computeLocationURL: function (location) {
+      return _joinPaths(this.hDev.projectRootURL, location);
+    }.bind(this),
+  });
   var controlsEl = this.controlsEl;
 
   /**
@@ -59,6 +65,7 @@ function IframeBrowser(options) {
 
     var fullLocation = _joinPaths(this.hDev.projectRootURL, location);
 
+    // update the iframe's src and the newTabAnchor's href
     this.iframeEl.setAttribute('src', fullLocation);
 
   }.bind(this));

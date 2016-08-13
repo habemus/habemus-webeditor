@@ -14,7 +14,9 @@
   padding-right: 5px;
 }
 
-#controls button {
+#controls .control {
+  display: flex;
+
   background-color: orange;
   padding: 0 0;
 
@@ -31,33 +33,46 @@
   outline: none;
 }
 
-#controls button:hover {
+#controls .control:hover {
   cursor: pointer;
   background-color: red;
 }
 
-#controls button:active {
+#controls .control:active {
   background-color: darkred;
 }
 
-#controls button[disabled] {
+#controls .control[disabled] {
   cursor: auto;
   opacity: 0.5;
 }
 
-#controls button[disabled]:hover {
+#controls .control[disabled]:hover {
   background-color: orange;
 }
 
-#controls button iron-icon {
+#controls .control iron-icon {
   height: 16px;
   width: 16px;
+}
+
+#controls #new-tab {
+  margin-right: 3px;
 }
 
 #location-input {
   margin-left: 10px;
   margin-right: 10px;
+
+  font-size: 12px;
+
   flex-grow: 1;
+
+  // we just need ANY width value to be
+  // set so that flexbox makes the
+  // contents hide and use ellipsis
+  // TODO: study better how this works!
+  width: 100px;
 
   background-color: skyblue;
 }

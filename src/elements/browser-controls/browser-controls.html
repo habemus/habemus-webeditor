@@ -12,12 +12,14 @@
 
       <button
         id="back"
+        class="control"
         on-click="goBack"
         disabled$="[[ !_canGoBack(history, currentHistoryIndex) ]]">
         <iron-icon icon="chevron-left"></iron-icon>
       </button>
       <button
         id="forward"
+        class="control"
         on-click="goForward"
         disabled$="[[ !_canGoForward(history, currentHistoryIndex) ]]">
         <iron-icon icon="chevron-right"></iron-icon>
@@ -26,11 +28,21 @@
       <hab-editable-label
         id="location-input"
         value="[[ location ]]"
-        on-click="handleLocationInputClick">
+        on-click="_handleLocationInputClick">
       </hab-editable-label>
+
+      <a
+        id="new-tab"
+        class="control"
+        target="_blank"
+        hidden$="[[ !_hasLocation(location) ]]"
+        href="[[ computeLocationURL(location) ]]">
+        <iron-icon icon="open-in-new"></iron-icon>
+      </a>
 
       <button
         id="close"
+        class="control"
         on-click="close">
         <iron-icon icon="close"></iron-icon>
       </button>

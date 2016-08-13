@@ -44,34 +44,46 @@
   }
 
   /**
-   * Auxiliary function that returns the correct mode from a given mode list
-   * by evaluating mode conditions.
+   * Auxiliary function that returns the correct ruleSet from a given mode
+   * by evaluating ruleSet conditions.
    *
-   * Returns the first mode found.
+   * Returns the first ruleSet found.
    * 
-   * @param  {Array} modeList
+   * @param  {Array} mode
    * @param  {Structure} structure
    * @return {Object}
    */
-  function _modeFindMode(modeList, structure) {
-    var mode = modeList.find(function (mode) {
-      return mode.condition(structure);
+  function _modeFindRuleSet(mode, structure) {
+    var ruleSet = mode.ruleSets.find(function (ruleSet) {
+      return ruleSet.condition(structure);
     });
 
-    if (!mode) {
-      throw new Error('could not find mode in modeList', modeList);
+    if (!ruleSet) {
+      throw new Error('could not find applicable ruleSet in mode', mode);
     }
 
-    return mode;
+    return ruleSet;
   }
 
-  var MODES = {};
+  /**
+   * Hash containing all valid modes.
+   * Each mode defines which panels are open.
+   * Each mode has a list of ruleSets (think of them as media queries)
+   * that apply given some conditions.
+   *
+   * Only one mode and a ruleSet are applied at a time.
+   * 
+   * @type {Object}
+   */
+  const MODES = {};
 
   /**
    * LeftCenter mode
    * @type {Object}
    */
-  MODES.LC = [
+  MODES.LC = {};
+  MODES.LC.name = 'LC';
+  MODES.LC.ruleSets = [
     {
       condition: function (structure) {
         var vw = structure.get('vw');
@@ -146,7 +158,10 @@
     }
   ];
 
-  MODES.LCR = [
+  MODES.LCR = {
+    name: 'LCR'
+  };
+  MODES.LCR.ruleSets = [
     {
       condition: function (structure) {
         var vw = structure.get('vw');
@@ -289,9 +304,9 @@
         type: Boolean,
       },
 
-      modeList: {
+      mode: {
         type: Object,
-        value: MODES.LC,
+        value: MODES.LCR,
       },
 
       /**
@@ -305,17 +320,62 @@
       },
     },
     
+    /**
+     * Sets up listener to 'resize' event on the window
+     * to change the vw (viewport width) of the structure.
+     *
+     * Initializes the default active mode.
+     * 
+     */
     ready: function () {
       window.addEventListener('resize', function () {
         // TODO: RAF
         this.set('vw', window.innerWidth);
       }.bind(this));
 
-      this.setMode('LCR');
-      // this.setMode('LC');
+      this._initActiveMode();
     },
 
-    handleTrackX1: function (e) {
+    /**
+     * Modifies the active mode and if any changes occur,
+     * reapplies the rules of the given mode
+     * @param {String} modeName
+     * @param {Object} options
+     *                  - force: Boolean
+     */
+    setMode: function (modeName, options) {
+
+      options = options || {};
+
+      var currentMode = this.get('mode');
+
+      if (currentMode && currentMode.name === modeName && !options.force) {
+        // requested modeName is currently the active one
+        return;
+      }
+
+      var targetMode = MODES[modeName];
+
+      if (!targetMode) {
+        throw new Error('Invalid mode ', targetMode);
+      }
+
+      /**
+       * Save the active mode
+       */
+      this.set('mode', targetMode);
+
+      /**
+       * Initialize the mode
+       */
+      this._initActiveMode();
+    },
+
+    /**
+     * Handles track event on the x1 handle
+     * @param  {Event} e
+     */
+    _handleTrackX1: function (e) {
       // make handles larger when dragging happens
       if (e.detail.state === 'start') {
         Polymer.Base.toggleClass('dragging', true, e.target);
@@ -325,10 +385,10 @@
         Polymer.Base.toggleClass('dragging', false, e.target);
       }
 
-      var mode = _modeFindMode(this.modeList, this);
+      var ruleSet = _modeFindRuleSet(this.get('mode'), this);
 
-      var minX1 = _modeEvalPosition(mode.x1.min, this, this.get('vw'));
-      var maxX1 = _modeEvalPosition(mode.x1.max, this, this.get('vw'));
+      var minX1 = _modeEvalPosition(ruleSet.x1.min, this, this.get('vw'));
+      var maxX1 = _modeEvalPosition(ruleSet.x1.max, this, this.get('vw'));
 
       var x1 = _within(e.detail.x, [minX1, maxX1]);
 
@@ -337,7 +397,11 @@
       }
     },
 
-    handleTrackX2: function (e) {
+    /**
+     * Handles track event on the x2 handle
+     * @param  {Event} e
+     */
+    _handleTrackX2: function (e) {
 
       if (e.detail.state === 'start') {
         Polymer.Base.toggleClass('dragging', true, e.target);
@@ -347,10 +411,10 @@
         Polymer.Base.toggleClass('dragging', false, e.target);
       }
 
-      var mode = _modeFindMode(this.modeList, this);
+      var ruleSet = _modeFindRuleSet(this.get('mode'), this);
 
-      var minX2 = _modeEvalPosition(mode.x2.min, this, this.get('vw'));
-      var maxX2 = _modeEvalPosition(mode.x2.max, this, this.get('vw'));
+      var minX2 = _modeEvalPosition(ruleSet.x2.min, this, this.get('vw'));
+      var maxX2 = _modeEvalPosition(ruleSet.x2.max, this, this.get('vw'));
 
       var x2 = _within(e.detail.x, [minX2, maxX2]);
 
@@ -359,76 +423,77 @@
       }
     },
 
-    calcCenterWidth: function (x1, x2, x3) {
+    /**
+     * Helper function used to compute the width of the center part.
+     * It is used as a computed binding in the template.
+     * 
+     * @param  {Number} x1
+     * @param  {Number} x2
+     * @param  {Number} x3
+     * @return {Number}
+     */
+    _calcCenterWidth: function (x1, x2, x3) {
       // no negative widths
       var w = x2 - x1;
 
       return (w > 0) ? w : 0;
     },
 
-    calcRightWidth: function (x1, x2, x3) {
+    /**
+     * Helper function used to compute the width of the right part.
+     * It is used as a computed binding in the template.
+     * 
+     * @param  {Number} x1
+     * @param  {Number} x2
+     * @param  {Number} x3
+     * @return {Number}
+     */
+    _calcRightWidth: function (x1, x2, x3) {
       // no negative widths
       var w = x3 - x2;
 
       return (w > 0) ? w : 0;
     },
 
+    /**
+     * Handles resizing of the viewport.
+     * Invokes the rules for resizing for x1, x2 and x3
+     * and applies them to the layout.
+     * 
+     * @param  {Number} vw
+     * @param  {Number} oldVw
+     */
     _viewportWidthChanged: function (vw, oldVw) {
-      var mode = _modeFindMode(this.modeList, this);
+      var ruleSet = _modeFindRuleSet(this.get('mode'), this);
 
-      var x1 = mode.x1.resize(this, this.get('x1'), vw, oldVw);
-      var x2 = mode.x2.resize(this, this.get('x2'), vw, oldVw);
-      var x3 = mode.x3.resize(this, this.get('x3'), vw, oldVw);
+      var x1 = ruleSet.x1.resize(this, this.get('x1'), vw, oldVw);
+      var x2 = ruleSet.x2.resize(this, this.get('x2'), vw, oldVw);
+      var x3 = ruleSet.x3.resize(this, this.get('x3'), vw, oldVw);
 
       this.set('x1', x1);
       this.set('x2', x2);
       this.set('x3', x3);
     },
 
-    setMode: function (modeName) {
+    /**
+     * Initializes the currently active mode
+     */
+    _initActiveMode: function () {
+      // retrieve the correct ruleSet by conditions
+      var ruleSet = _modeFindRuleSet(this.get('mode'), this);
 
-      var modeList = MODES[modeName];
-
-      if (!modeList) {
-        throw new Error('Invalid mode ', modeList);
-      }
-
-      // retrieve the correct mode by conditions
-      var mode = _modeFindMode(modeList, this);
-
-      if (!mode) {
-        throw new Error('could not find correct mode in modeList', modeList);
-      }
-
-      var x1 = _modeEvalPosition(mode.x1.initial, this, this.get('vw'));
-      var x2 = _modeEvalPosition(mode.x2.initial, this, this.get('vw'));
-      var x3 = _modeEvalPosition(mode.x3.initial, this, this.get('vw'));
+      var x1 = _modeEvalPosition(ruleSet.x1.initial, this, this.get('vw'));
+      var x2 = _modeEvalPosition(ruleSet.x2.initial, this, this.get('vw'));
+      var x3 = _modeEvalPosition(ruleSet.x3.initial, this, this.get('vw'));
 
       this.set('x1', x1);
       this.set('x2', x2);
       this.set('x3', x3);
 
       // activate/deactivate handles
-      this.set('isOpenL', mode.isOpenL);
-      this.set('isOpenC', mode.isOpenC);
-      this.set('isOpenR', mode.isOpenR);
-
-      /**
-       * Save the active modeList
-       */
-      this.set('modeList', modeList);
-    },
-
-    toggleLeft: function (open) {
-
-    },
-
-    toggleCenter: function (open) {
-
-    },
-
-    toggleRight: function (open) {
-
+      this.set('isOpenL', ruleSet.isOpenL);
+      this.set('isOpenC', ruleSet.isOpenC);
+      this.set('isOpenR', ruleSet.isOpenR);
     },
   });
 })();
