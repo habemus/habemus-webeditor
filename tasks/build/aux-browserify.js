@@ -3,7 +3,14 @@ const source      = require('vinyl-source-stream');
 const buffer      = require('vinyl-buffer');
 const envify      = require('envify/custom');
 
-exports.createBrowserifyPipe = function (options) {
+/**
+ * Creates a browserify gulp pipe that builds
+ * the editor's js.
+ * 
+ * @param  {Object} options
+ * @return {gulp pipe}
+ */
+exports.createEditorBrowserifyPipe = function (options) {
 
   var entry = options.entry;
   var destFilename = options.destFilename;
@@ -27,7 +34,7 @@ exports.createBrowserifyPipe = function (options) {
   // set up the browserify instance on a task basis
   var b = browserify({
     entries: entry,
-    debug: true,
+    debug: false,
 
     transform: [
       envify({
@@ -50,5 +57,54 @@ exports.createBrowserifyPipe = function (options) {
 
   return b.bundle()
     .pipe(source(destFilename))
-    .pipe(buffer())
-}
+    .pipe(buffer());
+};
+
+/**
+ * Creates a browserify gulp pipe that builds
+ * the inspector's js.
+ * 
+ * @param  {Object} options
+ * @return {gulp pipe}
+ */
+exports.createInspectorBrowserifyPipe = function (options) {
+
+  var entry = options.entry;
+  var destFilename = options.destFilename;
+
+  if (!entry) {
+    throw new Error('entry is required as an option');
+  }
+
+  if (!destFilename) {
+    throw new Error('destFilename is required as an option');
+  }
+
+  if (!process.env.HOST) {
+    throw new Error('HOST env var MUST be set');
+  }
+
+  if (!process.env.H_DEV_CLOUD_URI) {
+    throw new Error('H_DEV_CLOUD_URI env var MUST be set');
+  }
+
+  // set up the browserify instance on a task basis
+  var b = browserify({
+    entries: entry,
+    debug: false,
+
+    transform: [
+      envify({
+        HOST: process.env.HOST,
+        H_DEV_CLOUD_URI: process.env.H_DEV_CLOUD_URI,
+      }),
+    ],
+
+    // standalone global object for main module
+    standalone: 'HABEMUS_INSPECTOR',
+  });
+
+  return b.bundle()
+    .pipe(source(destFilename))
+    .pipe(buffer());
+};

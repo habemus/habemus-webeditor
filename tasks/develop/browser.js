@@ -6,15 +6,27 @@ var browserSync = require('browser-sync').create();
 
 module.exports = function (gulp, $, config) {
 
-  gulp.task('browser:js-dev', function () {
-    return auxBrowserify.createBrowserifyPipe({
+  gulp.task('browser:js-dev:editor', function () {
+    return auxBrowserify.createEditorBrowserifyPipe({
       entry: config.srcDir + '/index.js',
 
       // careful not to overwrite the original index.js
       destFilename: 'index.bundle.js',
     })
+    .pipe($.size())
     .pipe(gulp.dest(config.srcDir));
   });
+
+  gulp.task('browser:js-dev:inspector', function () {
+    return auxBrowserify.createInspectorBrowserifyPipe({
+      entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
+      destFilename: 'inspector.bundle.js',
+    })
+    .pipe($.size())
+    .pipe(gulp.dest(config.srcDir + '/resources'));
+  });
+
+  gulp.task('browser:js-dev', ['browser:js-dev:editor', 'browser:js-dev:inspector']);
 
   gulp.task('browser:serve', ['less', 'browser:js-dev'], function () {
     browserSync.init({

@@ -24,6 +24,32 @@ function isJs(file) {
 module.exports = function (gulp, $, config) {
 
   /**
+   * 
+   */
+  gulp.task('browser:js:inspector', function () {
+    return auxBrowserify.createInspectorBrowserifyPipe({
+      entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
+      destFilename: 'inspector.bundle.js',
+    })
+    .pipe($.size())
+    .pipe(gulp.dest(config.root + '/tmp-browser/resources'));
+  });
+
+  /**
+   * Browserifies editor's javascript
+   */
+  gulp.task('browser:js:editor', function () {
+    return auxBrowserify.createEditorBrowserifyPipe({
+      entry: config.srcDir + '/index.js',
+      destFilename: 'index.js',
+    })
+    .pipe($.size())
+    .pipe(gulp.dest(config.root + '/tmp-browser'));
+  });
+
+  gulp.task('browser:js', ['browser:js:inspector', 'browser:js:editor']);
+
+  /**
    * Special copy task for ace, as the ace-editor loads
    * its scripts relative to its root.
    * Not all scripts should be included at once, as they are
@@ -41,15 +67,9 @@ module.exports = function (gulp, $, config) {
     return gulp.src(files).pipe(gulp.dest(config.distDir));
   });
 
-  gulp.task('browser:js', function () {
-    return auxBrowserify.createBrowserifyPipe({
-      entry: config.srcDir + '/index.js',
-      destFilename: 'index.js',
-    })
-    .pipe(gulp.dest(config.root + '/tmp-browser'));
-  });
-
-  // TODO: copying bower_components not working
+  /**
+   * Copies browser required editor resources over to the temporary directory
+   */
   gulp.task('browser:resources', ['less'], function () {
 
     fse.emptyDirSync(config.root + '/tmp-browser');
