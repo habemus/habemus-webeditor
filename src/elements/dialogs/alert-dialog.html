@@ -1,0 +1,31 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="dialog-styles.html">
+
+<dom-module id="habemus-alert-dialog">
+  <style include="dialog-styles"></style>
+
+  <style type="text/css">
+    #dialog[mode='info'] {
+      
+    }
+  </style>
+
+  <template>
+    <div id="dialog" mode$="[[ mode ]]">
+      <header>
+        <h1>[[ title ]]</h1>
+      </header>
+
+      <section id="body">
+        <p>[[ message ]]</p>
+      </section>
+
+      <section id="controls">
+        <button dialog-confirm>[[ okMessage ]]</button>
+      </section>
+    </div>
+  </template>
+
+  <script src="alert-dialog.js"></script>
+</dom-module>

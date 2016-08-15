@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="dialog-styles.html">
+
+<dom-module id="habemus-prompt-dialog">
+  <style include="dialog-styles"></style>
+
+  <style type="text/css">
+    #dialog {
+      
+    }
+  </style>
+
+  <template>
+    <div id="dialog">
+      <form on-submit="_handleFormSubmit">
+        <header>
+          <h1>[[ title ]]</h1>
+        </header>
+
+        <section id="body">
+          <p>[[ message ]]</p>
+          <input id="input" type="text" value="{{ value::input }}">
+        </section>
+
+        <section id="controls">
+          <button id="confirm" type="submit">[[ submitMessage ]]</button>
+          <button id="cancel" on-tap="_handleCancelTap">[[ cancelMessage ]]</button>
+        </section>
+      </form>
+    </div>
+  </template>
+
+  <script src="prompt-dialog.js"></script>
+</dom-module>

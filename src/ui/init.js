@@ -21,6 +21,8 @@ module.exports = function (habemus, options) {
     tabbedEditor: tabbedEditor,
     iframeBrowser: iframeBrowser,
 
+    dialogs: habemus.services.dialogs,
+
     rootName: options.projectName,
   });
 

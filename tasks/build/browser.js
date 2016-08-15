@@ -31,8 +31,14 @@ module.exports = function (gulp, $, config) {
       entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
       destFilename: 'inspector.bundle.js',
     })
-    .pipe($.size())
-    .pipe(gulp.dest(config.root + '/tmp-browser/resources'));
+    .pipe($.uglify())
+    .pipe($.stripDebug())
+    .pipe($.size({
+      title: 'js:inspector',
+      showFiles: true,
+      gzip: true,
+    }))
+    .pipe(gulp.dest(config.distDir + '/resources'));
   });
 
   /**
@@ -43,7 +49,11 @@ module.exports = function (gulp, $, config) {
       entry: config.srcDir + '/index.js',
       destFilename: 'index.js',
     })
-    .pipe($.size())
+    .pipe($.size({
+      title: 'js:editor',
+      showFiles: true,
+      gzip: true
+    }))
     .pipe(gulp.dest(config.root + '/tmp-browser'));
   });
 
@@ -70,7 +80,7 @@ module.exports = function (gulp, $, config) {
   /**
    * Copies browser required editor resources over to the temporary directory
    */
-  gulp.task('browser:resources', ['less'], function () {
+  gulp.task('browser:tmp-resources', ['less'], function () {
 
     fse.emptyDirSync(config.root + '/tmp-browser');
 
@@ -88,7 +98,7 @@ module.exports = function (gulp, $, config) {
   /**
    * Depends on the tmp-browser directory!
    */
-  gulp.task('browser:polybuild', ['less', 'browser:js', 'browser:resources'], function () {
+  gulp.task('browser:polybuild', ['less', 'browser:js', 'browser:tmp-resources'], function () {
 
     // return gulp.src(config.srcDir + '/index.html')
 

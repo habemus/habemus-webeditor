@@ -18,7 +18,7 @@ module.exports = function (options) {
   var tree = happinessTree({
     hDev: options.hDev,
     rootName: options.rootName,
-
+    
     // the menu generators
     dirMenu: require('./dir-menu').bind(null, options),
     fileMenu: require('./file-menu').bind(null, options),

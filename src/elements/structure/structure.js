@@ -306,7 +306,7 @@
 
       mode: {
         type: Object,
-        value: MODES.LCR,
+        value: MODES.LC,
       },
 
       /**

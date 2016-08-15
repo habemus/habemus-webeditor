@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="dialog-styles.html">
+
+<dom-module id="habemus-confirm-dialog">
+  <style include="dialog-styles"></style>
+
+  <style type="text/css">
+    #dialog {
+      
+    }
+  </style>
+
+  <template>
+    <div id="dialog">
+      <header>
+        <h1>[[ title ]]</h1>
+      </header>
+
+      <section id="body">
+        <p>[[ message ]]</p>
+      </section>
+
+      <section id="controls">
+        <button id="confirm" dialog-confirm>[[ confirmMessage ]]</button>
+        <button id="cancel" on-tap="cancel">[[ cancelMessage ]]</button>
+      </section>
+    </div>
+  </template>
+
+  <script src="confirm-dialog.js"></script>
+</dom-module>
