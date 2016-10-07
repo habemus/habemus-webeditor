@@ -59,8 +59,11 @@
     });
 
     if (!ruleSet) {
-      throw new Error('could not find applicable ruleSet in mode', mode);
+      console.warn('could not find applicable ruleSet in mode', mode);
+      console.warn('falling back to using default');
     }
+
+    return mode.ruleSets[0];
 
     return ruleSet;
   }

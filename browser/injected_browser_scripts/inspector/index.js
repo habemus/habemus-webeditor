@@ -1,6 +1,6 @@
 // hab
 const HabUIInspector      = require('hab-ui-inspector');
-const AnonymousHDevClient = require('h-dev-cloud/client/anonymous');
+const AnonymousHDevClient = require('h-workspace-client/anonymous');
 
 // own
 const loadConfig = require('./config');

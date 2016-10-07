@@ -23,12 +23,12 @@ exports.createEditorBrowserifyPipe = function (options) {
     throw new Error('destFilename is required as an option');
   }
 
-  if (!process.env.H_AUTH_URI) {
-    throw new Error('H_AUTH_URI env var MUST be set');
+  if (!process.env.H_ACCOUNT_URI) {
+    throw new Error('H_ACCOUNT_URI env var MUST be set');
   }
 
-  if (!process.env.H_DEV_CLOUD_URI) {
-    throw new Error('H_DEV_CLOUD_URI env var MUST be set');
+  if (!process.env.H_WORKSPACE_URI) {
+    throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
 
   // set up the browserify instance on a task basis
@@ -38,8 +38,8 @@ exports.createEditorBrowserifyPipe = function (options) {
 
     transform: [
       envify({
-        H_AUTH_URI: process.env.H_AUTH_URI,
-        H_DEV_CLOUD_URI: process.env.H_DEV_CLOUD_URI,
+        H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
+        H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
       }),
     ],
 
@@ -84,8 +84,8 @@ exports.createInspectorBrowserifyPipe = function (options) {
     throw new Error('HOST env var MUST be set');
   }
 
-  if (!process.env.H_DEV_CLOUD_URI) {
-    throw new Error('H_DEV_CLOUD_URI env var MUST be set');
+  if (!process.env.H_WORKSPACE_URI) {
+    throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
 
   // set up the browserify instance on a task basis
@@ -96,7 +96,7 @@ exports.createInspectorBrowserifyPipe = function (options) {
     transform: [
       envify({
         HOST: process.env.HOST,
-        H_DEV_CLOUD_URI: process.env.H_DEV_CLOUD_URI,
+        H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
       }),
     ],
 
