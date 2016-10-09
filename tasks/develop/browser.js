@@ -12,6 +12,7 @@ module.exports = function (gulp, $, config) {
 
       // careful not to overwrite the original index.js
       destFilename: 'index.bundle.js',
+      production: false,
     })
     .pipe($.size())
     .pipe(gulp.dest(config.srcDir));
@@ -19,8 +20,9 @@ module.exports = function (gulp, $, config) {
 
   gulp.task('browser:js-dev:inspector', function () {
     return auxBrowserify.createInspectorBrowserifyPipe({
-      entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
+      entry: config.root + '/src-inspector/index.js',
       destFilename: 'inspector.bundle.js',
+      production: false,
     })
     .pipe($.size())
     .pipe(gulp.dest(config.srcDir + '/resources'));
@@ -30,6 +32,7 @@ module.exports = function (gulp, $, config) {
 
   gulp.task('browser:serve', ['less', 'browser:js-dev'], function () {
     browserSync.init({
+      port: process.env.EDITOR_PORT,
       server: {
         baseDir: './src',
         index: 'index.browser.html',

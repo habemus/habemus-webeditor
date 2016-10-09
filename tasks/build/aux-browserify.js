@@ -8,12 +8,16 @@ const envify      = require('envify/custom');
  * the editor's js.
  * 
  * @param  {Object} options
+ *         - entry: String
+ *         - destFilename: String
+ *         - production: Boolean
  * @return {gulp pipe}
  */
 exports.createEditorBrowserifyPipe = function (options) {
 
   var entry = options.entry;
   var destFilename = options.destFilename;
+  var production = options.production || false;
 
   if (!entry) {
     throw new Error('entry is required as an option');
@@ -31,6 +35,14 @@ exports.createEditorBrowserifyPipe = function (options) {
     throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
 
+  if (!process.env.H_WORKSPACE_SERVER_URI) {
+    throw new Error('H_WORKSPACE_SERVER_URI env var MUST be set');
+  }
+
+  if (!process.env.WORKSPACE_PREVIEW_HOST) {
+    throw new Error('WORKSPACE_PREVIEW_HOST env var MUST be set');
+  }
+
   // set up the browserify instance on a task basis
   var b = browserify({
     entries: entry,
@@ -40,6 +52,8 @@ exports.createEditorBrowserifyPipe = function (options) {
       envify({
         H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
         H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+        H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
+        WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
       }),
     ],
 
@@ -48,12 +62,22 @@ exports.createEditorBrowserifyPipe = function (options) {
   });
 
   // inject modules
-  b.require('./browser/injected_node_modules/hb-service-h-dev/index.js', {
-    expose: 'hb-service-h-dev'
+  b.require('./browser/injected_node_modules/habemus-editor-h-dev-api.js', {
+    expose: 'habemus-editor-h-dev-api'
   });
-  b.require('./browser/injected_node_modules/hb-service-config/index.js', {
-    expose: 'hb-service-config'
+  b.require('./browser/injected_node_modules/habemus-editor-config.js', {
+    expose: 'habemus-editor-config'
   });
+
+  if (production) {
+    b.require('./browser/injected_node_modules/habemus-editor-urls.js', {
+      expose: 'habemus-editor-urls'
+    });
+  } else {
+    b.require('./browser/injected_node_modules/habemus-editor-urls.development.js', {
+      expose: 'habemus-editor-urls'
+    });
+  }
 
   return b.bundle()
     .pipe(source(destFilename))
@@ -71,6 +95,7 @@ exports.createInspectorBrowserifyPipe = function (options) {
 
   var entry = options.entry;
   var destFilename = options.destFilename;
+  var production = options.production || false;
 
   if (!entry) {
     throw new Error('entry is required as an option');
@@ -80,12 +105,16 @@ exports.createInspectorBrowserifyPipe = function (options) {
     throw new Error('destFilename is required as an option');
   }
 
-  if (!process.env.HOST) {
-    throw new Error('HOST env var MUST be set');
+  if (!process.env.WORKSPACE_PREVIEW_HOST) {
+    throw new Error('WORKSPACE_PREVIEW_HOST env var MUST be set');
   }
 
   if (!process.env.H_WORKSPACE_URI) {
     throw new Error('H_WORKSPACE_URI env var MUST be set');
+  }
+
+  if (!process.env.H_WORKSPACE_SERVER_URI) {
+    throw new Error('H_WORKSPACE_SERVER_URI env var MUST be set');
   }
 
   // set up the browserify instance on a task basis
@@ -95,14 +124,26 @@ exports.createInspectorBrowserifyPipe = function (options) {
 
     transform: [
       envify({
-        HOST: process.env.HOST,
+        WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
         H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+        H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
       }),
     ],
 
     // standalone global object for main module
     standalone: 'HABEMUS_INSPECTOR',
   });
+
+  // inject scripts
+  if (production) {
+    b.require('./browser/injected_node_modules/habemus-editor-urls.js', {
+      expose: 'habemus-editor-urls'
+    });
+  } else {
+    b.require('./browser/injected_node_modules/habemus-editor-urls.development.js', {
+      expose: 'habemus-editor-urls'
+    });
+  }
 
   return b.bundle()
     .pipe(source(destFilename))

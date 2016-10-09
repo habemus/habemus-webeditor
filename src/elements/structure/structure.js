@@ -61,11 +61,11 @@
     if (!ruleSet) {
       console.warn('could not find applicable ruleSet in mode', mode);
       console.warn('falling back to using default');
+
+      return mode.ruleSets[0];
+    } else {
+      return ruleSet;
     }
-
-    return mode.ruleSets[0];
-
-    return ruleSet;
   }
 
   /**

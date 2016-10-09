@@ -12,14 +12,14 @@
 const Bluebird = require('bluebird');
 
 // hb-dependencies (dependencies that are injected for each environment)
-const hbLoadConfig = require('hb-service-config');
+const habemusEditorConfig = require('habemus-editor-config');
 
 const ScopedWebStorage = require('./scoped-web-storage');
 
 const initDialogs       = require('./dialogs');
 const initNotifications = require('./notifications');
 
-const initHDev = require('hb-service-h-dev');
+const initHDev = require('habemus-editor-h-dev-api');
 
 module.exports = function (habemus) {
 
@@ -48,7 +48,7 @@ module.exports = function (habemus) {
     /**
      * Load configurations
      */
-    return hbLoadConfig();
+    return habemusEditorConfig();
 
   }).then(function (config) {
 

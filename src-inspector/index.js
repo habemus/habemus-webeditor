@@ -1,6 +1,6 @@
 // hab
 const HabUIInspector      = require('hab-ui-inspector');
-const AnonymousHDevClient = require('h-workspace-client/anonymous');
+const AnonymousHWorkspaceClient = require('h-workspace-client/public/anonymous');
 
 // own
 const loadConfig = require('./config');
@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   loadConfig().then(function (config) {
 
-    var hDevClient = new AnonymousHDevClient({
+    var hDevClient = new AnonymousHWorkspaceClient({
       apiVersion: config.apiVersion,
-      serverURI: config.hDevCloudURI
+      serverURI: config.hWorkspaceURI
     });
 
     return hDevClient
-      .connect(config.workspaceCode)
+      .connect(config.projectCode)
       .then(function () {
         var inspector = new HabUIInspector(hDevClient);
       });
