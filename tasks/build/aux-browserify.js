@@ -43,6 +43,10 @@ exports.createEditorBrowserifyPipe = function (options) {
     throw new Error('WORKSPACE_PREVIEW_HOST env var MUST be set');
   }
 
+  if (!process.env.UI_DASHBOARD_URI) {
+    throw new Error('UI_DASHBOARD_URI env var MUST be set');
+  }
+
   // set up the browserify instance on a task basis
   var b = browserify({
     entries: entry,
@@ -54,6 +58,7 @@ exports.createEditorBrowserifyPipe = function (options) {
         H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
         H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
         WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
+        UI_DASHBOARD_URI: process.env.UI_DASHBOARD_URI,
       }),
     ],
 

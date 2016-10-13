@@ -18,7 +18,16 @@
       </header>
 
       <section id="body">
-        <p>[[ message ]]</p>
+        <!--
+          TODO:
+          Left this for the dialogs stories.
+          extremely hacky way of setting the innerHTML 
+          but there is no clear way of biding html in polymer.
+          demands study of best implementations
+
+          https://github.com/Polymer/TemplateBinding/issues/57
+        -->
+        <p inner-h-t-m-l="[[ message ]]"></p>
       </section>
 
       <section id="controls">

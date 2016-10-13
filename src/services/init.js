@@ -19,7 +19,12 @@ const ScopedWebStorage = require('./scoped-web-storage');
 const initDialogs       = require('./dialogs');
 const initNotifications = require('./notifications');
 
-const initHDev = require('habemus-editor-h-dev-api');
+/**
+ * Injected modules
+ */
+const initHDev          = require('habemus-editor-h-dev-api');
+const habemusEditorUrls = require('habemus-editor-urls');
+
 
 module.exports = function (habemus) {
 
@@ -112,11 +117,51 @@ module.exports = function (habemus) {
      */
     habemus.services.notifications.loading.hide();
 
-    habemus.services.notifications.error.show({
-      text: 'An unexpected error occurred: ' + err.name,
-      duration: Math.Infinity, 
-    });
+    switch (err.name) {
+      case 'NotFound':
+        // TODO:
+        // study best way of implementing this messaging system.
+        var msg = 'The requested project was not found.';
+        msg += 'It may have been renamed recently or the address was mistyped.';
 
-    console.warn(err);
+        if (habemus.services.config && habemus.services.config.cloud) {
+          msg += 'Please go to the <a href="';
+          msg += habemus.services.config.cloud.uiDashboardURI;
+          msg += '">dashboard</a> ';
+          msg += 'and access the desired workspace again.'
+        }
+
+        habemus.services.dialogs.alert(msg);
+
+        break;
+      case 'Unauthorized':
+        // TODO:
+        // study best way of implementing this messaging system.
+        var msg = 'Your account does not have the right permissions to access this workspace.';
+        msg += 'We are sorry :(';
+
+        if (habemus.services.config && habemus.services.config.cloud) {
+          msg += 'Please go to the <a href="';
+          msg += habemus.services.config.cloud.uiDashboardURI;
+          msg += '">dashboard</a> ';
+          msg += 'and access the desired workspace again.'
+        }
+
+        habemus.services.dialogs.alert(msg);
+
+        break;
+      default:
+      /**
+       * Unknown error
+       * @type {String}
+       */
+        habemus.services.notifications.error.show({
+          text: 'An unexpected error occurred: ' + err.name,
+          duration: Math.Infinity, 
+        });
+
+        console.warn(err);
+        break;
+    }
   });
 };
