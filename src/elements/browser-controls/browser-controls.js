@@ -180,7 +180,6 @@
     },
 
     _hasLocation: function (location) {
-      console.log('_hasLocation', location)
       return location ? true : false;
     },
   })

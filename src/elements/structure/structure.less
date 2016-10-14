@@ -2,7 +2,10 @@
 
 @import '../../less/variables.less';
 
-#panel-container {
+#structure-wrapper {
+  display: flex;
+  flex-direction: column;
+
   position: fixed;
   // top: @header-heigth;
   top: 0;
@@ -11,42 +14,57 @@
   // overflow-y: hidden;
   // overflow-x: auto;
   width: 100%;
+}
+
+#header-container {
+  height: 25px;
+}
+
+#panel-container {
+
+  position: relative;
+
+  flex-grow: 1;
 
   section.panel {
     position: absolute; // relativo ao pai dele
     top: 0;
     bottom: 0;
   }
-}
 
-.handle {
-  z-index: 10;
-  width: 20px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  
-  cursor: col-resize;
-  transform: translateX(-50%);
+  .handle {
+    z-index: 10;
+    width: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    
+    cursor: col-resize;
+    transform: translateX(-50%);
 
-  user-select: none;
+    user-select: none;
 
-  &.dragging {
-    width: 600px;
+    &.dragging {
+      width: 600px;
+    }
+  }
+
+  #left {
+    overflow: auto;
+    background-color: #efefef;
+  }
+
+  #center {
+    overflow: auto;
+    background-color: #3C3C3C;
+  }
+
+  #right {
+    overflow: auto;
+    // background-color: @grey-color-light;
   }
 }
 
-#left {
-  overflow: auto;
-  background-color: #efefef;
-}
-
-#center {
-  overflow: auto;
-  background-color: #3C3C3C;
-}
-
-#right {
-  overflow: auto;
-  // background-color: @grey-color-light;
+#footer-container {
+  height: 25px;
 }

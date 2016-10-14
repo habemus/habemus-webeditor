@@ -280,6 +280,33 @@
     is: 'habemus-structure',
     properties: {
       /**
+       * Whether to display the header of the structure
+       * @type {Boolean}
+       */
+      header: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
+       * Whether to display the panels of the structure
+       * @type {Boolean}
+       */
+      panels: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
+       * Whether to display the footer of the structure
+       * @type {Boolean}
+       */
+      footer: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
        * Handle positions
        */
       x1: {

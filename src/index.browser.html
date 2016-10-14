@@ -9,7 +9,13 @@
 
     <!-- webcomponents-lite -->
     <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
+    <script>
+      /* this script must run before Polymer is imported */
+      // window.Polymer = {
+      //   dom: 'shadow',
+      //   lazyRegister: true
+      // };
+    </script>
     <!-- polymer -->
     <link rel="import" href="bower_components/polymer/polymer.html">
 
@@ -57,20 +63,23 @@
     <!-- create a root for Polymer data binding -->
     <template id="habemus" is="dom-bind">
 
-      <habemus-structure id="structure" preview-mode="{{ previewMode }}">
+      <habemus-structure
+        id="structure"
+        preview-mode="{{ previewMode }}"
+        header
+        panels
+        footer>
 
-        <div panel="left">
-          <div id="file-tree-container">
+        <header>header</header>
 
-          </div>
-        </div>
-        <div panel="center">
-          <div id="tabbed-editor"></div>
-        </div>
+        <div panel="left" id="file-tree-container"></div>
+        <div panel="center" id="tabbed-editor"></div>
 
         <div panel="right" class$="right {{ previewMode }}">
           <div id="iframe-browser"></div>
         </div>
+
+        <footer>footer</footer>
       </habemus-structure>
 
     </template>

@@ -9,7 +9,13 @@
 
     <!-- webcomponents-lite -->
     <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
+    <script>
+      /* this script must run before Polymer is imported */
+      // window.Polymer = {
+      //   dom: 'shadow',
+      //   lazyRegister: true
+      // };
+    </script>
     <!-- polymer -->
     <link rel="import" href="bower_components/polymer/polymer.html">
 
@@ -60,14 +66,11 @@
       <habemus-structure id="structure">
 
         <div panel="left">
-          <div id="file-tree-container">
-
-          </div>
+          <div id="file-tree-container"></div>
         </div>
         <div panel="center">
           <div id="tabbed-editor"></div>
         </div>
-
         <div panel="right">
           <div id="iframe-browser"></div>
         </div>

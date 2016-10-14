@@ -53,7 +53,7 @@ function TabbedEditor(options) {
    * Listen to select events on the tabs element
    */
   this.tabsEl.addEventListener('iron-select', function (e) {
-    var targetFilepath = tabs.selected;
+    var targetFilepath = this.tabsEl.selected;
     
     this.openFile(targetFilepath);
 

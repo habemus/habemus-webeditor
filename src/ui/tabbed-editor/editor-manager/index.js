@@ -32,7 +32,7 @@ function EditorManager(options) {
    * All editor elements will be appended to this element.
    */
   this.element = document.createElement('div');
-  this.element.style.height = 'calc(100vh - 32px)';
+  this.element.style.height = 'calc(100% - 32px)';
 
   /**
    * Array to store a reference to 
