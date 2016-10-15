@@ -16,8 +16,14 @@
   width: 100%;
 }
 
-#header-container {
-  height: 25px;
+#header-container,
+#footer-container {
+  // let the header and footer container
+  // not grow nor shrink
+  // so that the panel-container always
+  // takes the remaining space
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 #panel-container {
@@ -63,8 +69,4 @@
     overflow: auto;
     // background-color: @grey-color-light;
   }
-}
-
-#footer-container {
-  height: 25px;
 }

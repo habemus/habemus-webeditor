@@ -2,6 +2,7 @@ const browserify  = require('browserify');
 const source      = require('vinyl-source-stream');
 const buffer      = require('vinyl-buffer');
 const envify      = require('envify/custom');
+const strictify   = require('strictify');
 
 /**
  * Creates a browserify gulp pipe that builds
@@ -31,6 +32,10 @@ exports.createEditorBrowserifyPipe = function (options) {
     throw new Error('H_ACCOUNT_URI env var MUST be set');
   }
 
+  if (!process.env.H_PROJECT_URI) {
+    throw new Error('H_PROJECT_URI env var MUST be set');
+  }
+
   if (!process.env.H_WORKSPACE_URI) {
     throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
@@ -55,11 +60,13 @@ exports.createEditorBrowserifyPipe = function (options) {
     transform: [
       envify({
         H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
+        H_PROJECT_URI: process.env.H_PROJECT_URI,
         H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
         H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
         WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
         UI_DASHBOARD_URI: process.env.UI_DASHBOARD_URI,
       }),
+      strictify,
     ],
 
     // standalone global object for main module
@@ -67,11 +74,14 @@ exports.createEditorBrowserifyPipe = function (options) {
   });
 
   // inject modules
-  b.require('./browser/injected_node_modules/habemus-editor-h-dev-api.js', {
-    expose: 'habemus-editor-h-dev-api'
+  // b.require('./browser/injected_node_modules/habemus-editor-config.js', {
+  //   expose: 'habemus-editor-config'
+  // });
+  b.require('./browser/injected_node_modules/habemus-editor-services', {
+    expose: 'habemus-editor-services'
   });
-  b.require('./browser/injected_node_modules/habemus-editor-config.js', {
-    expose: 'habemus-editor-config'
+  b.require('./browser/injected_node_modules/habemus-editor-ui', {
+    expose: 'habemus-editor-ui'
   });
 
   if (production) {

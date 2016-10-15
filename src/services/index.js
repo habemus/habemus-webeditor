@@ -11,90 +11,62 @@
 // third-party dependencies
 const Bluebird = require('bluebird');
 
-// hb-dependencies (dependencies that are injected for each environment)
-const habemusEditorConfig = require('habemus-editor-config');
+// own
+const aux = require('../aux');
 
-const ScopedWebStorage = require('./scoped-web-storage');
-
-const initDialogs       = require('./dialogs');
-const initNotifications = require('./notifications');
-
-/**
- * Injected modules
- */
-const initHDev          = require('habemus-editor-h-dev-api');
-const habemusEditorUrls = require('habemus-editor-urls');
-
-
-module.exports = function (habemus) {
+module.exports = function (habemus, options) {
 
   // define the services singleton
   habemus.services = {};
 
-  // start by initializing notifications and dialog uis
+  // start by initializing notification and dialog uis
   // so that we can inform the user about setup progress
   return Bluebird.all([
-    initNotifications(habemus, habemus.services.config),
-    initDialogs(habemus, habemus.services.config),
+    require('./notification')(habemus, options),
+    require('./dialogs')(habemus, options),
   ])
   .then(function (services) {
-    habemus.services.notifications = services[0];
-    habemus.services.dialogs = services[1];
+
+    aux.defineFrozenProperties(habemus.services, {
+      notification: services[0],
+      dialogs: services[1],
+    });
 
     /**
      * Show the loading notification
      * and let it be manually removed
      */
-    habemus.services.notifications.loading.show({
+    habemus.services.notification.loading.show({
       text: 'Setting up project',
       duration: Math.Infinity,
     });
 
     /**
-     * Load configurations
+     * Setup environment specific services:
+     * Expects the module to define required services
+     * onto habemus.services object
+     *
+     * - config
+     * - hDev
      */
-    return habemusEditorConfig();
+    return require('habemus-editor-services')(habemus, options);
+  })
+  .then(function () {
 
-  }).then(function (config) {
+    if (!habemus.services.config) { throw new Error('config services MUST be defined'); }
+    if (!habemus.services.config.projectId) { throw new Error('config.projectId MUST be defined'); }
+    if (!habemus.services.hDev) { throw new Error('hDev service MUST be defined'); }
 
-    if (!config.projectId) {
-      throw new Error('projectId is a required option');
-    }
-
-    /**
-     * Make configurations available as a service
-     * 
-     * @type {Object}
-     */
-    habemus.services.config = config;
-
-    /**
-     * Setup backend-dependant services.
-     */
     return Bluebird.all([
-      initHDev(habemus.services.config),
+      // project-config-storage depends on config.projectId
+      require('./project-config-storage')(habemus, options),
     ]);
   })
   .then(function (services) {
 
-    // use the projectId in the prefix
-    const PROJECT_CONFIG_PREFIX = 
-      'habemus_config_' + habemus.services.config.projectId;
-
-    /**
-     * Hide loading notification
-     */
-    habemus.services.notifications.loading.show({
-      text: 'All set!',
+    aux.defineFrozenProperties(habemus.services, {
+      projectConfigStorage: services[0],
     });
-    setTimeout(function () {
-      habemus.services.notifications.loading.hide();
-    }, 1000);
-
-    habemus.services.hDev = services[0];
-
-    habemus.services.projectConfigStorage = 
-      new ScopedWebStorage(PROJECT_CONFIG_PREFIX, window.localStorage);
 
     // TODO: deprecate services.localStorage
     Object.defineProperty(habemus.services, 'localStorage', {
@@ -108,15 +80,35 @@ module.exports = function (habemus) {
       }
     });
 
+    /**
+     * Hide loading notification
+     */
+    habemus.services.notification.loading.show({
+      text: 'All set!',
+    });
+    setTimeout(function () {
+      habemus.services.notification.loading.hide();
+    }, 1000);
+
     return;
+  })
+  .then(function () {
+
+    // freeze services
+    Object.freeze(habemus.services);
+
   })
   .catch(function (err) {
 
     /**
      * Hide loading notification
      */
-    habemus.services.notifications.loading.hide();
+    habemus.services.notification.loading.hide();
 
+    /**
+     * TODO: these errors should be handled by the external service
+     * instantiator.
+     */
     switch (err.name) {
       case 'NotFound':
         // TODO:
@@ -155,7 +147,7 @@ module.exports = function (habemus) {
        * Unknown error
        * @type {String}
        */
-        habemus.services.notifications.error.show({
+        habemus.services.notification.error.show({
           text: 'An unexpected error occurred: ' + err.name,
           duration: Math.Infinity, 
         });

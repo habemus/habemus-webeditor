@@ -1,27 +1,20 @@
 // external habemus-modules
 const happinessTree = require('happiness-tree');
 
-module.exports = function (options) {
-
-  if (!options.tabbedEditor) {
-    throw new Error('tabbedEditor is required');
-  }
-
-  if (!options.iframeBrowser) {
-    throw new Error('iframeBrowser is required');
-  }
+module.exports = function (habemus, options) {
 
   // reference to the tabbed editor instance
-  var tabbedEditor = options.tabbedEditor;
+  var tabbedEditor = habemus.ui.tabbedEditor;
+  if (!tabbedEditor) { throw new Error('tabbedEditor is required'); }
 
   // instantiate a tree navigator
   var tree = happinessTree({
-    hDev: options.hDev,
-    rootName: options.rootName,
+    hDev: habemus.services.hDev,
+    rootName: habemus.services.config.projectName,
     
     // the menu generators
-    dirMenu: require('./dir-menu').bind(null, options),
-    fileMenu: require('./file-menu').bind(null, options),
+    dirMenu: require('./dir-menu')(habemus, options),
+    fileMenu: require('./file-menu')(habemus, options),
   });
   tree.attach(document.querySelector('#file-tree-container'));
 

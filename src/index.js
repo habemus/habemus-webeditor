@@ -2,9 +2,9 @@
 const Bluebird = require('bluebird');
 
 // own dependencies
-const initServices = require('./services/init');
-const initUI       = require('./ui/init');
-const initKeyboard = require('./keyboard/init');
+const initServices = require('./services');
+const initUI       = require('./ui');
+const initKeyboard = require('./keyboard');
 
 // The application wrapper
 var habemus = document.querySelector('#habemus');
@@ -12,10 +12,12 @@ var habemus = document.querySelector('#habemus');
 // Only start setting up thing when WebComponentsReady event is fired
 window.addEventListener('WebComponentsReady', function () {
 
+  var options = {};
+
   return Bluebird.resolve(
       // services will load configurations as well
       // and make them available as a service (habemus.services.config)
-      initServices(habemus)
+      initServices(habemus, options)
     )
     .then(function () {
       return Bluebird.resolve(

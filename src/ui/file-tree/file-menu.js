@@ -2,18 +2,18 @@
 const clipboard = require('clipboard-js');
 const Bluebird  = require('bluebird');
 
-module.exports = function (options, tree) {
+module.exports = function (habemus, options) {
 
   /**
    * Reference to the hDev api.
    * @type {HDevAuthenticatedClient}
    */
-  const hDev = options.hDev;
+  const hDev = habemus.services.hDev;
 
   /**
    * Reference to the ui element iframeBrowser
    */
-  const iframeBrowser = options.iframeBrowser;
+  const iframeBrowser = habemus.ui.iframeBrowser;
 
   /**
    * Reference to the dialogs service.
@@ -23,93 +23,95 @@ module.exports = function (options, tree) {
    *       - confirm
    *       - alert
    */
-  const dialogs = options.dialogs;
+  const dialogs = habemus.services.dialogs;
 
-  return [
-    {
-      label: 'duplicate',
-      callback: function (data) {
-        data.menuElement.close();
-        var nodeModel = data.context;
+  return function genFileMenu(tree) {
+    return [
+      {
+        label: 'duplicate',
+        callback: function (data) {
+          data.menuElement.close();
+          var nodeModel = data.context;
 
-        var path = nodeModel.path;
+          var path = nodeModel.path;
 
-        return Bluebird.all([
-          dialogs.prompt('Duplicate path', {
-            submit: 'duplicate',
-            defaultValue: path + '-copy',
-          }),
-          hDev.readFile(path),
-        ])
-        .then(function (results) {
+          return Bluebird.all([
+            dialogs.prompt('Duplicate path', {
+              submit: 'duplicate',
+              defaultValue: path + '-copy',
+            }),
+            hDev.readFile(path),
+          ])
+          .then(function (results) {
 
-          var targetPath = results[0];
-          var contents   = results[1];
+            var targetPath = results[0];
+            var contents   = results[1];
 
-          if (!targetPath) {
-            return Bluebird.reject(new Error('targetPath is required'));
-          }
+            if (!targetPath) {
+              return Bluebird.reject(new Error('targetPath is required'));
+            }
 
-          return hDev.createFile(targetPath, contents);
-        });
-      }
-    },
-    {
-      label: 'remove',
-      callback: function (data) {
-        data.menuElement.close();
-        var nodeModel = data.context;
-
-        var path = nodeModel.path;
-
-        var msg = [
-          'Confirm removing `',
-          path,
-          '` This action cannot be undone.'
-        ].join('');
-
-        dialogs.confirm(msg)
-          .then(function confrmed() {
-
-            return hDev.remove(path);
-          }, function cancelled() {
-            console.log('removal cancelled by user');
-          })
-          .catch(function (err) {
-            alert('error removing');
-            console.warn(err);
+            return hDev.createFile(targetPath, contents);
           });
-      }
-    },
-    {
-      label: 'copy path',
-      callback: function (data) {
-        data.menuElement.close();
-        var nodeModel = data.context;
+        }
+      },
+      {
+        label: 'remove',
+        callback: function (data) {
+          data.menuElement.close();
+          var nodeModel = data.context;
 
-        clipboard.copy(nodeModel.path)
-          .then(function () {
-            console.log('copied')
-          });
-      }
-    },
-    {
-      label: 'open in browser',
-      type: 'url',
-      target: '_blank',
-      url: function (data) {
-        var nodeModel = data.context;
+          var path = nodeModel.path;
 
-        return nodeModel.getURL();
-      }
-    },
-    {
-      label: 'open in iframe',
-      callback: function (data) {
-        data.menuElement.close();
+          var msg = [
+            'Confirm removing `',
+            path,
+            '` This action cannot be undone.'
+          ].join('');
 
-        iframeBrowser.open(data.context.path);
+          dialogs.confirm(msg)
+            .then(function confrmed() {
+
+              return hDev.remove(path);
+            }, function cancelled() {
+              console.log('removal cancelled by user');
+            })
+            .catch(function (err) {
+              alert('error removing');
+              console.warn(err);
+            });
+        }
+      },
+      {
+        label: 'copy path',
+        callback: function (data) {
+          data.menuElement.close();
+          var nodeModel = data.context;
+
+          clipboard.copy(nodeModel.path)
+            .then(function () {
+              console.log('copied')
+            });
+        }
+      },
+      {
+        label: 'open in browser',
+        type: 'url',
+        target: '_blank',
+        url: function (data) {
+          var nodeModel = data.context;
+
+          return nodeModel.getURL();
+        }
+      },
+      {
+        label: 'open in iframe',
+        callback: function (data) {
+          data.menuElement.close();
+
+          iframeBrowser.open(data.context.path);
+        }
       }
-    }
-  ];
+    ];
+  }
 };
