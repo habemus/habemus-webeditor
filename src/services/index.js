@@ -82,13 +82,13 @@ module.exports = function (habemus, options) {
 
     /**
      * Hide loading notification
+     * and show success
      */
-    habemus.services.notification.loading.show({
+    habemus.services.notification.loading.hide();
+    habemus.services.notification.success.show({
       text: 'All set!',
+      duration: 7000,
     });
-    setTimeout(function () {
-      habemus.services.notification.loading.hide();
-    }, 1000);
 
     return;
   })
@@ -143,10 +143,10 @@ module.exports = function (habemus, options) {
 
         break;
       default:
-      /**
-       * Unknown error
-       * @type {String}
-       */
+        /**
+         * Unknown error
+         * @type {String}
+         */
         habemus.services.notification.error.show({
           text: 'An unexpected error occurred: ' + err.name,
           duration: Math.Infinity, 

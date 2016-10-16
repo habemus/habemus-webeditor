@@ -21,6 +21,22 @@ module.exports = function (habemus, options) {
   Polymer.dom(loadingToast).appendChild(spinningIcon);
 
   /**
+   * Success toast.
+   * Used for displaying data about success
+   * 
+   * @type {DOMElement}
+   */
+  var successToast = Polymer.Base.create('paper-toast', {});
+  successToast.classList.add('notification', 'loading');
+  document.querySelector('body').appendChild(successToast);
+
+  var successIcon = Polymer.Base.create('iron-icon', {
+    icon: 'check'
+  });
+
+  Polymer.dom(successToast).appendChild(successIcon);
+
+  /**
    * Error toast
    * Used for displaying data about errors.
    * @type {DOMElement}
@@ -41,6 +57,7 @@ module.exports = function (habemus, options) {
    */
   return {
     loading: loadingToast,
+    success: successToast,
     error: errorToast,
   };
 
