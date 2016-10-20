@@ -43,6 +43,7 @@ module.exports = function (gulp, $, config) {
       './browser/**/*.js',
 
       './src/index.js',
+      './src/lib/**/*.js',
       './src/ui/**/*.js',
       './src/services/**/*.js',
       './src/keyboard/**/*.js',
