@@ -84,9 +84,6 @@ exports.createEditorBrowserifyPipe = function (options) {
   });
 
   // inject modules
-  // b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-config.js', {
-  //   expose: 'habemus-editor-config'
-  // });
   b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-services', {
     expose: 'habemus-editor-services'
   });
