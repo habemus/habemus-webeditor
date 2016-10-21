@@ -1,12 +1,12 @@
+// third-party
 const fse       = require('fs-extra');
-
-const auxBrowserify = require('../build/aux-browserify');
-
 var browserSync = require('browser-sync').create();
+
+const auxBrowserify = require('./browserify');
 
 module.exports = function (gulp, $, config) {
 
-  gulp.task('browser:js-dev:editor', function () {
+  gulp.task('browser-cloud:js-dev:editor', function () {
     return auxBrowserify.createEditorBrowserifyPipe({
       entry: config.srcDir + '/index.js',
 
@@ -18,7 +18,7 @@ module.exports = function (gulp, $, config) {
     .pipe(gulp.dest(config.srcDir));
   });
 
-  gulp.task('browser:js-dev:inspector', function () {
+  gulp.task('browser-cloud:js-dev:inspector', function () {
     return auxBrowserify.createInspectorBrowserifyPipe({
       entry: config.root + '/src-inspector/index.js',
       destFilename: 'inspector.bundle.js',
@@ -28,14 +28,14 @@ module.exports = function (gulp, $, config) {
     .pipe(gulp.dest(config.srcDir + '/resources'));
   });
 
-  gulp.task('browser:js-dev', ['browser:js-dev:editor', 'browser:js-dev:inspector']);
+  gulp.task('browser-cloud:js-dev', ['browser-cloud:js-dev:editor', 'browser-cloud:js-dev:inspector']);
 
-  gulp.task('browser:serve', ['less', 'browser:js-dev'], function () {
+  gulp.task('browser-cloud:serve', ['less', 'browser-cloud:js-dev'], function () {
     browserSync.init({
       port: process.env.EDITOR_PORT,
       server: {
         baseDir: './src',
-        index: 'index.browser.html',
+        index: 'index.browser-cloud.html',
       }
     });
 
@@ -49,7 +49,7 @@ module.exports = function (gulp, $, config) {
       './src/keyboard/**/*.js',
     ];
 
-    gulp.watch(watchFilesForBuildJS, ['browser:js-dev']);
+    gulp.watch(watchFilesForBuildJS, ['browser-cloud:js-dev']);
 
     var watchFilesForBuildLESS = [
       './src/**/*.less',
@@ -69,5 +69,5 @@ module.exports = function (gulp, $, config) {
     gulp.watch(watchFilesForReload, browserSync.reload);
   });
 
-  gulp.task('browser:develop', ['browser:serve']);
+  gulp.task('browser-cloud:develop', ['browser-cloud:serve']);
 };

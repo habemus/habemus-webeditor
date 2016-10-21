@@ -48,7 +48,9 @@ gulp.task('test', ['pre-test'], function () {
 });
 
 // load task definers
-require('./tasks/build/less')(gulp, $, config);
-require('./tasks/build/browser')(gulp, $, config);
+require('./tasks/less')(gulp, $, config);
 
-require('./tasks/develop/browser')(gulp, $, config);
+/**
+ * Load browser-cloud environment tasks
+ */
+require('./tasks/browser-cloud/')(gulp, $, config);

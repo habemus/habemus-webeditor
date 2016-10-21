@@ -16,9 +16,9 @@ const strictify   = require('strictify');
  */
 exports.createEditorBrowserifyPipe = function (options) {
 
-  var entry = options.entry;
+  var entry        = options.entry;
   var destFilename = options.destFilename;
-  var production = options.production || false;
+  var production   = options.production || false;
 
   if (!entry) {
     throw new Error('entry is required as an option');
@@ -84,22 +84,22 @@ exports.createEditorBrowserifyPipe = function (options) {
   });
 
   // inject modules
-  // b.require('./browser/injected_node_modules/habemus-editor-config.js', {
+  // b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-config.js', {
   //   expose: 'habemus-editor-config'
   // });
-  b.require('./browser/injected_node_modules/habemus-editor-services', {
+  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-services', {
     expose: 'habemus-editor-services'
   });
-  b.require('./browser/injected_node_modules/habemus-editor-ui', {
+  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
     expose: 'habemus-editor-ui'
   });
 
   if (production) {
-    b.require('./browser/injected_node_modules/habemus-editor-urls.js', {
+    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
       expose: 'habemus-editor-urls'
     });
   } else {
-    b.require('./browser/injected_node_modules/habemus-editor-urls.development.js', {
+    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
       expose: 'habemus-editor-urls'
     });
   }
@@ -161,11 +161,11 @@ exports.createInspectorBrowserifyPipe = function (options) {
 
   // inject scripts
   if (production) {
-    b.require('./browser/injected_node_modules/habemus-editor-urls.js', {
+    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
       expose: 'habemus-editor-urls'
     });
   } else {
-    b.require('./browser/injected_node_modules/habemus-editor-urls.development.js', {
+    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
       expose: 'habemus-editor-urls'
     });
   }

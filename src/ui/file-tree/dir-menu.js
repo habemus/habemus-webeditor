@@ -174,14 +174,14 @@ module.exports = function (habemus, options) {
       //     return nodeModel.getURL();
       //   }
       // },
-      {
-        label: 'open in iframe',
-        callback: function (data) {
-          data.menuElement.close();
+      // {
+      //   label: 'open in iframe',
+      //   callback: function (data) {
+      //     data.menuElement.close();
 
-          iframeBrowser.open(data.context.path);
-        }
-      },
+      //     iframeBrowser.open(data.context.path);
+      //   }
+      // },
       {
         label: 'upload',
         type: 'input:file',

@@ -1,12 +1,6 @@
-// const browserify  = require('browserify');
-// const source      = require('vinyl-source-stream');
-// const buffer      = require('vinyl-buffer');
-const gutil       = require('gulp-util');
-// const envify      = require('envify/custom');
+// third-party
 const runSequence = require('run-sequence');
-
 const polybuild  = require('polybuild');
-
 const fse        = require('fs-extra');
 
 const jsRe = /.+\.js$/;
@@ -15,7 +9,7 @@ const jsRe = /.+\.js$/;
  * Browserify auxiliary methods
  * @type {Object}
  */
-const auxBrowserify = require('./aux-browserify');
+const auxBrowserify = require('./browserify');
 
 function isJs(file) {
   return jsRe.test(file.path);
@@ -23,10 +17,12 @@ function isJs(file) {
 
 module.exports = function (gulp, $, config) {
 
+  const BROWSER_CLOUD_DIST_DIR = config.distDir + '/browser-cloud';
+
   /**
    * 
    */
-  gulp.task('browser:js:inspector', function () {
+  gulp.task('browser-cloud:js:inspector', function () {
     return auxBrowserify.createInspectorBrowserifyPipe({
       entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
       destFilename: 'inspector.bundle.js',
@@ -38,13 +34,13 @@ module.exports = function (gulp, $, config) {
       showFiles: true,
       gzip: true,
     }))
-    .pipe(gulp.dest(config.distDir + '/resources'));
+    .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/resources'));
   });
 
   /**
    * Browserifies editor's javascript
    */
-  gulp.task('browser:js:editor', function () {
+  gulp.task('browser-cloud:js:editor', function () {
     return auxBrowserify.createEditorBrowserifyPipe({
       entry: config.srcDir + '/index.js',
       destFilename: 'index.js',
@@ -54,10 +50,10 @@ module.exports = function (gulp, $, config) {
       showFiles: true,
       gzip: true
     }))
-    .pipe(gulp.dest(config.root + '/tmp-browser'));
+    .pipe(gulp.dest(config.root + '/tmp-browser-cloud'));
   });
 
-  gulp.task('browser:js', ['browser:js:inspector', 'browser:js:editor']);
+  gulp.task('browser-cloud:js', ['browser-cloud:js:inspector', 'browser-cloud:js:editor']);
 
   /**
    * Special copy task for ace, as the ace-editor loads
@@ -69,20 +65,20 @@ module.exports = function (gulp, $, config) {
    * at the root (index.build.js), we must copy ace extensions
    * to the root directory as well.
    */
-  gulp.task('browser:copy-ace', function () {
+  gulp.task('browser-cloud:copy-ace', function () {
     var files = [
       config.srcDir + '/bower_components/ace-builds/src-noconflict/**/*',
     ];
 
-    return gulp.src(files).pipe(gulp.dest(config.distDir));
+    return gulp.src(files).pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
   });
 
   /**
    * Copies browser required editor resources over to the temporary directory
    */
-  gulp.task('browser:tmp-resources', ['less'], function () {
+  gulp.task('browser-cloud:tmp-resources', ['less'], function () {
 
-    fse.emptyDirSync(config.root + '/tmp-browser');
+    fse.emptyDirSync(config.root + '/tmp-browser-cloud');
 
     var resources = [
       config.srcDir + '/index.html',
@@ -92,17 +88,17 @@ module.exports = function (gulp, $, config) {
     ];
 
     return gulp.src(resources, { base: config.srcDir })
-      .pipe(gulp.dest(config.root + '/tmp-browser'));
+      .pipe(gulp.dest(config.root + '/tmp-browser-cloud'));
   });
 
   /**
-   * Depends on the tmp-browser directory!
+   * Depends on the tmp-browser-cloud directory!
    */
-  gulp.task('browser:polybuild', ['less', 'browser:js', 'browser:tmp-resources'], function () {
+  gulp.task('browser-cloud:polybuild', ['less', 'browser-cloud:js', 'browser-cloud:tmp-resources'], function () {
 
     // return gulp.src(config.srcDir + '/index.html')
 
-    return gulp.src(config.root + '/tmp-browser/index.html')
+    return gulp.src(config.root + '/tmp-browser-cloud/index.html')
       // maximumCrush should uglify the js
       // .pipe(polybuild({ maximumCrush: true }))
       .pipe(polybuild({ maximumCrush: false }))
@@ -118,10 +114,10 @@ module.exports = function (gulp, $, config) {
 
   });
 
-  gulp.task('browser:distribute', function () {
+  gulp.task('browser-cloud:distribute', function () {
 
-    fse.emptyDirSync(config.distDir);
+    fse.emptyDirSync(BROWSER_CLOUD_DIST_DIR);
 
-    runSequence(['browser:polybuild', 'browser:copy-ace'])
+    runSequence(['browser-cloud:polybuild', 'browser-cloud:copy-ace'])
   });
 };

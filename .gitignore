@@ -3,7 +3,8 @@ bower_components
 
 dist
 tmp
-tmp-browser
+tmp-browser-sw
+tmp-browser-cloud
 
 *.bundle.*
 *-styles.html

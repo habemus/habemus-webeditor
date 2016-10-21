@@ -1,6 +1,6 @@
 var path = require('path');
 
-var config  = require('../config');
+var config  = require('./config');
 
 // Message to be prepended to all -styles.html files generated via less
 var styleModuleMessage = [
