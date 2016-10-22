@@ -6,31 +6,32 @@ const auxBrowserify = require('./browserify');
 
 module.exports = function (gulp, $, config) {
 
+  const TMP_DIR = config.root + '/tmp-dev-sw';
+
   gulp.task('browser-sw:js-dev:editor', function () {
-    return auxBrowserify.createEditorBrowserifyPipe({
+    return auxBrowserify.createBrowserifyPipe({
       entry: config.srcDir + '/index.js',
 
       // careful not to overwrite the original index.js
       destFilename: 'index.browser-sw-bundle.js',
-      production: false,
     })
     .pipe($.size())
-    .pipe(gulp.dest(config.srcDir));
+    .pipe(gulp.dest(TMP_DIR));
   });
 
-  // gulp.task('browser-sw:js-dev:inspector', function () {
-  //   return auxBrowserify.createInspectorBrowserifyPipe({
-  //     entry: config.root + '/src-inspector/index.js',
-  //     destFilename: 'inspector.bundle.js',
-  //     production: false,
-  //   })
-  //   .pipe($.size())
-  //   .pipe(gulp.dest(config.srcDir + '/resources'));
-  // });
+  gulp.task('browser-sw:js-dev:service-worker', function () {
+    return auxBrowserify.createBrowserifyPipe({
+      entry: config.root + '/environments/browser-sw/service-worker/index.js',
+      destFilename: 'service-worker.js',
+      standalone: 'HABEMUS_SW',
+    })
+    .pipe($.size())
+    .pipe(gulp.dest(TMP_DIR));
+  });
 
   gulp.task('browser-sw:js-dev', [
     'browser-sw:js-dev:editor',
-    // 'browser-sw:js-dev:inspector'
+    'browser-sw:js-dev:service-worker',
   ]);
 
   gulp.task('browser-sw:serve', ['less', 'browser-sw:js-dev'], function () {
@@ -39,7 +40,10 @@ module.exports = function (gulp, $, config) {
       server: {
         baseDir: './src',
         index: 'index.browser-sw.html',
-      }
+      },
+      serveStatic: [
+        TMP_DIR
+      ]
     });
 
     var watchFilesForBuildJS = [
@@ -62,11 +66,12 @@ module.exports = function (gulp, $, config) {
 
     var watchFilesForReload = [
       './src/index.browser-sw.html',
-      './src/index.browser-sw-bundle.js',
       './src/index.bundle.css',
       './src/elements/**/*.css',
       './src/elements/**/*.html',
       './src/elements/**/*.js',
+
+      './tmp-dev-sw/**/*',
     ];
 
     gulp.watch(watchFilesForReload, browserSync.reload);

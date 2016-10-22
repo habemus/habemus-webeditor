@@ -5,7 +5,7 @@ const Bluebird = require('bluebird');
 const aux = require('../aux');
 
 module.exports = function (habemus, options) {
-
+  
   /**
    * Define the ui singleton onto the main habemus object
    * @type {Object}
