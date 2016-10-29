@@ -6,6 +6,7 @@ tmp
 tmp-*
 
 *.bundle.*
+*-bundle.js
 *-styles.html
 
 .DS_Store
