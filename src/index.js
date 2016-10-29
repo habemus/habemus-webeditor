@@ -9,9 +9,15 @@ const initKeyboard = require('./keyboard');
 // The application wrapper
 var habemus = document.querySelector('#habemus');
 
-// Only start setting up thing when WebComponentsReady event is fired
-window.addEventListener('WebComponentsReady', function () {
+new Bluebird(function (resolve, reject) {
 
+  // Only start setting up thing when WebComponentsReady event is fired
+  window.addEventListener('WebComponentsReady', function () {
+
+    resolve();
+  });
+})
+.then(function () {
   var options = {};
 
   return Bluebird.resolve(
