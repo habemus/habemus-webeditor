@@ -75,6 +75,8 @@ exports.createEditorBrowserifyPipe = function (options) {
         WEBSITE_HOST: process.env.WEBSITE_HOST,
         WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
         UI_DASHBOARD_URI: process.env.UI_DASHBOARD_URI,
+
+        ACE_BASE_PATH: '/static/editor/ace',
       }),
       strictify,
     ],

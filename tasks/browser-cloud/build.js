@@ -1,7 +1,12 @@
 // third-party
 const runSequence = require('run-sequence');
-const polybuild  = require('polybuild');
-const fse        = require('fs-extra');
+const fse         = require('fs-extra');
+
+// polymer-build studies. Not working yet
+const polymerBuild = require('polymer-build');
+const mergeStream  = require('merge-stream');
+
+var browserSync    = require('browser-sync').create();
 
 const jsRe = /.+\.js$/;
 
@@ -24,9 +29,12 @@ module.exports = function (gulp, $, config) {
    */
   gulp.task('browser-cloud:js:inspector', function () {
     return auxBrowserify.createInspectorBrowserifyPipe({
-      entry: config.root + '/browser/injected_browser_scripts/inspector/index.js',
+      entry: config.root + '/src-inspector/index.js',
       destFilename: 'inspector.bundle.js',
     })
+    .pipe($.babel({
+      presets: ['es2015']
+    }))
     .pipe($.uglify())
     .pipe($.stripDebug())
     .pipe($.size({
@@ -34,7 +42,7 @@ module.exports = function (gulp, $, config) {
       showFiles: true,
       gzip: true,
     }))
-    .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/resources'));
+    .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/static/resources'));
   });
 
   /**
@@ -43,8 +51,12 @@ module.exports = function (gulp, $, config) {
   gulp.task('browser-cloud:js:editor', function () {
     return auxBrowserify.createEditorBrowserifyPipe({
       entry: config.srcDir + '/index.js',
-      destFilename: 'index.js',
+      destFilename: 'index.browser-cloud-bundle.js',
     })
+    .pipe($.babel({
+      presets: ['es2015']
+    }))
+    .pipe($.uglify())
     .pipe($.size({
       title: 'js:editor',
       showFiles: true,
@@ -70,7 +82,7 @@ module.exports = function (gulp, $, config) {
       config.srcDir + '/bower_components/ace-builds/src-noconflict/**/*',
     ];
 
-    return gulp.src(files).pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
+    return gulp.src(files).pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/static/ace'));
   });
 
   /**
@@ -81,7 +93,7 @@ module.exports = function (gulp, $, config) {
     fse.emptyDirSync(config.root + '/tmp-browser-cloud');
 
     var resources = [
-      config.srcDir + '/index.html',
+      config.srcDir + '/index.browser-cloud.html',
       config.srcDir + '/index.bundle.css',
       config.srcDir + '/elements/**/*',
       config.srcDir + '/bower_components/**/*'
@@ -91,33 +103,82 @@ module.exports = function (gulp, $, config) {
       .pipe(gulp.dest(config.root + '/tmp-browser-cloud'));
   });
 
+  // gulp.task('browser-cloud:polymer-build', ['less', 'browser-cloud:js', 'browser-cloud:tmp-resources'], function () {
+
+
+  //   fse.emptyDirSync(BROWSER_CLOUD_DIST_DIR);
+
+  //   var project = new polymerBuild.PolymerProject({
+  //     entrypoint: config.root + '/tmp-browser-cloud/index.html',
+  //     sources: [config.root + '/tmp-browser-cloud/**/*'],
+  //   });
+
+  //   return mergeStream(project.sources(), project.dependencies())
+  //     .pipe(project.analyzer)
+  //     .pipe(project.bundler)
+  //     .pipe(project.splitHtml())
+  //     .pipe(gulp.dest('build-test'));
+  // });
+
   /**
    * Depends on the tmp-browser-cloud directory!
    */
-  gulp.task('browser-cloud:polybuild', ['less', 'browser-cloud:js', 'browser-cloud:tmp-resources'], function () {
+  gulp.task('browser-cloud:polybuild-editor', ['less', 'browser-cloud:js', 'browser-cloud:tmp-resources'], function () {
 
-    // return gulp.src(config.srcDir + '/index.html')
-
-    return gulp.src(config.root + '/tmp-browser-cloud/index.html')
-      // maximumCrush should uglify the js
-      // .pipe(polybuild({ maximumCrush: true }))
-      .pipe(polybuild({ maximumCrush: false }))
-      // remove debugging (debugger, console.*, alert)
-      // .pipe($.if(isJs, $.stripDebug()))
-      .pipe($.if('index.build.html', $.rename('index.html')))
+    return gulp.src(config.root + '/tmp-browser-cloud/index.browser-cloud.html')
+      .pipe($.vulcanize({
+        inlineScripts: true,
+        inlineCss: true,
+        stripComments: true
+      }))
+      .pipe($.crisper())
+      .pipe($.if('index.browser-cloud.js', $.stripDebug()))
+      .pipe($.if('index.browser-cloud.js', $.uglify().on('error', function (err) {
+        console.warn(err);
+      })))
+      // move static resources
+      .pipe($.if('index.browser-cloud.js', $.rename('static/index.browser-cloud.js')))
+      .pipe($.if('index.browser-cloud.html', $.replace('index.browser-cloud.js', '/static/editor/index.browser-cloud.js')))
+      // rename index.html file
+      .pipe($.if('index.browser-cloud.html', $.rename('index.html')))
       .pipe($.size({
         title: 'distribute',
         showFiles: true,
-        gzip: true
+        // gzip: true
       }))
-      .pipe(gulp.dest(config.distDir));
+      .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
 
   });
+
+  // gulp.task('uglify-test', function () {
+  //   return gulp.src('dist/browser-cloud/static/index.browser-cloud.js')
+  //     .pipe($.uglify().on('error', function (err) {
+  //       console.log(err);
+  //     }))
+  //     .pipe(gulp.dest('dist/browser-cloud/static/index.browser-cloud.min.js'))
+  // });
+
+  /**
+   * Serves the dist version
+   * Emulates the file structure that should be in production.
+   */
+  gulp.task('browser-cloud:serve-dist', function () {
+    browserSync.init({
+      port: process.env.EDITOR_PORT,
+      server: {
+        baseDir: './dist/browser-cloud',
+        routes: {
+          '/static/editor': './dist/browser-cloud/static',
+        }
+      }
+    });
+  });
+
 
   gulp.task('browser-cloud:distribute', function () {
 
     fse.emptyDirSync(BROWSER_CLOUD_DIST_DIR);
 
-    runSequence(['browser-cloud:polybuild', 'browser-cloud:copy-ace'])
+    runSequence(['browser-cloud:polybuild-editor', 'browser-cloud:copy-ace'])
   });
 };
