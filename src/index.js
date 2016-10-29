@@ -18,6 +18,12 @@ new Bluebird(function (resolve, reject) {
   });
 })
 .then(function () {
+
+  /**
+   * TODO: define better usage of these options.
+   * 
+   * @type {Object}
+   */
   var options = {};
 
   return Bluebird.resolve(
