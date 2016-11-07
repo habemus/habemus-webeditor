@@ -40,7 +40,8 @@ exports.createEditorBrowserifyPipe = function (options) {
   }
 
   // workspace serving
-  if (!process.env.H_WORKSPACE_SERVER_URI) {
+  if (!production && !process.env.H_WORKSPACE_SERVER_URI) {
+    // server uri required for development only
     throw new Error('H_WORKSPACE_SERVER_URI env var MUST be set');
   }
   if (!process.env.WORKSPACE_PREVIEW_HOST) {
@@ -48,7 +49,8 @@ exports.createEditorBrowserifyPipe = function (options) {
   }
 
   // website serving
-  if (!process.env.H_WEBSITE_SERVER_URI) {
+  if (!production && !process.env.H_WEBSITE_SERVER_URI) {
+    // server uri required for development only
     throw new Error('H_WEBSITE_SERVER_URI env var MUST be set');
   }
   if (!process.env.WEBSITE_HOST) {
@@ -137,7 +139,8 @@ exports.createInspectorBrowserifyPipe = function (options) {
     throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
 
-  if (!process.env.H_WORKSPACE_SERVER_URI) {
+  if (!production && !process.env.H_WORKSPACE_SERVER_URI) {
+    // server uri required for development only
     throw new Error('H_WORKSPACE_SERVER_URI env var MUST be set');
   }
 

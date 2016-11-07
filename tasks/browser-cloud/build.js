@@ -42,7 +42,7 @@ module.exports = function (gulp, $, config) {
       showFiles: true,
       gzip: true,
     }))
-    .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/static/resources'));
+    .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
   });
 
   /**
@@ -82,7 +82,7 @@ module.exports = function (gulp, $, config) {
       config.srcDir + '/bower_components/ace-builds/src-noconflict/**/*',
     ];
 
-    return gulp.src(files).pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/static/ace'));
+    return gulp.src(files).pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
   });
 
   /**
@@ -137,7 +137,6 @@ module.exports = function (gulp, $, config) {
         console.warn(err);
       })))
       // move static resources
-      .pipe($.if('index.browser-cloud.js', $.rename('static/index.browser-cloud.js')))
       .pipe($.if('index.browser-cloud.html', $.replace('index.browser-cloud.js', '/static/editor/index.browser-cloud.js')))
       // rename index.html file
       .pipe($.if('index.browser-cloud.html', $.rename('index.html')))
@@ -147,16 +146,7 @@ module.exports = function (gulp, $, config) {
         // gzip: true
       }))
       .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
-
   });
-
-  // gulp.task('uglify-test', function () {
-  //   return gulp.src('dist/browser-cloud/static/index.browser-cloud.js')
-  //     .pipe($.uglify().on('error', function (err) {
-  //       console.log(err);
-  //     }))
-  //     .pipe(gulp.dest('dist/browser-cloud/static/index.browser-cloud.min.js'))
-  // });
 
   /**
    * Serves the dist version
@@ -168,7 +158,7 @@ module.exports = function (gulp, $, config) {
       server: {
         baseDir: './dist/browser-cloud',
         routes: {
-          '/static/editor': './dist/browser-cloud/static',
+          '/static/editor': './dist/browser-cloud',
         }
       }
     });
