@@ -1,0 +1,13 @@
+environments
+node_modules
+src
+src-inspector
+tasks
+tmp-*
+.bowerrc
+bower.json
+Dockerfile
+gulpfile.js
+package.json
+README.md
+TODO.md

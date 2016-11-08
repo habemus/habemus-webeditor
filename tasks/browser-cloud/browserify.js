@@ -75,10 +75,11 @@ exports.createEditorBrowserifyPipe = function (options) {
         H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
         H_WEBSITE_SERVER_URI: process.env.H_WEBSITE_SERVER_URI,
         WEBSITE_HOST: process.env.WEBSITE_HOST,
+        WORKSPACE_HOST: process.env.WORKSPACE_HOST,
         WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
         UI_DASHBOARD_URI: process.env.UI_DASHBOARD_URI,
 
-        ACE_BASE_PATH: '/static/editor/ace',
+        ACE_BASE_PATH: '/static/editor',
       }),
       strictify,
     ],
@@ -154,6 +155,8 @@ exports.createInspectorBrowserifyPipe = function (options) {
         WORKSPACE_PREVIEW_HOST: process.env.WORKSPACE_PREVIEW_HOST,
         H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
         H_WORKSPACE_SERVER_URI: process.env.H_WORKSPACE_SERVER_URI,
+        WORKSPACE_HOST: process.env.WORKSPACE_HOST,
+        WEBSITE_HOST: process.env.WEBSITE_HOST,
       }),
     ],
 

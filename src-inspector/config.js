@@ -17,8 +17,8 @@ function loadConfig() {
     throw new Error('H_WORKSPACE_URI env var MUST be set');
   }
 
-  var locationString = window.location.toString();
-  var projectCode = habemusEditorUrls.parse.workspacePreview(locationString).projectCode;
+  var hostString = window.location.host.toString();
+  var projectCode = habemusEditorUrls.parse.workspacePreview(hostString).projectCode;
 
   if (!projectCode) {
     throw new Error('could not parse projectCode');

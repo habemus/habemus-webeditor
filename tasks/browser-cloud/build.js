@@ -31,12 +31,13 @@ module.exports = function (gulp, $, config) {
     return auxBrowserify.createInspectorBrowserifyPipe({
       entry: config.root + '/src-inspector/index.js',
       destFilename: 'inspector.bundle.js',
+      production: true
     })
     .pipe($.babel({
       presets: ['es2015']
     }))
-    .pipe($.uglify())
-    .pipe($.stripDebug())
+    // .pipe($.uglify())
+    // .pipe($.stripDebug())
     .pipe($.size({
       title: 'js:inspector',
       showFiles: true,
@@ -52,6 +53,7 @@ module.exports = function (gulp, $, config) {
     return auxBrowserify.createEditorBrowserifyPipe({
       entry: config.srcDir + '/index.js',
       destFilename: 'index.browser-cloud-bundle.js',
+      production: true,
     })
     .pipe($.babel({
       presets: ['es2015']
@@ -132,7 +134,7 @@ module.exports = function (gulp, $, config) {
         stripComments: true
       }))
       .pipe($.crisper())
-      .pipe($.if('index.browser-cloud.js', $.stripDebug()))
+      // .pipe($.if('index.browser-cloud.js', $.stripDebug()))
       .pipe($.if('index.browser-cloud.js', $.uglify().on('error', function (err) {
         console.warn(err);
       })))
