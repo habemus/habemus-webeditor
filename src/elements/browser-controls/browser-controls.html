@@ -31,6 +31,18 @@
         on-click="_handleLocationInputClick">
       </hab-editable-label>
 
+      <select id="screen-size" on-change="_handleScreenSizeSelectChange">
+        <template
+          is="dom-repeat"
+          items="{{ screenSizes }}">
+          <option
+            value="[[ item.label ]]"
+            selected$="[[ _isScreenSizeSelected(item) ]]">
+            [[ item.label ]]
+          </option>
+        </template>
+      </select>
+
       <a
         id="new-tab"
         class="control"

@@ -1,16 +1,27 @@
 #iframe-browser {
 
+  position: relative;
   height: 100%;
 
-  iframe {
-    // iframe has display `inline` by default
-    display: block;
-
-    box-sizing: border-box;
-
-    height: ~'calc(100% - 32px)';
+  #iframe-browser-iframe-container {
+    position: relative;
     width: 100%;
 
-    border: 1px red solid;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 50%;
+
+      // this property will be modified on javascript for scaling
+      // always remember to include this translation
+      transform: translateX(-50%);
+
+      // iframe has display `inline` by default
+      display: block;
+
+      box-sizing: border-box;
+
+      border: 1px red solid;
+    }
   }
 }
