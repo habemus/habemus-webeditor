@@ -149,8 +149,6 @@ IframeBrowser.prototype._handleScreenSizeChange = function () {
   // retrieve the screen size
   var size = this.controlsEl.get('selectedScreenSize');
 
-  console.log(size);
-
   this.emulateScreenSize({
     width: size.width,
     height: size.height,

@@ -25,6 +25,7 @@ module.exports = function (habemus, options) {
     hDev: habemus.services.hDev,
     ace: window.ace,
     localStorage: habemus.services.projectConfigStorage,
+    habemusStructure: habemus.ui.structure,
   });
 
   tabbedEditor.attach(document.querySelector('#tabbed-editor'));

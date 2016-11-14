@@ -248,4 +248,15 @@ EditorManager.prototype.destroyEditor = function (filepath) {
   return Bluebird.resolve();
 };
 
+/**
+ * Method to be called whenever the ace editor's viewport is resized
+ */
+EditorManager.prototype.notifyResize = function () {
+
+  this._fileEditors.forEach(function (fileEditor) {
+    fileEditor.aceEditor.resize();
+  });
+
+};
+
 module.exports = EditorManager;

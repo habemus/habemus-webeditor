@@ -20,10 +20,12 @@ function TabbedEditor(options) {
   if (!options.hDev) { throw new Error('hDev is required'); }
   if (!options.ace) { throw new Error('ace is required'); }
   if (!options.localStorage) { throw new Error('localStorage is required'); }
+  if (!options.habemusStructure) { throw new Error('habemusStructure is required'); }
 
   this.hDev = options.hDev;
   this.ace = options.ace;
   this.localStorage = options.localStorage;
+  this.habemusStructure = options.habemusStructure;
 
   // ensure hDev api
   if (typeof this.hDev.pathExists !== 'function') {
@@ -48,6 +50,18 @@ function TabbedEditor(options) {
     hDev: this.hDev,
     ace: this.ace,
   });
+
+  // listen for resizing events on the structure
+  // and notify the tabbedEditor
+  this.habemusStructure.addEventListener(
+    'x1-changed',
+    this.editorManager.notifyResize.bind(this.editorManager)
+  );
+  this.habemusStructure.addEventListener(
+    'x2-changed',
+    this.editorManager.notifyResize.bind(this.editorManager)
+  );
+
 
   /**
    * Listen to select events on the tabs element
