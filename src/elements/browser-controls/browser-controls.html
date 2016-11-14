@@ -31,6 +31,13 @@
         on-click="_handleLocationInputClick">
       </hab-editable-label>
 
+      <button
+        id="refresh"
+        class="control"
+        on-click="refresh">
+        <iron-icon icon="refresh"></iron-icon>
+      </button>
+
       <select id="screen-size" on-change="_handleScreenSizeSelectChange">
         <template
           is="dom-repeat"
