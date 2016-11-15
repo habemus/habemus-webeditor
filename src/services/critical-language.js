@@ -7,6 +7,9 @@
  * As small as possible.
  */
 
+// native
+const url = require('url');
+
 // third-party
 const Bluebird = require('bluebird');
 const Polyglot = require('node-polyglot');
@@ -23,8 +26,12 @@ module.exports = function (habemus, options) {
 
   var selectedLanguageKey = window.localStorage.getItem(
     habemus.constants.HABEMUS_LANGUAGE_LS_KEY
-  ) || FALLBACK;
-
+  ) || url.parse(window.location.toString(), true).query.lang || FALLBACK;
+  window.localStorage.setItem(
+    habemus.constants.HABEMUS_LANGUAGE_LS_KEY,
+    selectedLanguageKey
+  );
+  
   var selectedLanguageData = LANGUAGES[selectedLanguageKey] || LANGUAGES[FALLBACK];
 
   return Bluebird.resolve(new Polyglot({
