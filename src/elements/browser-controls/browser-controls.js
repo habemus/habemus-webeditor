@@ -109,6 +109,13 @@
     },
 
     /**
+     * Emits a `refresh` event
+     */
+    refresh: function () {
+      this.fire('refresh');
+    },
+
+    /**
      * Selects a screen size by the screenSize.label
      * Silently fails in case the screensize is not found
      * @param  {String} label

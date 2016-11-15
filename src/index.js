@@ -9,11 +9,13 @@ const initKeyboard = require('./keyboard');
 // The application wrapper
 var habemus = document.querySelector('#habemus');
 
+// expose habemus as a global variable
+window.HABEMUS = habemus;
+
 new Bluebird(function (resolve, reject) {
 
   // Only start setting up thing when WebComponentsReady event is fired
   window.addEventListener('WebComponentsReady', function () {
-
     resolve();
   });
 })
@@ -26,6 +28,19 @@ new Bluebird(function (resolve, reject) {
    */
   var options = {};
 
+  /**
+   * Define a set of constants onto habemus singleton
+   */
+  habemus.constants = {
+    /**
+     * The key to be used for storing the language preference.
+     * May be shared with other habemus applications.
+     * 
+     * @type {String}
+     */
+    HABEMUS_LANGUAGE_LS_KEY: 'habemus_language',
+  };
+  
   return Bluebird.resolve(
       // services will load configurations as well
       // and make them available as a service (habemus.services.config)

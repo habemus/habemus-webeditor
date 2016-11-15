@@ -1,0 +1,12 @@
+{
+  "workspace-setup": {
+    "workspace-loading": "Carregando projeto",
+    "workspace-ready": "Pronto!",
+    "error": {
+      "not-found": "O projeto desejado não foi encontrado. Ele pode ter sido renomeado recentemente ou ocorreu um erro ao digitar o endereço.",
+      "go-to-dashboard": "Por favor volte para o <a href=\"%{ url }\">painel de controle</a> e acesse o projeto correto.",
+      "unauthorized": "Sua conta não tem as permissões necessárias para acessar este projeto. :("
+    }
+  },
+  "unexpected-error": "Um erro desconhecido ocorreu: %{errorName}"
+}

@@ -83,19 +83,9 @@ exports.createEditorBrowserifyPipe = function (options) {
       }),
       strictify,
     ],
-
-    // standalone global object for main module
-    standalone: 'habemus',
   });
 
   // inject modules
-  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-services', {
-    expose: 'habemus-editor-services'
-  });
-  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
-    expose: 'habemus-editor-ui'
-  });
-
   if (production) {
     b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
       expose: 'habemus-editor-urls'
@@ -105,6 +95,13 @@ exports.createEditorBrowserifyPipe = function (options) {
       expose: 'habemus-editor-urls'
     });
   }
+
+  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-services', {
+    expose: 'habemus-editor-services'
+  });
+  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
+    expose: 'habemus-editor-ui'
+  });
 
   return b.bundle()
     .pipe(source(destFilename))

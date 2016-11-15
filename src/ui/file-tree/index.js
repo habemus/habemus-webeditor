@@ -15,9 +15,12 @@ module.exports = function (habemus, options) {
     // the menu generators
     dirMenu: require('./dir-menu')(habemus, options),
     fileMenu: require('./file-menu')(habemus, options),
+
+    // translation function
+    translate: habemus.services.language.t,
   });
   tree.attach(document.querySelector('#file-tree-container'));
-
+  
   /**
    * Wire up the tree ui with the tabbedEditor
    */

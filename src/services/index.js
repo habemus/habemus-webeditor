@@ -2,7 +2,9 @@
  * This module initializes all services and makes
  * them available to the editor.
  * 
- * All services must be instantiated by this script.
+ * All services must be instantiated by this script:
+ * it is responsible for orchestrating the instantiation
+ * of all services.
  * 
  * Service constructors may be replaced for custom builds
  * for differing environments (browser, local, etc)
@@ -24,12 +26,14 @@ module.exports = function (habemus, options) {
   return Bluebird.all([
     require('./notification')(habemus, options),
     require('./dialogs')(habemus, options),
+    require('./critical-language')(habemus, options),
   ])
   .then(function (services) {
 
     aux.defineFrozenProperties(habemus.services, {
       notification: services[0],
       dialogs: services[1],
+      criticalLanguage: services[2],
     });
 
     /**
@@ -37,7 +41,7 @@ module.exports = function (habemus, options) {
      * and let it be manually removed
      */
     habemus.services.notification.loading.show({
-      text: 'Setting up project',
+      text: habemus.services.criticalLanguage.t('workspace-setup.workspace-loading'),
       duration: Math.Infinity,
     });
 
@@ -60,12 +64,14 @@ module.exports = function (habemus, options) {
     return Bluebird.all([
       // project-config-storage depends on config.projectId
       require('./project-config-storage')(habemus, options),
+      require('./language')(habemus, options),
     ]);
   })
   .then(function (services) {
 
     aux.defineFrozenProperties(habemus.services, {
       projectConfigStorage: services[0],
+      language: services[1],
     });
 
     // TODO: deprecate services.localStorage
@@ -79,6 +85,8 @@ module.exports = function (habemus, options) {
         return habemus.services.projectConfigStorage;
       }
     });
+  })
+  .then(function () {
 
     /**
      * Hide loading notification
@@ -86,7 +94,7 @@ module.exports = function (habemus, options) {
      */
     habemus.services.notification.loading.hide();
     habemus.services.notification.success.show({
-      text: 'All set!',
+      text: habemus.services.criticalLanguage.t('workspace-setup.workspace-ready'),
       duration: 7000,
     });
 
@@ -113,14 +121,13 @@ module.exports = function (habemus, options) {
       case 'NotFound':
         // TODO:
         // study best way of implementing this messaging system.
-        var msg = 'The requested project was not found.';
-        msg += 'It may have been renamed recently or the address was mistyped.';
+
+        var msg = habemus.services.criticalLanguage.t('workspace-setup.error.not-found');
 
         if (habemus.services.config && habemus.services.config.cloud) {
-          msg += 'Please go to the <a href="';
-          msg += habemus.services.config.cloud.uiDashboardURI;
-          msg += '">dashboard</a> ';
-          msg += 'and access the desired workspace again.'
+          msg += habemus.services.criticalLanguage.t('workspace-setup.error.go-to-dashboard', {
+            url: habemus.services.config.cloud.uiDashboardURI,
+          });
         }
 
         habemus.services.dialogs.alert(msg);
@@ -129,14 +136,13 @@ module.exports = function (habemus, options) {
       case 'Unauthorized':
         // TODO:
         // study best way of implementing this messaging system.
-        var msg = 'Your account does not have the right permissions to access this workspace.';
-        msg += 'We are sorry :(';
+        
+        var msg = habemus.services.criticalLanguage.t('workspace-setup.error.unauthorized');
 
         if (habemus.services.config && habemus.services.config.cloud) {
-          msg += 'Please go to the <a href="';
-          msg += habemus.services.config.cloud.uiDashboardURI;
-          msg += '">dashboard</a> ';
-          msg += 'and access the desired workspace again.'
+          msg += habemus.services.criticalLanguage.t('workspace-setup.error.go-to-dashboard', {
+            url: habemus.services.config.cloud.uiDashboardURI,
+          });
         }
 
         habemus.services.dialogs.alert(msg);
@@ -148,7 +154,9 @@ module.exports = function (habemus, options) {
          * @type {String}
          */
         habemus.services.notification.error.show({
-          text: 'An unexpected error occurred: ' + err.name,
+          text: habemus.services.criticalLanguage.t('unexpected-error', {
+            name: err.name,
+          }),
           duration: Math.Infinity, 
         });
 

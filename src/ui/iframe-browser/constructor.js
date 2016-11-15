@@ -64,10 +64,19 @@ function IframeBrowser(options) {
 
     var location = controlsEl.get('location');
 
+    location = (!location || location === '/') ? '/index.html' : location;
+
     var fullLocation = _joinPaths(this.hDev.projectRootURL, location);
 
     // update the iframe's src and the newTabAnchor's href
     this.iframeEl.setAttribute('src', fullLocation);
+
+  }.bind(this));
+
+  controlsEl.addEventListener('refresh', function (e) {
+
+    // http://stackoverflow.com/questions/86428/whats-the-best-way-to-reload-refresh-an-iframe-using-javascript
+    this.iframeEl.src += '';
 
   }.bind(this));
 
