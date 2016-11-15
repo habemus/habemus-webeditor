@@ -1,0 +1,24 @@
+{
+  "happiness-tree": {
+    "new-file": "novo arquivo",
+    "rename-file": "renomear arquivo",
+    "new-directory": "novo diretório",
+    "rename-directory": "renomear diretório"
+  },
+  "file-tree-menu": {
+    "remove": "remover",
+    "remove-confirm": "Você tem certeza de que deseja remover '%{path}'? Esta ação não poderá ser desfeita.",
+    "copy-path": "copiar caminho",
+    "upload": "upload",
+    "upload-reading-file": "Lendo '%{fileName}' ...",
+    "upload-uploading-file": "Enviando '%{fileName}' ...",
+    "upload-uploaded": "'%{fileName}' enviado com sucesso.",
+    "upload-failed": "Envio do arquivo '%{fileName}' falhou: %{errorName}",
+    "upload-error-missing-file-name": "Não foi possível ler o nome do arquivo selecionado.",
+    "upload-error-max-size-exceeded": "O arquivo '%{fileName}' é maior que o tamanho máximo de upload (%{maxSize}).",
+    "open-in-new-tab": "abrir em nova aba",
+    "preview": "abrir em iframe",
+    "duplicate": "duplicar",
+    "duplicate-prompt": "Caminho do arquivo duplicado"
+  }
+}

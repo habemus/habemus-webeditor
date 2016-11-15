@@ -16,6 +16,11 @@ module.exports = function (habemus, options) {
   const iframeBrowser = habemus.ui.iframeBrowser;
 
   /**
+   * Shortcut for translate fn
+   */
+  const _t = habemus.services.language.t;
+
+  /**
    * Reference to the dialogs service.
    * 
    * @type {Object}
@@ -28,7 +33,7 @@ module.exports = function (habemus, options) {
   return function genFileMenu(tree) {
     return [
       {
-        label: 'duplicate',
+        label: _t('file-tree-menu.duplicate'),
         callback: function (data) {
           data.menuElement.close();
           var nodeModel = data.context;
@@ -36,10 +41,13 @@ module.exports = function (habemus, options) {
           var path = nodeModel.path;
 
           return Bluebird.all([
-            dialogs.prompt('Duplicate path', {
-              submit: 'duplicate',
-              defaultValue: path + '-copy',
-            }),
+            dialogs.prompt(
+              _t('file-tree-menu.duplicate-prompt'),
+              {
+                submit: _t('file-tree-menu.duplicate'),
+                defaultValue: path + '-copy',
+              }
+            ),
             hDev.readFile(path),
           ])
           .then(function (results) {
@@ -56,18 +64,16 @@ module.exports = function (habemus, options) {
         }
       },
       {
-        label: 'remove',
+        label: _t('file-tree-menu.remove'),
         callback: function (data) {
           data.menuElement.close();
           var nodeModel = data.context;
 
           var path = nodeModel.path;
 
-          var msg = [
-            'Confirm removing `',
-            path,
-            '` This action cannot be undone.'
-          ].join('');
+          var msg = _t('file-tree-menu.remove-confirm', {
+            path: path,
+          });
 
           dialogs.confirm(msg)
             .then(function confrmed() {
@@ -83,7 +89,7 @@ module.exports = function (habemus, options) {
         }
       },
       {
-        label: 'copy path',
+        label: _t('file-tree-menu.copy-path'),
         callback: function (data) {
           data.menuElement.close();
           var nodeModel = data.context;
@@ -95,7 +101,7 @@ module.exports = function (habemus, options) {
         }
       },
       {
-        label: 'open in browser',
+        label: _t('file-tree-menu.open-in-new-tab'),
         type: 'url',
         target: '_blank',
         url: function (data) {
@@ -105,7 +111,7 @@ module.exports = function (habemus, options) {
         }
       },
       {
-        label: 'open in iframe',
+        label: _t('file-tree-menu.preview'),
         callback: function (data) {
           data.menuElement.close();
 

@@ -28,6 +28,11 @@ module.exports = function (habemus, options) {
   const iframeBrowser = habemus.ui.iframeBrowser;
 
   /**
+   * Shortcut for translate fn
+   */
+  const _t = habemus.services.language.t;
+
+  /**
    * Auxiliary function that reads the contents from a browser
    * file object and writes it to the hDev api.
    * 
@@ -45,7 +50,7 @@ module.exports = function (habemus, options) {
        * No name
        */
       habemus.services.notification.error.show({
-        text: 'Could not identify the name of the selected file.',
+        text: _t('file-tree-menu.upload-error-missing-file-name'),
         duration: 4000, 
       });
 
@@ -57,7 +62,10 @@ module.exports = function (habemus, options) {
        * Max size]
        */
       habemus.services.notification.error.show({
-        text: 'The file "' + fileName + '" exeeds the max upload size',
+        text: _t('file-tree-menu.upload-error-max-size-exceeded', {
+          fileName: fileName,
+          maxSize: maxFileUploadSize,
+        }),
         duration: 4000, 
       });
 
@@ -65,7 +73,9 @@ module.exports = function (habemus, options) {
     }
 
     habemus.services.notification.loading.show({
-      text: 'Reading "' + fileName + '"...',
+      text: _t('file-tree-menu.upload-reading-file', {
+        fileName: fileName,
+      }),
       duration: Math.Infinity
     });
 
@@ -76,7 +86,9 @@ module.exports = function (habemus, options) {
     }).then(function (fileContents) {
 
       habemus.services.notification.loading.show({
-        text: 'Uploading "' + fileName + '"',
+        text: _t('file-tree-menu.upload-uploading-file', {
+          fileName: fileName,
+        }),
         duration: Math.Infinity,
       })
 
@@ -88,7 +100,9 @@ module.exports = function (habemus, options) {
 
       habemus.services.notification.loading.hide();
       habemus.services.notification.success.show({
-        text: '"' + fileName + '" successfully uploaded',
+        text: _t('file-tree-menu.upload-uploaded', {
+          fileName: fileName,
+        }),
         duration: 3000,
       });
 
@@ -100,7 +114,10 @@ module.exports = function (habemus, options) {
 
       habemus.services.notification.loading.hide();
       habemus.services.notification.error.show({
-        text: 'Upload failed: ' + err.name,
+        text: _t('file-tree-menu.upload-failed', {
+          fileName: fileName,
+          errorName: err.name,
+        }),
         duration: 3000
       });
 
@@ -123,7 +140,7 @@ module.exports = function (habemus, options) {
   return function genDirMenu(tree) {
     return [
       {
-        label: 'remove',
+        label: _t('file-tree-menu.remove'),
         callback: function (data) {
           // close the context menu immediately
           data.menuElement.close();
@@ -131,11 +148,9 @@ module.exports = function (habemus, options) {
 
           var path = nodeModel.path;
 
-          var msg = [
-            'Confirm removing all files in the directory `',
-            path,
-            '` This action cannot be undone.'
-          ].join('');
+          var msg = _t('file-tree-menu.remove-confirm', {
+            path: path,
+          });
 
           dialogs.confirm(msg)
             .then(function confrmed() {
@@ -151,7 +166,7 @@ module.exports = function (habemus, options) {
         }
       },
       {
-        label: 'copy path',
+        label: _t('file-tree-menu.copy-path'),
         callback: function (data) {
           data.menuElement.close();
           var nodeModel = data.context;
@@ -183,7 +198,7 @@ module.exports = function (habemus, options) {
       //   }
       // },
       {
-        label: 'upload',
+        label: _t('file-tree-menu.upload'),
         type: 'input:file',
         callback: function (data) {
           data.menuElement.close();

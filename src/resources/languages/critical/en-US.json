@@ -1,0 +1,12 @@
+{
+  "workspace-setup": {
+    "workspace-loading": "Setting up project",
+    "workspace-ready": "All set!",
+    "error": {
+      "not-found": "The requested project was not found. It may have been renamed recently or the address was mistyped.",
+      "go-to-dashboard": "Please go to the <a href=\"%{ url }\">dashboard</a> and access the desired workspace again.",
+      "unauthorized": "Your account does not have the right permissions to access this workspace. We are sorry :("
+    }
+  },
+  "unexpected-error": "An unexpected error occurred: %{errorName}"
+}
