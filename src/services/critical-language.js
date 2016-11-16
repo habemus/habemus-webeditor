@@ -24,13 +24,31 @@ const FALLBACK = 'en-US';
 
 module.exports = function (habemus, options) {
 
-  var selectedLanguageKey = window.localStorage.getItem(
-    habemus.constants.HABEMUS_LANGUAGE_LS_KEY
-  ) || url.parse(window.location.toString(), true).query.lang || FALLBACK;
-  window.localStorage.setItem(
-    habemus.constants.HABEMUS_LANGUAGE_LS_KEY,
-    selectedLanguageKey
-  );
+  /**
+   * Language definition cascade:
+   * - queryString.lang
+   * - localStorage
+   * - navigator.language
+   */
+  var selectedLanguageKey = url.parse(window.location.toString(), true).query.lang;
+
+  if (!selectedLanguageKey) {
+    try {
+      selectedLanguageKey = window.localStorage.getItem(
+        habemus.constants.HABEMUS_LANGUAGE_LS_KEY
+      );
+    } catch (e) {
+      // probably in private mode
+    }
+  }
+
+  if (!selectedLanguageKey) {
+    selectedLanguageKey = window.navigator.language;
+  }
+
+  if (!selectedLanguageKey) {
+    selectedLanguageKey || FALLBACK;
+  }
   
   var selectedLanguageData = LANGUAGES[selectedLanguageKey] || LANGUAGES[FALLBACK];
 

@@ -13,6 +13,7 @@
  */
 
 // native
+const url  = require('url');
 const path = require('path');
 
 // third-party
@@ -108,16 +109,22 @@ module.exports = function (habemus, options) {
 
   function _resetLanguage(languageKey) {
 
+    window.localStorage.setItem(
+      habemus.constants.HABEMUS_LANGUAGE_LS_KEY,
+      languageKey
+    );
+    
     return habemus.services.dialogs.confirm(
       habemus.services.language.t('language.reset-confirm')
     )
     .then(function () {
-      window.localStorage.setItem(
-        habemus.constants.HABEMUS_LANGUAGE_LS_KEY,
-        languageKey
-      );
 
-      window.location.reload();
+      var parsed = url.parse(window.location.toString(), true);
+      // force url.format to use the query object
+      delete parsed.search;
+      parsed.query.lang = languageKey;
+
+      window.location.assign(url.format(parsed));
     });
   }
 

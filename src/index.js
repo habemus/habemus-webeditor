@@ -31,15 +31,7 @@ new Bluebird(function (resolve, reject) {
   /**
    * Define a set of constants onto habemus singleton
    */
-  habemus.constants = {
-    /**
-     * The key to be used for storing the language preference.
-     * May be shared with other habemus applications.
-     * 
-     * @type {String}
-     */
-    HABEMUS_LANGUAGE_LS_KEY: 'habemus_language',
-  };
+  habemus.constants = require('./constants');
   
   return Bluebird.resolve(
       // services will load configurations as well
