@@ -30,6 +30,9 @@ module.exports = function (habemus, options) {
   tree.uiAddTreeEventListener('click', 'leaf', function (data) {
     tabbedEditor.viewFile(data.model.path);
   });
+  tree.uiAddTreeEventListener('contextmenu', 'leaf', function (data) {
+    tabbedEditor.viewFile(data.model.path);
+  });
   tabbedEditor.on('active-filepath-changed', function (current, previous) {
 
     if (tree.rootModel.getNodeByPath(current)) {
