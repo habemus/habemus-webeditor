@@ -20,5 +20,8 @@
     "preview": "open in iframe",
     "duplicate": "duplicate",
     "duplicate-prompt": "Duplicate path"
+  },
+  "language": {
+    "reset-confirm": "Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
   }
 }

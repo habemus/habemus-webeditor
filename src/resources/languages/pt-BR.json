@@ -20,5 +20,8 @@
     "preview": "abrir em iframe",
     "duplicate": "duplicar",
     "duplicate-prompt": "Caminho do arquivo duplicado"
+  },
+  "language": {
+    "reset-confirm": "pt-BR: Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
   }
 }
