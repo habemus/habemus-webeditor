@@ -14,7 +14,7 @@
     "h-account-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-account-client.git",
     "h-dev-electron": "git+ssh://git@bitbucket.org/habemus-tutti/h-dev-electron.git",
     "h-project-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-project-client.git",
-    "h-ui-file-editor": "git+ssh://git@bitbucket.org/habemus-tutti/h-ui-file-editor.git",
+    "hab-ui-file-editor": "git+ssh://git@bitbucket.org/habemus-tutti/hab-ui-file-editor.git",
     "h-urls": "git+ssh://git@bitbucket.org/habemus-tutti/h-urls.git",
     "h-workspace-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-workspace-client.git",
     "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git",

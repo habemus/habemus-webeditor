@@ -88,6 +88,15 @@ module.exports = function (gulp, $, config) {
   });
 
   /**
+   * Copies over language files
+   * TODO: generalize copy-resources
+   */
+  gulp.task('browser-cloud:copy-languages', function () {
+    return gulp.src(config.srcDir + '/resources/languages/*.json')
+      .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/languages'));
+  });
+
+  /**
    * Copies browser required editor resources over to the temporary directory
    */
   gulp.task('browser-cloud:tmp-resources', ['less'], function () {
@@ -171,6 +180,10 @@ module.exports = function (gulp, $, config) {
 
     fse.emptyDirSync(BROWSER_CLOUD_DIST_DIR);
 
-    runSequence(['browser-cloud:polybuild-editor', 'browser-cloud:copy-ace'])
+    runSequence([
+      'browser-cloud:polybuild-editor',
+      'browser-cloud:copy-ace',
+      'browser-cloud:copy-languages'
+    ])
   });
 };

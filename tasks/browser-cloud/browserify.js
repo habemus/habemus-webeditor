@@ -80,6 +80,7 @@ exports.createEditorBrowserifyPipe = function (options) {
         UI_DASHBOARD_URI: process.env.UI_DASHBOARD_URI,
 
         ACE_BASE_PATH: '/static/editor',
+        LANGUAGES_BASE_URL: process.env.LANGUAGES_BASE_URL,
       }),
       strictify,
     ],

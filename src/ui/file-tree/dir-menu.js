@@ -42,7 +42,8 @@ module.exports = function (habemus, options) {
    */
   function _uploadFile(basepath, file) {
 
-    var fileName = file.name;
+    // TODO: abstract this from here
+    var fileName = file.webkitRelativePath ? file.webkitRelativePath : file.name;
     var fileSize = file.size;
 
     if (!fileName) {
@@ -213,6 +214,32 @@ module.exports = function (habemus, options) {
 
           return files.reduce(function (lastUploadPromise, file) {
 
+            return lastUploadPromise.then(function () {
+              return _uploadFile(basepath, file);
+            });
+
+          }, Bluebird.resolve());
+
+        },
+      },
+      {
+        label: _t('file-tree-menu.upload-directory'),
+        type: 'input:directory',
+        callback: function (data) {
+
+          console.log('input:directory', data);
+          data.menuElement.close();
+          var nodeModel = data.context;
+          var basepath  = nodeModel.path;
+
+          var files = data.files;
+
+          if (!files) {
+            return;
+          }
+
+          return files.reduce(function (lastUploadPromise, file) {
+            
             return lastUploadPromise.then(function () {
               return _uploadFile(basepath, file);
             });
