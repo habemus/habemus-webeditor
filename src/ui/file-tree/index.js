@@ -9,15 +9,26 @@ module.exports = function (habemus, options) {
 
   // instantiate a tree navigator
   var tree = happinessTree({
+
+    // apis
     hDev: habemus.services.hDev,
+    uiDialogs: habemus.services.dialogs,
+    uiNotifications: habemus.services.notification,
+
     rootName: habemus.services.config.projectName,
-    
+
     // the menu generators
     dirMenu: require('./dir-menu')(habemus, options),
     fileMenu: require('./file-menu')(habemus, options),
 
     // translation function
     translate: habemus.services.language.t,
+
+    config: {
+      enablePreload: true,
+      // TODO: configure maxFileUploadSize
+      maxFileUploadSize: '20MB',
+    }
   });
   tree.attach(document.querySelector('#file-tree-container'));
   
