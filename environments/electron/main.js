@@ -19,10 +19,11 @@ function createWindow () {
       // load this script before running the application
       preload: path.join(__dirname, 'preload.js'),
     },
+    // frame: false,
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + path.join(__dirname, '../src/index.html'))
+  mainWindow.loadURL('file://' + path.join(__dirname, '../../src/index.electron.html'))
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()

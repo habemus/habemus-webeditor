@@ -5,12 +5,12 @@ const proc = require('child_process');
 const electron = require('electron-prebuilt');
 
 module.exports = function (gulp, $, config) {
-  gulp.task('develop-electron', () => {
+  gulp.task('electron:develop', () => {
 
     // LESS autorecompile
     gulp.watch(config.srcDir + '/**/*.less', ['less']);
 
     // spawn electron 
-    var child = proc.spawn(electron, ['electron/main.js']);
+    var child = proc.spawn(electron, ['environments/electron/main.js']);
   });
 }

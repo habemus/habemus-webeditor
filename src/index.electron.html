@@ -19,6 +19,9 @@
     <!-- polymer -->
     <link rel="import" href="bower_components/polymer/polymer.html">
 
+    <!-- polymer paper elements -->
+    <link rel="import" href="bower_components/paper-toast/paper-toast.html">
+
     <!-- icons -->
     <link rel="import" href="bower_components/iron-icons/iron-icons.html">
     <link rel="import" href="bower_components/iron-icons/editor-icons.html">
@@ -28,9 +31,6 @@
     
     <!-- polymer iron elements -->
     <link rel="import" href="bower_components/iron-pages/iron-pages.html">
-
-    <!-- polymer paper elements -->
-    <link rel="import" href="bower_components/paper-toast/paper-toast.html">
 
     <!-- habemus's version of ace editor -->
     <script src="bower_components/ace-builds/src-noconflict/ace.js"></script>
@@ -63,17 +63,21 @@
     <!-- create a root for Polymer data binding -->
     <template id="habemus" is="dom-bind">
 
-      <habemus-structure id="structure">
+      <habemus-structure
+        id="structure"
+        preview-mode="{{ previewMode }}"
+        panels>
 
-        <div panel="left">
-          <div id="file-tree-container"></div>
-        </div>
-        <div panel="center">
-          <div id="tabbed-editor"></div>
-        </div>
-        <div panel="right">
+        <header id="header"></header>
+
+        <div panel="left" id="file-tree-container"></div>
+        <div panel="center" id="tabbed-editor"></div>
+
+        <div panel="right" class$="right {{ previewMode }}">
           <div id="iframe-browser"></div>
         </div>
+
+        <footer id="footer"></footer>
       </habemus-structure>
 
     </template>
