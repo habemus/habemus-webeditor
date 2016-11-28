@@ -23,7 +23,7 @@ new Bluebird(function (resolve, reject) {
 
   /**
    * TODO: define better usage of these options.
-   * 
+   *
    * @type {Object}
    */
   var options = {};
@@ -32,7 +32,7 @@ new Bluebird(function (resolve, reject) {
    * Define a set of constants onto habemus singleton
    */
   habemus.constants = require('./constants');
-  
+
   return Bluebird.resolve(
       // services will load configurations as well
       // and make them available as a service (habemus.services.config)
@@ -53,6 +53,12 @@ new Bluebird(function (resolve, reject) {
           habemus.services.config
         )
       );
+    })
+    .then(function () {
+
+      // dev: set structure mode to LCR
+      habemus.ui.structure.setMode('LCR');
+
     });
 });
 

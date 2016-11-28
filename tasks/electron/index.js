@@ -10,7 +10,7 @@ module.exports = function (gulp, $, config) {
     // LESS autorecompile
     gulp.watch(config.srcDir + '/**/*.less', ['less']);
 
-    // spawn electron 
+    // spawn electron
     var child = proc.spawn(electron, ['environments/electron/main.js']);
   });
 }
