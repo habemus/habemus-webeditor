@@ -57,7 +57,7 @@ new Bluebird(function (resolve, reject) {
     .then(function () {
 
       // dev: set structure mode to LCR
-      habemus.ui.structure.setMode('LCR');
+      habemus.ui.structure.setMode('LC');
 
     });
 });

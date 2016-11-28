@@ -1,0 +1,35 @@
+#left-panel-header {
+  height: @left-panel-header-height;
+  background-color: @panel-header-color;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+#left-panel-header #left-menu-trigger {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  
+  padding: 0 0;
+}
+
+#left-panel-header #left-menu-trigger iron-icon {
+  fill: @panel-text-color;
+  height: 18px;
+  width: 18px;
+}
+
+#left-panel-body {
+  // hard header height as less tries to compile it
+  height: ~'calc(100% - 32px)';
+  overflow: auto;
+  
+  // safety padding
+  padding-bottom: 120px;
+  box-sizing: border-box;
+}
