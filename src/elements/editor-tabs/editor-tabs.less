@@ -1,10 +1,11 @@
+// TODO: improve drag and drop styles and interaction
+
 @import '../../less/variables.less';
 
-
 #tabs {
-  height: @tab-height;
+  height: @editor-tabs-height;
 
-  background-color: #3C3C3C;
+  background-color: @editor-tabs-background-color;
 
   width: 100%;
 
@@ -15,7 +16,10 @@
 }
 
 .tab {
-  height: 100%;
+  height: @editor-tabs-height;
+  box-sizing: border-box;
+  border-bottom: 1px solid @panel-stroke-color;
+  border-right: 1px solid @panel-stroke-color;
 
   position: relative;
 
@@ -25,18 +29,18 @@
 
   color: #cecece;
   white-space: nowrap;
-  background-color: @tab-color;
-  padding-left: @tab-padding;
-  padding-right: @tab-padding;
+  background-color: @editor-tabs-tab-color;
+  padding-left: 10px;
+  padding-right: 10px;
 
   // tab default width
   // this will be modified in javascript
   // as more tabs are added and space is scarce
   width: 120px;
 
-  margin-right: 1px;
+  // margin-right: 1px;
 
-  font-size: @font-size;
+  font-size: @default-font-size;
 
   user-select: none;
 
@@ -45,8 +49,18 @@
   // &:hover,
   &.iron-selected {
     color: white;
-    background-color: #272822;
+    background-color: @editor-tabs-tab-active-color;
+    
+    border-bottom: none;
   }
+  
+  // TODO:
+  // remove border of last tab
+  // &:last-of-type {
+  //   color: red;
+  //   border-right: none;
+  // }
+
 
   button {
     position: absolute;
@@ -60,26 +74,27 @@
     display: flex;
 
     background-color: transparent;
+    opacity: 0.8;
 
     border: none;
     outline: none;
-    color: lightgray;
+    color: @editor-tabs-text-color;
 
-    height: @close-icon-size;
-    width: @close-icon-size;
+    height: 14px;
+    width: 14px;
 
     padding: 0 0;
 
     cursor: auto;
 
     iron-icon {
-      --iron-icon-width: @close-icon-size;
-      --iron-icon-height: @close-icon-size;
+      --iron-icon-width: 14px;
+      --iron-icon-height: 14px;
     }
 
     &:hover {
-      // opacity: 1;
-      color: lighten(lightgray, 30%);
+      opacity: 1;
+      cursor: pointer;
     }
   }
 
@@ -93,7 +108,7 @@
   &[status="loading"] {
     button {
       iron-icon {
-        color: @unsaved-color;
+        color: @editor-tabs-unsaved-color;
       }
 
       iron-icon[icon="close"] {
@@ -125,7 +140,7 @@
   &[status="unsaved"] {
     button {
       iron-icon {
-        color: @unsaved-color;
+        color: @editor-tabs-unsaved-color;
       }
     }
   }
@@ -139,12 +154,12 @@
 }
 
 .tab.dragging {
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .tab.dragover {
-  background-color: #272822;
-  opacity: 0.8;
+  opacity: 0.7;
+  background-color: @editor-tabs-tab-active-color;
 }
 
 .tab.dragover button {
@@ -191,6 +206,10 @@
   text-overflow: ellipsis;
 }
 
+#empty-placeholder {
+  border-bottom: 1px solid @panel-stroke-color;
+  flex-grow: 1;
+}
 
 // spin animation
 @keyframes spin {
