@@ -32,4 +32,20 @@
   // safety padding
   padding-bottom: 120px;
   box-sizing: border-box;
+  
+  background-color: @file-tree-color;
+}
+
+#left-panel-body #file-tree-container {
+  /* required for the active highligther element to follow scrolling */
+  position: relative;
+  
+  padding-left: 8px;
+}
+
+/**
+ * Custom styles for file tree nodes
+ */
+#file-tree-container .ht-label {
+  color: @file-tree-text-color
 }
