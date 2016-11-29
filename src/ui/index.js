@@ -35,12 +35,14 @@ module.exports = function (habemus, options) {
 
     return Bluebird.all([
       require('./file-tree')(habemus, options),
+      require('./menu')(habemus, options),
     ]);
   })
   .then(function (components) {
 
     aux.defineFrozenProperties(habemus.ui, {
       fileTree: components[0],
+      menu: components[1],
     });
 
     return require('habemus-editor-ui')(habemus, options);

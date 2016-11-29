@@ -10,15 +10,23 @@
   padding-right: 8px;
 }
 
-#left-panel-header #left-menu-trigger {
+#left-panel-header #menu-trigger {
   background-color: transparent;
   border: none;
   outline: none;
   
+  opacity: 0.8;
+  
   padding: 0 0;
 }
 
-#left-panel-header #left-menu-trigger iron-icon {
+#left-panel-header #menu-trigger:hover,
+#left-panel-header #menu-trigger:active {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#left-panel-header #menu-trigger iron-icon {
   fill: @panel-text-color;
   height: 18px;
   width: 18px;
