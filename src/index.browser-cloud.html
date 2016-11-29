@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <title>habemus editor</title>
 
+    <!-- TODO: carefully select fonts -->
     <!-- fonts: source code pro and source sans pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro" rel="stylesheet">
+    
+    <!-- Open Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
 
     <!-- webcomponents-lite -->
     <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
@@ -70,7 +75,17 @@
 
         <header id="header"></header>
 
-        <div panel="left" id="file-tree-container"></div>
+        <div panel="left">
+          <div id="left-panel-header">
+            <img src="resources/img/logo-webeditor.svg" alt="habemus editor logo">
+            <button id="left-menu-trigger">
+              <iron-icon icon="more-vert"></iron-icon>
+            </button>
+          </div>
+          <div id="left-panel-body">
+            <div id="file-tree-container"></div>
+          </div>
+        </div>
         <div panel="center" id="tabbed-editor"></div>
 
         <div panel="right" class$="right {{ previewMode }}">
