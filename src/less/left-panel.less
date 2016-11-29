@@ -1,4 +1,62 @@
+#left-panel {
+  
+}
+
+/**
+ * Collapse interactions
+ */
+#left-panel-collapse-trigger {
+  position: absolute;
+  
+  z-index: 2;
+  
+  top: 40px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  
+  opacity: 0;
+  transition: opacity .1s ease;
+  pointer-events: none;
+}
+
+#left-panel[data-panel-status="collapsing"] {
+  #left-panel-collapse-trigger {
+    opacity: 1;
+  }
+  
+  #habemus-webeditor-logo {
+    display: none;
+  }
+  
+  #file-tree-container {
+    opacity: 0.2;
+  }
+}
+
+#left-panel[data-panel-status="collapsed"] {
+  #left-panel-collapse-trigger {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  #habemus-webeditor-logo {
+    display: none;
+  }
+  
+  #file-tree-container {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+
+/**
+ * Header
+ */
 #left-panel-header {
+  position: relative;
+  
   height: @left-panel-header-height;
   background-color: @panel-header-color;
   
@@ -10,31 +68,55 @@
   padding-right: 8px;
 }
 
-#left-panel-header #menu-trigger {
-  background-color: transparent;
+/**
+ * Trigger styles
+ */
+#left-panel .trigger {
+  background-color: @panel-header-color;
   border: none;
   outline: none;
   
-  opacity: 0.8;
-  
   padding: 0 0;
+  
+  iron-icon {
+    fill: @panel-text-color;
+    opacity: 0.8;
+    height: 18px;
+    width: 18px;
+  }
+  
+  &:hover,
+  &:active {
+    cursor: pointer;
+    
+    iron-icon {
+      opacity: 1;
+    }
+  }
 }
 
-#left-panel-header #menu-trigger:hover,
-#left-panel-header #menu-trigger:active {
-  opacity: 1;
-  cursor: pointer;
+/**
+ * Menu trigger positioning
+ */
+#menu-trigger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  width: 40px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
-#left-panel-header #menu-trigger iron-icon {
-  fill: @panel-text-color;
-  height: 18px;
-  width: 18px;
-}
-
+/**
+ * Panel body
+ */
 #left-panel-body {
   // hard header height as less tries to compile it
-  height: ~'calc(100% - 32px)';
+  height: ~'calc(100% - 40px)';
   overflow: auto;
   
   // safety padding
@@ -49,6 +131,8 @@
   position: relative;
   
   padding-left: 8px;
+  
+  transition: opacity .1s ease;
 }
 
 /**

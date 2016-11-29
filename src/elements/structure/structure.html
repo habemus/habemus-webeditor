@@ -16,22 +16,34 @@
         <section
           id="left"
           class="panel"
+          status="[[ statusL ]]"
           style$="width: [[ x1 ]]px;">
-          <content select="[panel='left']"></content>
+          <content
+            id="left-content"
+            select="[panel='left']">
+          </content>
         </section>
 
         <section
           id="center"
           class="panel"
+          status="[[ statusC ]]"
           style$="left: [[ x1 ]]px; width: [[ _calcCenterWidth(x1, x2, x3) ]]px;">
-          <content select="[panel='center']"></content>
+          <content
+            id="center-content"
+            select="[panel='center']">
+          </content>
         </section>
 
         <section
           id="right"
           class="panel"
+          status="[[ statusR ]]"
           style$="left: [[ x2 ]]px; width: [[ _calcRightWidth(x1, x2, x3) ]]px;">
-          <content select="[panel='right']"></content>
+          <content
+            id="right-content"
+            select="[panel='right']">
+          </content>
         </section>
         
         <!-- handles -->

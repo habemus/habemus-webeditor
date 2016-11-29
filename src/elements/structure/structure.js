@@ -1,4 +1,13 @@
 (function () {
+  
+  const PANEL_STATUSES = {
+    INITIAL: 'initial',
+    COLLAPSED: 'collapsed',
+    COLLAPSING: 'collapsing',
+    OPEN: 'open',
+    EXPANDING: 'expanding',
+    CLOSED: 'closed',
+  };
 
   function _max(v1, v2) {
     return v1 >= v2 ? v1 : v2;
@@ -98,7 +107,7 @@
       isOpenR: false,
 
       x1: {
-        min: 0.1,
+        min: 0,
         max: 0.9,
         initial: 0.2,
         resize: function (structure, current, vw, oldVw) {
@@ -134,7 +143,7 @@
       isOpenR: false,
 
       x1: {
-        min: 0.1,
+        min: 0,
         max: 0.9,
         initial: 0.2,
         resize: function (structure, current, vw, oldVw) {
@@ -176,7 +185,7 @@
       isOpenR: true,
 
       x1: {
-        min: 0.05,
+        min: 0,
         max: 0.3,
         initial: 0.05,
         resize: function (structure, current, vw, oldVw) {
@@ -212,7 +221,7 @@
       isOpenR: true,
 
       x1: {
-        min: 0.1,
+        min: 0,
         max: 0.3,
         initial: 0.15,
         resize: function (structure, current, vw, oldVw) {
@@ -325,13 +334,25 @@
       isOpenL: {
         type: Boolean,
       },
+      statusL: {
+        type: String,
+        value: PANEL_STATUSES.INITIAL,
+      },
 
       isOpenC: {
         type: Boolean,
       },
+      statusC: {
+        type: String,
+        value: PANEL_STATUSES.INITIAL,
+      },
 
       isOpenR: {
         type: Boolean,
+      },
+      statusR: {
+        type: String,
+        value: PANEL_STATUSES.INITIAL,
       },
 
       mode: {
@@ -350,6 +371,10 @@
       },
     },
     
+    observers: [
+      '_handleStatusChange(statusL, statusC, statusR)',
+    ],
+    
     /**
      * Sets up listener to 'resize' event on the window
      * to change the vw (viewport width) of the structure.
@@ -367,54 +392,25 @@
     },
 
     /**
-     * Modifies the active mode and if any changes occur,
-     * reapplies the rules of the given mode
-     * @param {String} modeName
-     * @param {Object} options
-     *                  - force: Boolean
-     */
-    setMode: function (modeName, options) {
-
-      options = options || {};
-
-      var currentMode = this.get('mode');
-
-      if (currentMode && currentMode.name === modeName && !options.force) {
-        // requested modeName is currently the active one
-        return;
-      }
-
-      var targetMode = MODES[modeName];
-
-      if (!targetMode) {
-        throw new Error('Invalid mode ', targetMode);
-      }
-
-      /**
-       * Save the active mode
-       */
-      this.set('mode', targetMode);
-
-      /**
-       * Initialize the mode
-       */
-      this._initActiveMode();
-    },
-
-    /**
      * Handles track event on the x1 handle
      * @param  {Event} e
      */
     _handleTrackX1: function (e) {
+      var trackState = e.detail.state;
+      var dx         = e.detail.dx;
+      var isOpenL    = this.get('isOpenL');
+      var isOpenC    = this.get('isOpenC');
+      
       // make handles larger when dragging happens
-      if (e.detail.state === 'start') {
+      if (trackState === 'start') {
         Polymer.Base.toggleClass('dragging', true, e.target);
       }
 
-      if (e.detail.state === 'end') {
+      if (trackState === 'end') {
         Polymer.Base.toggleClass('dragging', false, e.target);
       }
-
+      
+      // ruleSet defines the min and max behaviours
       var ruleSet = _modeFindRuleSet(this.get('mode'), this);
 
       var minX1 = _modeEvalPosition(ruleSet.x1.min, this, this.get('vw'));
@@ -424,6 +420,51 @@
 
       if (typeof x1 === 'number') {
         this.set('x1', x1);
+      }
+      
+      // update L and C panel statuses
+      var statusL;
+      var statusC;
+          
+      switch (e.detail.state) {
+        case 'start':
+          break;
+        case 'track':
+          // while dragging statuses
+
+          if (isOpenL) {
+            statusL = (this.get('x1') > 95) ?
+              PANEL_STATUSES.EXPANDING : PANEL_STATUSES.COLLAPSING;
+            
+            this.set('statusL', statusL);
+          }
+          
+          if (isOpenC) {
+            statusC = dx > 0 ?
+              PANEL_STATUSES.COLLAPSING : PANEL_STATUSES.EXPANDING;
+              
+            this.set('statusC', statusC);
+          }
+          
+          break;
+        case 'end':
+          // on drag finish, check for the collapse thresholds
+
+          if (isOpenL) {
+            statusL = (this.get('x1') > 95) ?
+              PANEL_STATUSES.OPEN : PANEL_STATUSES.COLLAPSED;
+            
+            this.set('statusL', statusL);
+          }
+          
+          if (isOpenC) {
+            statusC = (this.get('x2') - this.get('x1') > 300) ?
+              PANEL_STATUSES.OPEN : PANEL_STATUSES.COLLAPSED;
+            
+            this.set('statusC', statusC);
+          }
+          
+          break;
       }
     },
 
@@ -524,6 +565,114 @@
       this.set('isOpenL', ruleSet.isOpenL);
       this.set('isOpenC', ruleSet.isOpenC);
       this.set('isOpenR', ruleSet.isOpenR);
+      
+      // set statuses
+      var statusL = ruleSet.isOpenL ?
+        PANEL_STATUSES.OPEN : PANEL_STATUSES.CLOSED;
+      var statusC = ruleSet.isOpenC ?
+        PANEL_STATUSES.OPEN : PANEL_STATUSES.CLOSED;
+      var statusR = ruleSet.isOpenR ?
+        PANEL_STATUSES.OPEN : PANEL_STATUSES.CLOSED;
+      
+      this.set('statusL', statusL);
+      this.set('statusC', statusC);
+      this.set('statusR', statusR);
     },
+    
+    /**
+     * Whenever of each of the sections change,
+     * add classes to contents.
+     */
+    _handleStatusChange: function (statusL, statusC, statusR) {
+      console.log(statusL, statusC, statusR);
+      
+      if (statusL === PANEL_STATUSES.COLLAPSED) {
+        // move x1 to 40 if the left panel is collapsed
+        this.set('x1', 40);
+      }
+      
+      var leftEls = Polymer.dom(this.$['left-content']).getDistributedNodes();
+      var centerEls = Polymer.dom(this.$['center-content']).getDistributedNodes();
+      var rightEls = Polymer.dom(this.$['right-content']).getDistributedNodes();
+      
+      leftEls.forEach(function (el) {
+        el.setAttribute('data-panel-status', statusL);
+      });
+      centerEls.forEach(function (el) {
+        el.setAttribute('data-panel-status', statusC);
+      });
+      rightEls.forEach(function (el) {
+        el.setAttribute('data-panel-status', statusR);
+      });
+    },
+    
+    /**
+     * API
+     */
+
+    /**
+     * Modifies the active mode and if any changes occur,
+     * reapplies the rules of the given mode
+     * @param {String} modeName
+     * @param {Object} options
+     *                  - force: Boolean
+     */
+    setMode: function (modeName, options) {
+
+      options = options || {};
+
+      var currentMode = this.get('mode');
+
+      if (currentMode && currentMode.name === modeName && !options.force) {
+        // requested modeName is currently the active one
+        return;
+      }
+
+      var targetMode = MODES[modeName];
+
+      if (!targetMode) {
+        throw new Error('Invalid mode ', targetMode);
+      }
+
+      /**
+       * Save the active mode
+       */
+      this.set('mode', targetMode);
+
+      /**
+       * Initialize the mode
+       */
+      this._initActiveMode();
+    },
+    
+    collapse: function (panel) {
+      console.warn('collapse not implemented');
+    },
+    
+    uncollapse: function (panel) {
+      switch (panel) {
+        case 'left':
+          
+          if (this.get('isOpenL')) {
+            this.set('x1', 200);
+            this.set('statusL', PANEL_STATUSES.OPEN);
+            
+            // TODO: MUST UPDATE THE CENTER PANEL STATUS AS WELL
+          } else {
+            console.warn('left panel is CLOSED');
+          }
+          
+          break;
+        case 'center':
+          console.warn('uncollapse center not implemented');
+          break;
+        case 'right':
+          console.warn('uncollapse right not implemented');
+          break;
+        default:
+          console.warn('unsupported panel ' + panel);
+          break;
+      }
+    }
   });
 })();

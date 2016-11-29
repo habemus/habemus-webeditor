@@ -13,6 +13,8 @@ module.exports = function (habemus, options) {
   habemus.ui = {};
 
   return Bluebird.all([
+    // ATTENTION
+    // structure comes first of all!
     require('./structure')(habemus, options),
   ])
   .then(function (components) {
