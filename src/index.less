@@ -12,7 +12,16 @@ body {
 }
 
 #header {
-  height: 25px;
+  /**
+   * Electron
+   */
+  height: 20px;
+  background-color: fade(@panel-header-color, 80%);
+  // background-color: rgba(0, 0, 0, 0.5);
+  // background-color: transparent;
+  // see https://github.com/electron/electron/blob/master/docs/api/frameless-window.md
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }
 
 [panel="left"] {
