@@ -587,6 +587,8 @@
       console.log(statusL, statusC, statusR);
       
       if (statusL === PANEL_STATUSES.COLLAPSED) {
+        // make the transition animated
+        this._temporarilyAnimatePanels(300);
         // move x1 to 40 if the left panel is collapsed
         this.set('x1', 40);
       }
@@ -604,6 +606,18 @@
       rightEls.forEach(function (el) {
         el.setAttribute('data-panel-status', statusR);
       });
+    },
+    
+    /**
+     * Temporarily adds the animated class to the panel container
+     * so that a transition is applied to panels widths and left positions
+     */
+    _temporarilyAnimatePanels: function (ms) {
+      this.$['panel-container'].classList.add('animated');
+      
+      setTimeout(function () {
+        this.$['panel-container'].classList.remove('animated');
+      }.bind(this), ms);
     },
     
     /**
@@ -654,6 +668,9 @@
         case 'left':
           
           if (this.get('isOpenL')) {
+            // make the transition animated
+            this._temporarilyAnimatePanels(300);
+            
             this.set('x1', 200);
             this.set('statusL', PANEL_STATUSES.OPEN);
             
