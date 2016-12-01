@@ -102,7 +102,8 @@ EditorManager.prototype.createEditor = function (persistent) {
   // STYLES AND OPTIONS //
   
   // theme
-  fileEditor.aceEditor.setTheme('ace/theme/monokai');
+  // fileEditor.aceEditor.setTheme('ace/theme/monokai');
+  fileEditor.aceEditor.setTheme('ace/theme/habemus-dark');
 
   // apply styles
   fileEditor.element.style.fontFamily = 'Source Code Pro';
