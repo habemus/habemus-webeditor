@@ -1,15 +1,27 @@
+@import './variables.less';
+
 #iframe-browser {
 
   position: relative;
   height: 100%;
+  
+  background-color: @panel-body-color;
 
   #iframe-browser-iframe-container {
     position: relative;
     width: 100%;
+    height: ~'calc(100% - 40px)';
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+    background-color: @panel-body-color;
 
     iframe {
       position: absolute;
-      top: 0;
+      top: 42px;
       left: 50%;
 
       // this property will be modified on javascript for scaling
@@ -20,8 +32,13 @@
       display: block;
 
       box-sizing: border-box;
-
-      border: 1px red solid;
+  
+      border: 1px solid @panel-stroke-color;
+      // border: 3px magenta solid;
+      
+      background-color: white;
+      
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
     }
   }
 }

@@ -56,6 +56,16 @@ module.exports = function (habemus, options) {
     }
   });
   
+  /**
+   * Listen to collapse trigger events
+   * TODO: improve code organization.
+   * A 'left-panel' component might be required.
+   */
+  var collapseTrigger = document.querySelector('#left-panel-collapse-trigger');
+  collapseTrigger.addEventListener('click', function (e) {
+    habemus.ui.structure.uncollapse('left');
+  });
+  
   // run initial load
   tree.openDirectory('');
 

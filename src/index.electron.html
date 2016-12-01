@@ -75,20 +75,37 @@
 
         <header id="header"></header>
 
-        <div panel="left">
+        <div
+          id="left-panel"
+          panel="left">
           <div id="left-panel-header">
-            <img src="resources/img/logo-webeditor.svg" alt="habemus editor logo">
-            <button id="menu-trigger">
+            <img
+              id="habemus-webeditor-logo"
+              src="resources/img/logo-webeditor.svg"
+              alt="habemus editor logo">
+            <button
+              id="menu-trigger"
+              class="trigger">
               <iron-icon icon="more-vert"></iron-icon>
             </button>
           </div>
           <div id="left-panel-body">
             <div id="file-tree-container"></div>
           </div>
+          <button
+            id="left-panel-collapse-trigger"
+            class="trigger">
+            <iron-icon icon="chevron-right"></iron-icon>
+          </button>
         </div>
-        <div panel="center" id="tabbed-editor"></div>
 
-        <div panel="right" class$="right {{ previewMode }}">
+        <div
+          panel="center"
+          id="tabbed-editor"></div>
+
+        <div
+          id="right-panel"
+          panel="right">
           <div id="iframe-browser"></div>
         </div>
 

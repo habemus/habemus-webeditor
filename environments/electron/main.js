@@ -19,6 +19,8 @@ function createWindow () {
       // load this script before running the application
       preload: path.join(__dirname, 'preload.js'),
     },
+    titleBarStyle: 'hidden',
+    transparent: true,
     // frame: false,
   })
 

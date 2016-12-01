@@ -54,58 +54,6 @@
         type: Number,
         value: -1,
       },
-
-      screenSizes: {
-        type: Array,
-        notify: true,
-        value: [
-          {
-            label: 'Laptop',
-            width: 1280,
-            height: 800,
-          },
-          {
-            label: 'Galaxy S5',
-            width: 360,
-            height: 640,
-          },
-          {
-            label: 'Nexus 5X',
-            width: 412,
-            height: 732,
-          },
-          {
-            label: 'iPhone 5',
-            width: 320,
-            height: 568,
-          },
-          {
-            label: 'iPhone 6',
-            width: 375,
-            height: 667
-          },
-          {
-            label: 'iPhone 6 Plus',
-            width: 414,
-            height: 736,
-          },
-          {
-            label: 'iPad',
-            width: 768,
-            height: 1024,
-          }
-        ],
-      },
-
-      selectedScreenSize: {
-        type: Object,
-        notify: true,
-        value: {
-          label: 'iPhone 5',
-          width: 320,
-          height: 568,
-        },
-      }
     },
 
     /**
@@ -113,24 +61,6 @@
      */
     refresh: function () {
       this.fire('refresh');
-    },
-
-    /**
-     * Selects a screen size by the screenSize.label
-     * Silently fails in case the screensize is not found
-     * @param  {String} label
-     */
-    selectScreenSize: function (label) {
-      
-      var screenSize = this.screenSizes.find(function (screenSize) {
-        return screenSize.label === label;
-      });
-
-      if (screenSize) {
-        this.set('selectedScreenSize', screenSize);
-      } else {
-        console.warn('screenSize ' + label + ' does not exist');
-      }
     },
 
     /**
@@ -258,19 +188,6 @@
 
     _hasLocation: function (location) {
       return location ? true : false;
-    },
-
-    _isScreenSizeSelected: function (screenSize) {
-      return this.selectedScreenSize.label === screenSize.label;
-    },
-
-    /**
-     * Handles `change` event on the select element for the screen sizes
-     */
-    _handleScreenSizeSelectChange: function (e) {
-      var screenSizeLabel = e.target.value;
-
-      this.selectScreenSize(screenSizeLabel);
     },
   })
 })();

@@ -1,0 +1,108 @@
+@import '../../less/variables.less';
+
+#controls {
+  background-color: transparent;
+  height: 42px;
+  
+  min-width: 250px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  font-size: 10px;
+  color: @panel-text-color;
+}
+
+#controls > * {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+#controls .control {
+  display: flex;
+
+  opacity: 0.8;
+
+  background-color: transparent;
+  padding: 0 0;
+
+  margin-top: 0;
+  margin-bottom: 0;
+
+  margin-left: 0;
+  margin-right: 0;
+
+  height: 18px;
+  width: 18px;
+
+  border: none;
+  outline: none;
+  
+  transition: opacity .3s ease;
+}
+
+#controls .control:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+#controls .control:active {
+  background-color: @panel-header-active-color;
+}
+
+#controls .control[disabled] {
+  cursor: auto;
+  opacity: 0.2;
+}
+
+#controls .control[disabled]:hover {
+
+}
+
+#controls .control iron-icon {
+  height: 18px;
+  width: 18px;
+
+  fill: @panel-text-color;
+}
+
+#controls #left {
+  padding-left: 8px;
+}
+
+#controls #screen-size {
+  height: 24px;
+  background-color: #515151;
+  color: @panel-text-color;
+  
+  outline: none;
+  
+  border: 1px solid @panel-stroke-color;
+  
+  /**
+   * Remove select style: reference
+   * http://stackoverflow.com/questions/24210132/remove-border-radius-from-select-tag-in-bootstrap-3#24766039
+   */
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-position: 90% 50%;
+  background-repeat: no-repeat;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgd2lkdGg9IjEwLjcyMXB4IiBoZWlnaHQ9IjYuMjc4cHgiIHZpZXdCb3g9IjAgMCAxMC43MjEgNi4yNzgiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwLjcyMSA2LjI3OCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnIGlkPSJMUCI+Cgk8Zz4KCQk8Zz4KCQkJPHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y1RjVGNSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBwb2ludHM9IjAuMzYxLDAuMzQ3IDUuMzUxLDUuNTU2IDEwLjM2MSwwLjM0NyAJCQkiLz4KCQk8L2c+Cgk8L2c+CjwvZz4KPGcgaWQ9ImZlZWRiYWNrIiBkaXNwbGF5PSJub25lIj4KPC9nPgo8ZyBpZD0iSE9WRVIiIGRpc3BsYXk9Im5vbmUiPgo8L2c+CjxnIGlkPSJNRU5VIiBkaXNwbGF5PSJub25lIj4KPC9nPgo8ZyBpZD0iRURJVEFSX0RPTUlOSU8iIGRpc3BsYXk9Im5vbmUiPgo8L2c+CjxnIGlkPSJtb2RhbCI+CjwvZz4KPGcgaWQ9InNpbXVsYXJfY2xpY2siIGRpc3BsYXk9Im5vbmUiPgo8L2c+CjxnIGlkPSJMT0FESU5HIiBkaXNwbGF5PSJub25lIj4KPC9nPgo8L3N2Zz4K);
+  padding: .5em;
+  padding-right: 3em;
+  padding-left: 1.2em; 
+  
+  margin-right: 8px;
+}
+
+#controls #center {
+  
+}
+
+#controls #right {
+  padding-right: 8px;
+}

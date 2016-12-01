@@ -43,12 +43,21 @@ function IframeBrowser(options) {
    * Browser control element
    * @type {DOMElement}
    */
-  this.controlsEl = Polymer.Base.create('habemus-browser-controls', {
+  this.browserControlsEl = Polymer.Base.create('habemus-browser-controls', {
     computeLocationURL: function (location) {
       return _joinPaths(this.hDev.projectRootURL, location);
     }.bind(this),
   });
-  var controlsEl = this.controlsEl;
+  var browserControlsEl = this.browserControlsEl;
+
+  /**
+   * Device control element
+   * @type {DOMElement}
+   */
+  this.deviceControlsEl = Polymer.Base.create('habemus-device-controls', {
+    
+  });
+  var deviceControlsEl = this.deviceControlsEl;
 
   /**
    * Iframe element
@@ -58,11 +67,11 @@ function IframeBrowser(options) {
   var iframeEl = this.iframeEl;
 
   /**
-   * Setup event listeners
+   * Browser control events
    */
-  controlsEl.addEventListener('location-changed', function (e) {
+  browserControlsEl.addEventListener('location-changed', function (e) {
 
-    var location = controlsEl.get('location');
+    var location = browserControlsEl.get('location');
 
     location = (!location || location === '/') ? '/index.html' : location;
 
@@ -73,19 +82,26 @@ function IframeBrowser(options) {
 
   }.bind(this));
 
-  controlsEl.addEventListener('refresh', function (e) {
+  browserControlsEl.addEventListener('refresh', function (e) {
 
     // http://stackoverflow.com/questions/86428/whats-the-best-way-to-reload-refresh-an-iframe-using-javascript
     this.iframeEl.src += '';
 
   }.bind(this));
 
-  controlsEl.addEventListener('close-intent', function (e) {
+  browserControlsEl.addEventListener('close-intent', function (e) {
     this.habemusStructure.setMode('LC');
   }.bind(this));
-
-  controlsEl.addEventListener(
+  
+  /**
+   * Device control events
+   */
+  deviceControlsEl.addEventListener(
     'selected-screen-size-changed',
+    this._handleScreenSizeChange.bind(this)
+  );
+  deviceControlsEl.addEventListener(
+    'selected-screen-orientation-changed',
     this._handleScreenSizeChange.bind(this)
   );
   
@@ -98,6 +114,10 @@ function IframeBrowser(options) {
   );
   habemusStructure.addEventListener(
     'x3-changed',
+    this._handleScreenSizeChange.bind(this)
+  );
+  window.addEventListener(
+    'resize',
     this._handleScreenSizeChange.bind(this)
   );
 }
@@ -116,15 +136,15 @@ IframeBrowser.prototype.open = function (location) {
  * Control proxy methods:
  */
 IframeBrowser.prototype.goTo = function (location) {
-  this.controlsEl.goTo(location);
+  this.browserControlsEl.goTo(location);
 };
 
 IframeBrowser.prototype.goBack = function () {
-  this.controlsEl.goBack();
+  this.browserControlsEl.goBack();
 };
 
 IframeBrowser.prototype.goForward = function () {
-  this.controlsEl.goForward();
+  this.browserControlsEl.goForward();
 };
 
 /**
@@ -136,7 +156,7 @@ IframeBrowser.prototype.attach = function (containerElement) {
 
   this.containerElement = containerElement;
 
-  this.containerElement.appendChild(this.controlsEl);
+  this.containerElement.appendChild(this.browserControlsEl);
 
   // make the iframe be contained within a div element
   this.iframeContainerEl = document.createElement('div');
@@ -149,6 +169,7 @@ IframeBrowser.prototype.attach = function (containerElement) {
   // this.iframeContainerEl.style['justify-content'] = 'center';
   // this.iframeContainerEl.style['align-items'] = 'center';
   this.iframeContainerEl.appendChild(this.iframeEl);
+  this.iframeContainerEl.appendChild(this.deviceControlsEl);
 
   this.containerElement.appendChild(this.iframeContainerEl);
 };
@@ -156,29 +177,78 @@ IframeBrowser.prototype.attach = function (containerElement) {
 IframeBrowser.prototype._handleScreenSizeChange = function () {
 
   // retrieve the screen size
-  var size = this.controlsEl.get('selectedScreenSize');
+  var size = this.deviceControlsEl.get('selectedScreenSize');
+  
+  if (!size) {
+    this.presentRealScreenSize();
+    return;
+  } else {
+    // retrieve the orientation
+    // possible values are: normal and toggled
+    var orientation = this.deviceControlsEl.get('selectedScreenOrientation');
+    
+    switch (orientation) {
+      case 'normal':
+        this.emulateScreenSize({
+          width: size.width,
+          height: size.height,
+        });
+        break;
+      case 'toggled':
+        this.emulateScreenSize({
+          width: size.height,
+          height: size.width,
+        });
+        break;
+      default:
+        console.warn('unsupported screen orientation ' + orientation);
+        break;
+    }
+  }
+};
 
-  this.emulateScreenSize({
-    width: size.width,
-    height: size.height,
+/**
+ * Updates all elements to present the real screen size
+ */
+IframeBrowser.prototype.presentRealScreenSize = function () {
+  // make the iframe occupy the whole width and height
+  this.iframeEl.style['width'] = '100%';
+  this.iframeEl.style['height'] = 'calc(100% - 42px)';
+  this.iframeEl.style['transform'] = null;
+  this.iframeEl.style['transform-origin'] = null;
+  
+  this.deviceControlsEl.setControlsWidth(this.iframeEl.offsetWidth + 'px');
+  
+  this.deviceControlsEl.setDisplayData({
+    zoom: '100%',
+    width: this.iframeEl.offsetWidth,
+    height: this.iframeEl.offsetHeight,
   });
 };
 
-IframeBrowser.prototype.emulateScreenSize = function (sizes) {
+/**
+ * Emulate the given screen size
+ */
+IframeBrowser.prototype.emulateScreenSize = function (size) {
 
   // retrieve the container width and height
   var containerWidth = this.habemusStructure.get('x3') - this.habemusStructure.get('x2');
-  // 32 is the controlsEl height (set on iframe-browser.less)
+  // 40 is the browserControlsEl height (set on iframe-browser.less)
+  // 42 is the deviceControlsEl height
+  // (set on elements/device-controls/device-controls.less)
   // TODO: improve styling strategy
-  var containerHeight = this.containerElement.offsetHeight - 32;
+  var containerHeight = this.containerElement.offsetHeight - 40 - 42;
 
-  var horizontalScale = containerWidth / sizes.width;
-  var verticalScale   = containerHeight / sizes.height;
+  var horizontalScale = containerWidth / size.width;
+  var verticalScale   = containerHeight / size.height;
 
   /**
    * Use the smallest scale to resize the viewport
    */
   var scale = (horizontalScale < verticalScale) ? horizontalScale : verticalScale;
+  
+  // ensure scale is at most 1
+  scale = scale >= 1 ? 1 : scale;
   // ensure a fixed margin
   // scale = scale * 0.98;
 
@@ -194,10 +264,22 @@ IframeBrowser.prototype.emulateScreenSize = function (sizes) {
   // transform: scale(0.25);
   // transform-origin: 0 0;
 
-  this.iframeEl.style['width'] = sizes.width + 'px';
-  this.iframeEl.style['height'] = sizes.height + 'px';
+  this.iframeEl.style['width'] = size.width + 'px';
+  this.iframeEl.style['height'] = size.height + 'px';
   this.iframeEl.style['transform'] = 'scale(' + scale + ') translateX(-50%)';
   this.iframeEl.style['transform-origin'] = '0 0';
+  
+  // update the device controls width so that it fits the actual iframe's width
+  // (after scaling)
+  var deviceControlsWidth = size.width * scale;
+  this.deviceControlsEl.setControlsWidth(deviceControlsWidth + 'px');
+  
+  // update the deviceControl's displayData
+  this.deviceControlsEl.setDisplayData({
+    zoom: parseInt(scale * 100, 10) + '%',
+    width: size.width,
+    height: size.height,
+  });
 };
 
 
