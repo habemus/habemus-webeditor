@@ -56,7 +56,7 @@ module.exports = function (habemus, options) {
       left: rect.left,
       top: rect.bottom + 3,
     };
-
+    
     menu.menuOpenWithContext({}, position);
   });
 };
