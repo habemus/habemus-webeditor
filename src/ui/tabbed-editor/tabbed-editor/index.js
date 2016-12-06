@@ -50,6 +50,11 @@ function TabbedEditor(options) {
     hDev: this.hDev,
     ace: this.ace,
   });
+  
+  // propagate editorManager events
+  this.editorManager.on('editor:contextmenu', function (data) {
+    this.emit('editor:contextmenu', data);
+  }.bind(this));
 
   // listen for resizing events on the structure
   // and notify the tabbedEditor
@@ -249,6 +254,7 @@ TabbedEditor.prototype.viewFile = function (filepath) {
     focus: true
   })
   .then(function (fileEditor) {
+    
     // set the active filepath manually
     // as this operation does not modify tab selection
     this._setActiveFilepath(filepath);

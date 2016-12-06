@@ -22,6 +22,12 @@
       },
     },
     
+    observers: [
+      // array mutation observers
+      // https://www.polymer-project.org/1.0/docs/devguide/observers
+      '_handleTabsAddedOrRemoved(tabs.splices)'
+    ],
+    
     /**
      * If there are tabs defined, validate them
      */
@@ -240,6 +246,16 @@
      */
     _handleTabsDblclick: function (e) {
       this.fire('create-intention');
+    },
+    
+    /**
+     * 
+     */
+    _handleTabsAddedOrRemoved: function (e) {
+      // TODO:
+      // check if there are tabs that have the same name
+      // if so, add a descriptor to each of the tabs that have
+      // the same file name
     },
     
     /**

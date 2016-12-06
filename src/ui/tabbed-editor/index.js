@@ -27,6 +27,20 @@ module.exports = function (habemus, options) {
     localStorage: habemus.services.projectConfigStorage,
     habemusStructure: habemus.ui.structure,
   });
+  
+  var editorMenu = require('./editor-menu')(habemus, options);
+
+  // the context menu can only be instantiated here, as this script is
+  // the only one with full access to both file tree and tabbedEditor
+  // TODO: study if this is the best implementation
+  tabbedEditor.on('editor:contextmenu', function (data) {
+    var position = {
+      left: data.event.clientX,
+      top: data.event.clientY
+    };
+    
+    editorMenu.menuOpenWithContext(data.fileEditor, position);
+  });
 
   tabbedEditor.attach(document.querySelector('#tabbed-editor'));
 
