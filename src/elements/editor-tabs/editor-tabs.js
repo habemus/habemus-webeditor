@@ -236,6 +236,7 @@
 
       var item = e.model.item;
 
+      // TODO: normalize event names
       this.fire('close-intention', {
         item: item,
       });
@@ -245,6 +246,7 @@
      * Emits the 'create-intention' event
      */
     _handleTabsDblclick: function (e) {
+      // TODO: normalize event names
       this.fire('create-intention');
     },
     
@@ -256,6 +258,18 @@
       // check if there are tabs that have the same name
       // if so, add a descriptor to each of the tabs that have
       // the same file name
+    },
+    
+    /**
+     * Handles tab context menu events
+     * simply pass them onto the external world.
+     */
+    _handleTabContextmenu: function (e) {
+      // TODO: normalize event names
+      this.fire('tab:contextmenu', {
+        item: e.model.item,
+        event: e,
+      });
     },
     
     /**

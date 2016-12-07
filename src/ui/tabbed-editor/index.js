@@ -28,6 +28,9 @@ module.exports = function (habemus, options) {
     habemusStructure: habemus.ui.structure,
   });
   
+  /**
+   * Editor context menu
+   */
   var editorMenu = require('./editor-menu')(habemus, options);
 
   // the context menu can only be instantiated here, as this script is
@@ -47,6 +50,25 @@ module.exports = function (habemus, options) {
   
   tabbedEditor.on('editor:focus', function (data) {
     // habemus.ui.fileTree.uiSelect(data.fileEditor.filepath);
+  });
+  
+  /**
+   * Tab context menu
+   */
+  var tabMenu = require('./tab-menu')(habemus, options);
+  
+  tabbedEditor.on('tab:contextmenu', function (data) {
+    
+    data.event.preventDefault();
+    
+    console.log(data.event);
+    
+    var position = {
+      left: data.event.clientX,
+      top: data.event.clientY
+    };
+    
+    tabMenu.menuOpenWithContext(data.tab, position);
   });
 
   tabbedEditor.attach(document.querySelector('#tabbed-editor'));

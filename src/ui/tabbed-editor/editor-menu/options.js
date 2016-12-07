@@ -25,7 +25,7 @@ module.exports = function (habemus, options) {
       }
     },
     {
-      label: 'reveal in sidebar',
+      label: 'show in sidebar',
       callback: function (data) {
         data.menuElement.close();
         
@@ -37,15 +37,30 @@ module.exports = function (habemus, options) {
         }
         
         return habemus.ui.fileTree.revealPath(data.context.filepath).then(function () {
-          console.log('revealed');
+          console.log('sidebar shown');
         });
       },
     },
+    {
+      label: 'show in preview',
+      callback: function (data) {
+        data.menuElement.close();
+
+        habemus.ui.iframeBrowser.open(data.context.filepath);
+      },
+    },
+    // {
+    //   label: 'show in new tab',
+    //   type: 'url',
+    //   target: '_blank',
+    //   url: function (data) {
+    //     return habemus.services.hDev.projectRootURL + data.context.filepath;
+    //   },
+    //   callback: function (data) {
+    //     data.menuElement.close();
+    //   },
+    // },
   ];
   
-  var editorMenu = document.createElement('hab-context-menu');
-  editorMenu.set('options', EDITOR_MENU_OPTIONS);
-  document.body.appendChild(editorMenu);
-  
-  return editorMenu;
+  return EDITOR_MENU_OPTIONS;
 };

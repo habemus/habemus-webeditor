@@ -99,6 +99,15 @@ function TabbedEditor(options) {
     this._lsSaveSessionData('tabs', tabs);
     
   }.bind(this));
+  
+  this.tabsEl.addEventListener('tab:contextmenu', function (e) {
+    
+    this.emit('tab:contextmenu', {
+      tab: e.detail.item,
+      event: e.detail.event,
+    });
+    
+  }.bind(this));
 
   // read last session's data from localstorage
   // and restore it
