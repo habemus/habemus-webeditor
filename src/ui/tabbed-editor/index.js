@@ -34,6 +34,9 @@ module.exports = function (habemus, options) {
   // the only one with full access to both file tree and tabbedEditor
   // TODO: study if this is the best implementation
   tabbedEditor.on('editor:contextmenu', function (data) {
+    
+    data.event.preventDefault();
+    
     var position = {
       left: data.event.clientX,
       top: data.event.clientY

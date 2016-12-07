@@ -1,41 +1,24 @@
 module.exports = function (habemus, options) {
+
+  /**
+   * Shortcut for translate fn
+   */
+  const _t = habemus.services.language.t;
   
   var MENU_OPTIONS = [
     {
-      label: 'test',
+      label: 'close side bar',
       callback: function (data) {
         data.menuElement.close();
         
-        alert('test!');
+        habemus.ui.structure.collapse('left');
       },
     },
-    {
-      label: 'menu',
-      callback: function (data) {
-        data.menuElement.close();
-        
-        alert('menu!')
-      }
-    },
-    {
-      label: 'sub-menu',
-      type: 'submenu',
-      options: [
-        {
-          label: 'submenu 1',
-          callback: function (data) {
-            data.menuElement.close();
-          }
-        },
-        {
-          label: 'submenu 2',
-          callback: function (data) {
-            data.menuElement.close();
-          }
-        }
-      ],
-    }
   ];
+  
+  if (Array.isArray(habemus.services.config.projectMenuOptions)) {
+    MENU_OPTIONS = MENU_OPTIONS.concat(habemus.services.config.projectMenuOptions);
+  }
   
   var menu = document.createElement('hab-context-menu');
   menu.set('options', MENU_OPTIONS);
