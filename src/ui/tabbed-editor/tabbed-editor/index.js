@@ -52,9 +52,14 @@ function TabbedEditor(options) {
   });
   
   // propagate editorManager events
-  this.editorManager.on('editor:contextmenu', function (data) {
-    this.emit('editor:contextmenu', data);
-  }.bind(this));
+  this.editorManager.on(
+    'editor:contextmenu',
+    this.emit.bind(this, 'editor:contextmenu')
+  );
+  this.editorManager.on(
+    'editor:focus',
+    this.emit.bind(this, 'editor:focus')
+  );
 
   // listen for resizing events on the structure
   // and notify the tabbedEditor

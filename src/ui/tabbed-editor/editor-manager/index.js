@@ -109,6 +109,13 @@ EditorManager.prototype.createEditor = function (editorOptions) {
       event: e,
     });
   }.bind(this));
+  
+  fileEditor.aceEditor.on('focus', function (e) {
+    this.emit('editor:focus', {
+      fileEditor: fileEditor,
+      event: e,
+    });
+  }.bind(this));
 
   ////////////////////////
   // STYLES AND OPTIONS //

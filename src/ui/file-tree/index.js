@@ -45,14 +45,14 @@ module.exports = function (habemus, options) {
     tabbedEditor.viewFile(data.model.path);
   });
   tabbedEditor.on('active-filepath-changed', function (current, previous) {
-
-    if (tree.rootModel.getNodeByPath(current)) {
-
+    try {
       // if the current filepath is in the tree
       // mark it as selected and deselect all others
       tree.uiSelect(current, {
         clearSelection: true
       });
+    } catch (e) {
+      // discard error. probably the node is not in the tree
     }
   });
   

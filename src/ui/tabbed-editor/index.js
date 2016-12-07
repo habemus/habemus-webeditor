@@ -44,6 +44,10 @@ module.exports = function (habemus, options) {
     
     editorMenu.menuOpenWithContext(data.fileEditor, position);
   });
+  
+  tabbedEditor.on('editor:focus', function (data) {
+    // habemus.ui.fileTree.uiSelect(data.fileEditor.filepath);
+  });
 
   tabbedEditor.attach(document.querySelector('#tabbed-editor'));
 
