@@ -50,6 +50,16 @@ function TabbedEditor(options) {
     hDev: this.hDev,
     ace: this.ace,
   });
+  
+  // propagate editorManager events
+  this.editorManager.on(
+    'editor:contextmenu',
+    this.emit.bind(this, 'editor:contextmenu')
+  );
+  this.editorManager.on(
+    'editor:focus',
+    this.emit.bind(this, 'editor:focus')
+  );
 
   // listen for resizing events on the structure
   // and notify the tabbedEditor
@@ -87,6 +97,15 @@ function TabbedEditor(options) {
 
     var tabs = this.tabsEl.get('tabs');
     this._lsSaveSessionData('tabs', tabs);
+    
+  }.bind(this));
+  
+  this.tabsEl.addEventListener('tab:contextmenu', function (e) {
+    
+    this.emit('tab:contextmenu', {
+      tab: e.detail.item,
+      event: e.detail.event,
+    });
     
   }.bind(this));
 
@@ -249,6 +268,7 @@ TabbedEditor.prototype.viewFile = function (filepath) {
     focus: true
   })
   .then(function (fileEditor) {
+    
     // set the active filepath manually
     // as this operation does not modify tab selection
     this._setActiveFilepath(filepath);

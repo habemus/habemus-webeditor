@@ -8,8 +8,8 @@
   background-color: @editor-tabs-background-color;
 
   width: 100%;
-
-  overflow: hidden;
+  
+  overflow: auto;
 
   display: flex;
   flex-direction: row;
@@ -36,7 +36,13 @@
   // tab default width
   // this will be modified in javascript
   // as more tabs are added and space is scarce
-  width: 120px;
+  // width: 120px;
+  // TODO: study flex-shrink, flex-basis, flex-grow behaviors
+  flex-grow: 1;
+  min-width: 100px;
+  max-width: 250px;
+  flex-basis: content;
+  flex-shrink: 0.5;
 
   // margin-right: 1px;
 
@@ -153,6 +159,11 @@
   }
 }
 
+#empty-placeholder {
+  border-bottom: 1px solid @panel-stroke-color;
+  flex-grow: 1;
+}
+
 .tab.dragging {
   opacity: 0.3;
 }
@@ -204,11 +215,6 @@
   overflow: hidden;
   white-space: pre;
   text-overflow: ellipsis;
-}
-
-#empty-placeholder {
-  border-bottom: 1px solid @panel-stroke-color;
-  flex-grow: 1;
 }
 
 // spin animation

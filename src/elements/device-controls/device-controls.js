@@ -80,6 +80,7 @@
       selectedScreenSize: {
         type: Object,
         notify: true,
+        value: null,
         // value: {
         //   label: 'iPhone 5',
         //   width: 320,
@@ -113,7 +114,7 @@
     },
     
     _hasMultipleScreenOrientations: function (screenSize) {
-      return screenSize && screenSize.orientations.length > 1;
+      return this.selectedScreenSize && screenSize && screenSize.orientations.length > 1;
     },
 
     _isScreenSizeSelected: function (screenSize) {

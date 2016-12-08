@@ -660,7 +660,32 @@
     },
     
     collapse: function (panel) {
-      console.warn('collapse not implemented');
+      switch (panel) {
+        case 'left':
+          
+          if (this.get('isOpenL')) {
+            // make the transition animated
+            this._temporarilyAnimatePanels(300);
+            
+            this.set('x1', 40);
+            this.set('statusL', PANEL_STATUSES.COLLAPSED);
+            
+            // TODO: MUST UPDATE THE CENTER PANEL STATUS AS WELL
+          } else {
+            console.warn('left panel is CLOSED');
+          }
+          
+          break;
+        case 'center':
+          console.warn('collapse center not implemented');
+          break;
+        case 'right':
+          console.warn('collapse right not implemented');
+          break;
+        default:
+          console.warn('unsupported panel ' + panel);
+          break;
+      }
     },
     
     uncollapse: function (panel) {

@@ -1,6 +1,7 @@
 // native
 const util         = require('util');
 const EventEmitter = require('events');
+const url          = require('url');
 
 const STARTING_SLASH_RE = /^\//;
 const TRAILING_SLASH_RE = /\/$/;
@@ -44,9 +45,7 @@ function IframeBrowser(options) {
    * @type {DOMElement}
    */
   this.browserControlsEl = Polymer.Base.create('habemus-browser-controls', {
-    computeLocationURL: function (location) {
-      return _joinPaths(this.hDev.projectRootURL, location);
-    }.bind(this),
+    computeLocationURL: this.computeLocationURL.bind(this),
   });
   var browserControlsEl = this.browserControlsEl;
 
@@ -70,16 +69,8 @@ function IframeBrowser(options) {
    * Browser control events
    */
   browserControlsEl.addEventListener('location-changed', function (e) {
-
     var location = browserControlsEl.get('location');
-
-    location = (!location || location === '/') ? '/index.html' : location;
-
-    var fullLocation = _joinPaths(this.hDev.projectRootURL, location);
-
-    // update the iframe's src and the newTabAnchor's href
-    this.iframeEl.setAttribute('src', fullLocation);
-
+    this.setIframeSrc(location);
   }.bind(this));
 
   browserControlsEl.addEventListener('refresh', function (e) {
@@ -91,6 +82,7 @@ function IframeBrowser(options) {
 
   browserControlsEl.addEventListener('close-intent', function (e) {
     this.habemusStructure.setMode('LC');
+    this.iframeEl.setAttribute('src', '');
   }.bind(this));
   
   /**
@@ -126,10 +118,42 @@ util.inherits(IframeBrowser, EventEmitter);
 
 IframeBrowser.prototype.open = function (location) {
   this.habemusStructure.setMode('LCR');
-
-  if (typeof location === 'string') {
+  
+  var currentLocation = this.browserControlsEl.get('location');
+  
+  if (typeof location === 'string' && location !== currentLocation) {
     this.goTo(location);
+  } else {
+    // open the iframe in the current location
+    this.setIframeSrc(currentLocation);
   }
+};
+
+/**
+ * Parses the location to check which type of location it is:
+ *   - absolute if it has a protocol
+ *   - relative if it has no protocol
+ */
+IframeBrowser.prototype.computeLocationURL = function (location) {
+  location = (!location || location === '/') ? '/index.html' : location;
+  
+  var locationType = url.parse(location).protocol ? 'absolute' : 'relative';
+  
+  // if there is a protocol, use the location directly
+  var absoluteLocation = locationType === 'absolute' ?
+    location : _joinPaths(this.hDev.projectRootURL, location);
+    
+  return absoluteLocation;
+}
+
+/**
+ * Parses the location into an absolute url and sets the iframe `src` attribute to the location.
+ */
+IframeBrowser.prototype.setIframeSrc = function (location) {
+  var absoluteLocation = this.computeLocationURL(location);
+
+  // update the iframe's src and the newTabAnchor's href
+  this.iframeEl.setAttribute('src', absoluteLocation);
 };
 
 /**

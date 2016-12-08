@@ -1,4 +1,5 @@
 // native dependencies
+const util         = require('util');
 const EventEmitter = require('events');
 
 // third-party dependencies
@@ -47,6 +48,8 @@ function EditorManager(options) {
   this._setCleanUpInterval(CLEAN_UP_INTERVAL);
 }
 
+util.inherits(EditorManager, EventEmitter);
+
 /**
  * Editors may be flagged as temporary.
  * Temporary editors are cleaned up in the cleanup interval.
@@ -86,7 +89,7 @@ EditorManager.prototype.attach = function (containerElement) {
  * 
  * Flags the editor's persistence
  */
-EditorManager.prototype.createEditor = function (persistent) {
+EditorManager.prototype.createEditor = function (editorOptions) {
   // create an element for the editor
   var editorEl = document.createElement('div');
   editorEl.style.height = '100%';
@@ -97,6 +100,22 @@ EditorManager.prototype.createEditor = function (persistent) {
     editorEl,
     this.hDev
   );
+
+  /////////////////////
+  // EVENT LISTENERS //
+  editorEl.addEventListener('contextmenu', function (e) {
+    this.emit('editor:contextmenu', {
+      fileEditor: fileEditor,
+      event: e,
+    });
+  }.bind(this));
+  
+  fileEditor.aceEditor.on('focus', function (e) {
+    this.emit('editor:focus', {
+      fileEditor: fileEditor,
+      event: e,
+    });
+  }.bind(this));
 
   ////////////////////////
   // STYLES AND OPTIONS //
@@ -124,7 +143,7 @@ EditorManager.prototype.createEditor = function (persistent) {
   
   // set the persistence flag
   // by default the editor is not persistent
-  fileEditor.persistent = persistent || false;
+  fileEditor.persistent = editorOptions.persistent || false;
   
   // set the creation timestamp onto the fileEditor
   fileEditor.createdAt = Date.now();
@@ -164,7 +183,10 @@ EditorManager.prototype.openEditor = function (filepath, options) {
   } else {
 
     // create a new editor
-    editor = this.createEditor(options.persistent);
+    editor = this.createEditor({
+      filepath: filepath,
+      persistent: options.persistent
+    });
 
     return editor.load(filepath)
       .then(function () {
