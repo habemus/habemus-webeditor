@@ -139,48 +139,36 @@
   background-color: @file-tree-color;
 }
 
+
 /**
  * Scroll bar
  * doc from https://css-tricks.com/custom-scrollbars-in-webkit/
  */
 #left-panel-body::-webkit-scrollbar{
   width: 8px;
+  height: 8px;
 }
 
 #left-panel-body::-webkit-scrollbar-track {
-  background-color: @file-tree-color;
+  /* background-color: @file-tree-color; */
+  background-color: transparent;
 }
  
 #left-panel-body::-webkit-scrollbar-thumb {
   background-color: #6d6d6d;
   width: 4px;
   border: 2px solid @file-tree-color;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 #left-panel-body::-webkit-scrollbar-corner {
   background-color: @file-tree-color;
 }
 
-#left-panel-body::-webkit-scollbar:horizontal {
-  height: 8px;
-}
-
-#left-panel-body::-webkit-scrollbar-thumb:horizontal {
-  background-color: #6d6d6d;
-  height: 4px;
-  border: 2px solid @file-tree-color;
-  border-radius: 4px;
-}
- 
-
-
 #left-panel-body #file-tree-container {
   /* required for the active highligther element to follow scrolling */
   position: relative;
-  
   padding-left: 8px;
-  
   transition: opacity .1s ease;
 }
 
