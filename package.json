@@ -2,7 +2,7 @@
   "name": "habemus-editor-v2",
   "version": "1.0.0-alpha.10",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +28,7 @@
     "brfs": "^1.4.3",
     "browser-sync": "^2.13.0",
     "browserify": "^13.0.1",
+    "electron-packager": "^8.3.0",
     "electron-prebuilt": "^1.2.5",
     "envify": "^3.4.1",
     "fs-extra": "^0.30.0",
@@ -56,5 +57,6 @@
     "strictify": "^0.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "productName": "habemus"
 }

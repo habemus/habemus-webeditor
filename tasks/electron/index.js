@@ -13,4 +13,6 @@ module.exports = function (gulp, $, config) {
     // spawn electron
     var child = proc.spawn(electron, ['environments/electron/main.js']);
   });
+  
+  require('./distribute')(gulp, $, config);
 }
