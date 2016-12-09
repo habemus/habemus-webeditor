@@ -21,14 +21,6 @@ module.exports = function (gulp, $, config) {
   
   gulp.task('electron:copy-env', function () {
     return gulp.src('environments/electron/**/*')
-      // .pipe(
-      //   $.if(
-      //     function isElectronMain(file) {
-      //       return file.path === path.join(__dirname, '../../environments/electron/main.js');
-      //     },
-      //     $.replace('../../src/index.electron.html', 'index.html')
-      //   )
-      // )
       .pipe(gulp.dest(ELECTRON_TMP_DIR + '/environments/electron'));
   });
   
@@ -41,17 +33,7 @@ module.exports = function (gulp, $, config) {
         '!src/index.browser-cloud.html',
         '!src/index.browser-sw.html',
         '!src/index.browser-cloud-bundle.js',
-      ], {
-        // base: 'src',
-      })
-      // .pipe(
-      //   $.if(
-      //     function isIndexHTML(file) {
-      //       return file.path === path.join(__dirname, '../../src/index.electron.html');
-      //     },
-      //     $.rename('index.html')
-      //   )
-      // )
+      ])
       .pipe(gulp.dest(ELECTRON_TMP_DIR + '/src'))
   });
   
@@ -98,6 +80,8 @@ module.exports = function (gulp, $, config) {
   });
 
   gulp.task('electron:distribute', function () {
+    
+    fse.emptyDirSync(ELECTRON_TMP_DIR);
     
     return runSequence(
       'electron:copy',

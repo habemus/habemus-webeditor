@@ -11,7 +11,11 @@ module.exports = function (gulp, $, config) {
     gulp.watch(config.srcDir + '/**/*.less', ['less']);
 
     // spawn electron
-    var child = proc.spawn(electron, ['environments/electron/main.js']);
+    var child = proc.spawn(electron, ['environments/electron/main.js'], {
+      env: {
+        NODE_ENV: 'development',
+      }
+    });
   });
   
   require('./distribute')(gulp, $, config);

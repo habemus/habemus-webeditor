@@ -27,8 +27,10 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + path.join(__dirname, '../../src/index.electron.html'))
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // Open the DevTools if in development
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -36,6 +38,8 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
+    
+    process.exit(0);
   });
 
   // a[target="_blank"]
