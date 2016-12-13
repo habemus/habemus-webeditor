@@ -81,6 +81,7 @@ exports.createEditorBrowserifyPipe = function (options) {
 
         ACE_BASE_PATH: '/static/editor',
         LANGUAGES_BASE_URL: process.env.LANGUAGES_BASE_URL,
+        DEMO_MODE: process.env.DEMO_MODE,
       }),
       strictify,
     ],
