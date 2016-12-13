@@ -97,6 +97,15 @@ module.exports = function (gulp, $, config) {
   });
 
   /**
+   * Copies over language files
+   * TODO: generalize copy-resources
+   */
+  gulp.task('browser-cloud:copy-images', function () {
+    return gulp.src(config.srcDir + '/resources/img/**/*')
+      .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR + '/img'));
+  });
+
+  /**
    * Copies browser required editor resources over to the temporary directory
    */
   gulp.task('browser-cloud:tmp-resources', ['less'], function () {
@@ -144,11 +153,28 @@ module.exports = function (gulp, $, config) {
       }))
       .pipe($.crisper())
       // .pipe($.if('index.browser-cloud.js', $.stripDebug()))
-      .pipe($.if('index.browser-cloud.js', $.uglify().on('error', function (err) {
-        console.warn(err);
-      })))
+      .pipe($.if(
+        'index.browser-cloud.js',
+        $.uglify().on('error', function (err) {
+          console.warn(err);
+        })
+      ))
       // move static resources
-      .pipe($.if('index.browser-cloud.html', $.replace('index.browser-cloud.js', '/static/editor/index.browser-cloud.js')))
+      // TODO: improve replacing strategy
+      .pipe($.if(
+        'index.browser-cloud.html',
+        $.replace(
+          'index.browser-cloud.js',
+          '/static/editor/index.browser-cloud.js'
+        )
+      ))
+      .pipe($.if(
+        'index.browser-cloud.html',
+        $.replace(
+          'src="resources/',
+          'src="/static/editor/'
+        )
+      ))
       // rename index.html file
       .pipe($.if('index.browser-cloud.html', $.rename('index.html')))
       .pipe($.size({
@@ -183,7 +209,8 @@ module.exports = function (gulp, $, config) {
     runSequence([
       'browser-cloud:polybuild-editor',
       'browser-cloud:copy-ace',
-      'browser-cloud:copy-languages'
+      'browser-cloud:copy-languages',
+      'browser-cloud:copy-images'
     ])
   });
 };
