@@ -1,41 +1,53 @@
+@import '../../less/variables.less';
+
+:host {
+  top: 0;
+}
+
 #dialog {
   background-color: white;
 
-  min-width: 200px;
+  min-width: 250px;
+  max-width: 600px;
 
-  padding: 30px;
+  padding: 20px;
 }
 
 #dialog h1 {
   color: black;
-  margin: 0 0;
+  margin: 0 0 15px 0;
 }
 
 #dialog p {
-  margin: 0 0;
+  margin: 0 0 15px 0;
 }
 
 #dialog #controls {
   height: 40px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 }
 
 #dialog #controls button {
-  background-color: skyblue;
+  background-color: @dialogs-neutral-color;
+  
   border: none;
-
   outline: none;
+  
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-right: 10px;
+}
 
-  height: 30px;
-
-  margin-left: 5px;
+#dialog #controls button.primary {
+  background-color: @dialogs-primary-color;
 }
 
 #dialog #controls button:hover {
-  background-color: yellow;
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 #dialog #controls button:active {

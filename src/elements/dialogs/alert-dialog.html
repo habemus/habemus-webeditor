@@ -14,7 +14,9 @@
   <template>
     <div id="dialog" mode$="[[ mode ]]">
       <header>
-        <h1>[[ title ]]</h1>
+        <template is="dom-if" if="[[ title ]]">
+          <h1>[[ title ]]</h1>
+        </template>
       </header>
 
       <section id="body">
@@ -27,7 +29,9 @@
 
           https://github.com/Polymer/TemplateBinding/issues/57
         -->
-        <p inner-h-t-m-l="[[ message ]]"></p>
+        <template is="dom-if" if="[[ message ]]">
+          <p inner-h-t-m-l="[[ message ]]"></p>
+        </template>
       </section>
 
       <section id="controls">

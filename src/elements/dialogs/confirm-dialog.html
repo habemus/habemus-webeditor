@@ -6,24 +6,35 @@
   <style include="dialog-styles"></style>
 
   <style type="text/css">
-    #dialog {
-      
-    }
+  
   </style>
 
   <template>
     <div id="dialog">
       <header>
-        <h1>[[ title ]]</h1>
+        <template is="dom-if" if="[[ title ]]">
+          <h1>[[ title ]]</h1>
+        </template>
       </header>
 
       <section id="body">
-        <p>[[ message ]]</p>
+        <template is="dom-if" if="[[ message ]]">
+          <p>[[ message ]]</p>
+        </template>
       </section>
 
       <section id="controls">
-        <button id="confirm" dialog-confirm>[[ confirmMessage ]]</button>
-        <button id="cancel" on-tap="cancel">[[ cancelMessage ]]</button>
+        <button
+          id="cancel"
+          on-tap="cancel">
+          [[ cancelMessage ]]
+        </button>
+        <button
+          id="confirm"
+          class="primary"
+          dialog-confirm>
+          [[ confirmMessage ]]
+        </button>
       </section>
     </div>
   </template>

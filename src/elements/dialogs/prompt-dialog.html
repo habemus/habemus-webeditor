@@ -6,8 +6,18 @@
   <style include="dialog-styles"></style>
 
   <style type="text/css">
-    #dialog {
+  
+    /**
+     * Styles of the input are very specific to the 
+     * prompt dialog
+     */
+    #input {
+      margin-bottom: 20px;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
       
+      font-size: 14px;
     }
   </style>
 
@@ -15,17 +25,32 @@
     <div id="dialog">
       <form on-submit="_handleFormSubmit">
         <header>
-          <h1>[[ title ]]</h1>
+          <template is="dom-if" if="[[ title ]]">
+            <h1>[[ title ]]</h1>
+          </template>
         </header>
 
         <section id="body">
-          <p>[[ message ]]</p>
+          <template is="dom-if" if="[[ message ]]">
+            <p>[[ message ]]</p>
+          </template>
+          
           <input id="input" type="text" value="{{ value::input }}">
+          
         </section>
 
         <section id="controls">
-          <button id="confirm" type="submit">[[ submitMessage ]]</button>
-          <button id="cancel" on-tap="_handleCancelTap">[[ cancelMessage ]]</button>
+          <button
+            id="cancel"
+            on-tap="_handleCancelTap">
+            [[ cancelMessage ]]
+          </button>
+          <button
+            id="confirm"
+            class="primary"
+            type="submit">
+            [[ submitMessage ]]
+          </button>
         </section>
       </form>
     </div>
