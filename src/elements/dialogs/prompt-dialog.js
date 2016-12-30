@@ -110,7 +110,10 @@
       }
 
       if (e.detail.canceled) {
-        this._defer.reject(e.detail);
+        
+        var error = new Error();
+        Object.assign(error, e.detail);
+        this._defer.reject(error);
       } else {
         this._defer.resolve(this.get('value'));
       }

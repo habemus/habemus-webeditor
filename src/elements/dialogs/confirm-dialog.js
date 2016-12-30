@@ -42,7 +42,7 @@
      * prevent cancelling on clicking outside the dialgo
      * @type {Boolean}
      */
-    noCancelOnOutsideClick: true,
+    noCancelOnOutsideClick: false,
 
     ready: function () {
       this.addEventListener('iron-overlay-closed', this._handleOverlayClosed.bind(this));
@@ -72,7 +72,7 @@
 
       setTimeout(function () {
         this.$.confirm.focus();
-      }.bind(this), 0)
+      }.bind(this), 50)
 
       return this._defer.promise;
     },

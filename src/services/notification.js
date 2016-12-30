@@ -7,6 +7,9 @@ module.exports = function (habemus, options) {
    * Loading toast.
    * Used for displaying data about loading statuses.
    * 
+   * TODO: possible loading toast api improvement:
+   * take a promise as argument and auto hide upon error or success
+   * 
    * @type {DOMElement}
    */
   var loadingToast = Polymer.Base.create('paper-toast', {});

@@ -16,7 +16,9 @@
       "copy-path": "copy file path",
       "open-in-new-tab": "open in new tab",
 
-      "error-moving": "Error moving '%{fileName}'"
+      "error-moving": "Error moving '%{fileName}'",
+      
+      "copy-path-success": "Copied '%{path}'"
     },
     "directory": {
       "new": "new directory",
@@ -30,7 +32,9 @@
       "upload-directory": "upload directory",
 
       "error-reading": "Error reading '%{directoryName}'",
-      "error-moving": "Error moving '%{directoryName}'"
+      "error-moving": "Error moving '%{directoryName}'",
+      
+      "copy-path-success": "Copied '%{path}'"
     },
     "upload": {
       "reading-file": "Reading '%{fileName}' ...",
