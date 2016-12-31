@@ -1,52 +1,86 @@
 {
-  "language": {
-    "reset-confirm": "Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
-  },
-
-  "happiness-tree": {
-    "file": {
-      "new": "new file",
-      "rename": "rename file",
-      "remove": "remove file",
-      "remove-confirm": "confirm remove file",
-      "duplicate": "duplicate file",
-      "duplicate-prompt": "duplicate file path",
-
-      "new-placeholder": "new file",
-      "copy-path": "copy file path",
-      "open-in-new-tab": "open in new tab",
-
-      "error-moving": "Error moving '%{fileName}'",
-      
-      "copy-path-success": "Copied '%{path}'"
-    },
-    "directory": {
-      "new": "new directory",
-      "rename": "rename directory",
-      "remove": "remove directory",
-      "remove-confirm": "confirm remove directory",
-
-      "new-placeholder": "new directory",
-      "copy-path": "copy directory path",
-      "upload-file": "upload file",
-      "upload-directory": "upload directory",
-
-      "error-reading": "Error reading '%{directoryName}'",
-      "error-moving": "Error moving '%{directoryName}'",
-      
-      "copy-path-success": "Copied '%{path}'"
-    },
-    "upload": {
-      "reading-file": "Reading '%{fileName}' ...",
-      "uploading-file": "Uploading '%{fileName}' ...",
-      "succeeded": "'%{fileName}' successfully uploaded.",
-      "failed": "Upload of file '%{fileName}' failed: %{errorName}",
-      "error-missing-file-name": "Could not identify the name of the selected file.",
-      "error-max-size-exceeded": "The file '%{fileName}' exeeds the max upload size (%{maxSize}).",
-      "all-files-succeeded": "All files successfully uploaded"
-    }
-  },
   "file-tree-menu": {
     "preview": "open in iframe"
+  },
+  "happiness-tree": {
+    "directory": {
+      "copy-path": "copy directory path",
+      "copy-path-success": "Copied '%{path}'",
+      "error-moving": "Error moving '%{directoryName}'",
+      "error-reading": "Error reading '%{directoryName}'",
+      "move-loading": "Moving ...",
+      "new": "new directory",
+      "new-error": {
+        "empty-name": "Directory name must not be empty",
+        "general": "Unknown error creating directory"
+      },
+      "new-loading": "Creating directory",
+      "new-placeholder": "new directory",
+      "remove": "remove directory",
+      "remove-confirm": "confirm remove directory",
+      "remove-error": {
+        "general": "Unknown error removing directory"
+      },
+      "remove-loading": "Removing directory",
+      "remove-success": "Directory removed",
+      "rename": "rename directory",
+      "rename-error": {
+        "empty-name": "Directory name must not be empty",
+        "general": "Unknown error renaming directory",
+        "path-exists": "Path to the renamed directory already exists"
+      },
+      "rename-loading": "Renaming ...",
+      "rename-success": "Renamed",
+      "upload-directory": "upload directory",
+      "upload-file": "upload file"
+    },
+    "file": {
+      "copy-path": "copy file path",
+      "copy-path-success": "Copied '%{path}'",
+      "duplicate": "duplicate file",
+      "duplicate-error": {
+        "general": "Unknown error duplicating file"
+      },
+      "duplicate-loading": "Duplicating ...",
+      "duplicate-prompt": "duplicate file path",
+      "duplicate-success": "Duplicated",
+      "error-moving": "Error moving '%{fileName}'",
+      "move-loading": "Moving ...",
+      "new": "new file",
+      "new-error": {
+        "empty-name": "File name must not be empty",
+        "general": "Unknown error creating new file"
+      },
+      "new-loading": "Creating file",
+      "new-placeholder": "new file",
+      "open-in-new-tab": "open in new tab",
+      "remove": "remove file",
+      "remove-confirm": "confirm remove file",
+      "remove-error": {
+        "general": "Unknown error removing file"
+      },
+      "remove-loading": "Removing ...",
+      "remove-success": "Removed",
+      "rename": "rename file",
+      "rename-error": {
+        "empty-name": "File name must not be empty",
+        "general": "Unknown error renaming file",
+        "path-exists": "File exists"
+      },
+      "rename-loading": "Renaming ...",
+      "rename-success": "Renamed"
+    },
+    "upload": {
+      "all-files-succeeded": "All files successfully uploaded",
+      "error-max-size-exceeded": "The file '%{fileName}' exeeds the max upload size (%{maxSize}).",
+      "error-missing-file-name": "Could not identify the name of the selected file.",
+      "failed": "Upload of file '%{fileName}' failed: %{errorName}",
+      "reading-file": "Reading '%{fileName}' ...",
+      "succeeded": "'%{fileName}' successfully uploaded.",
+      "uploading-file": "Uploading '%{fileName}' ..."
+    }
+  },
+  "language": {
+    "reset-confirm": "Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
   }
 }

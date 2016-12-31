@@ -14,6 +14,7 @@ const config = require('./tasks/config');
  * Load environment-agnostic gulp tasks
  */
 require('./tasks/less')(gulp, $, config);
+require('./tasks/i18n')(gulp, $, config);
 
 /**
  * Load environment-specific gulp tasks
