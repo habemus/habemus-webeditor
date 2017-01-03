@@ -56,8 +56,18 @@ new Bluebird(function (resolve, reject) {
     })
     .then(function () {
 
-      // dev: set structure mode to LCR
-      // habemus.ui.structure.setMode('LCR');
+      // After everything is set up,
+      // check whether the project has an '/index.html' file.
+      // If so, open it.
+      return habemus.services.hDev.pathExists('/index.html')
+        .then(function (exists) {
+          
+          if (exists) {
+            habemus.ui.iframeBrowser.open('/index.html');
+            habemus.ui.tabbedEditor.viewFile('/index.html');
+          }
+          
+        });
 
     });
 });
