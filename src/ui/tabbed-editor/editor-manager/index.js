@@ -135,6 +135,27 @@ EditorManager.prototype.createEditor = function (editorOptions) {
   fileEditor.aceEditor.setHighlightActiveLine(true);
   
   fileEditor.aceEditor.getSession().setTabSize(2);
+
+  // keyboard bindings
+  var HashHandler = this.ace.require('ace/keyboard/hash_handler').HashHandler
+  
+  // see ace/lib/ace/keyboard/textarea.js
+  var keyboardHandler = new HashHandler();
+  [
+    {
+      bindKey: {win: 'Ctrl-D', mac: 'Cmd-D'},
+      command: 'selectMoreAfter'
+    }
+  ]
+  .forEach(function (k) {
+    var bindKey = k.bindKey;
+    if (typeof bindKey === 'object') {
+      bindKey = bindKey[keyboardHandler.platform];
+    }
+    keyboardHandler.bindKey(bindKey, k.command);
+  });
+  
+  fileEditor.aceEditor.setKeyboardHandler(keyboardHandler);
   // STYLES AND OPTIONS //
   ////////////////////////
 
