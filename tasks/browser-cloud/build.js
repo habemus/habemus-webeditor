@@ -10,6 +10,18 @@ var browserSync    = require('browser-sync').create();
 
 const jsRe = /.+\.js$/;
 
+// HABEMUS.IO google analytics script
+const GA_SCRIPT = `<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71194663-5', 'auto');
+  ga('send', 'pageview');
+
+</script>`;
+
 /**
  * Browserify auxiliary methods
  * @type {Object}
@@ -175,6 +187,11 @@ module.exports = function (gulp, $, config) {
           'src="/static/editor/'
         )
       ))
+      // add analytics script
+      .pipe($.if('index.browser-cloud.html', $.cheerio(($find, file, done) => {
+        $find('body').append(GA_SCRIPT);
+        done();
+      })))
       // rename index.html file
       .pipe($.if('index.browser-cloud.html', $.rename('index.html')))
       .pipe($.size({
@@ -190,14 +207,15 @@ module.exports = function (gulp, $, config) {
    * Emulates the file structure that should be in production.
    */
   gulp.task('browser-cloud:serve-dist', function () {
-    browserSync.init({
-      port: process.env.EDITOR_PORT,
+    return browserSync.init({
+      port: process.env.EDITOR_PORT || 3000,
       server: {
         baseDir: './dist/browser-cloud',
         routes: {
           '/static/editor': './dist/browser-cloud',
         }
-      }
+      },
+      open: true,
     });
   });
 
