@@ -164,7 +164,7 @@ module.exports = function (gulp, $, config) {
         stripComments: true
       }))
       .pipe($.crisper())
-      // .pipe($.if('index.browser-cloud.js', $.stripDebug()))
+      .pipe($.if('index.browser-cloud.js', $.stripDebug()))
       .pipe($.if(
         'index.browser-cloud.js',
         $.uglify().on('error', function (err) {
