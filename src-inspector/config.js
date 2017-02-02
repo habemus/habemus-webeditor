@@ -25,7 +25,7 @@ function loadConfig() {
   }
 
   return Bluebird.resolve({
-    apiVersion: '0.0.0',
+    apiVersion: '1.0.0',
     hWorkspaceURI: H_WORKSPACE_URI,
     projectCode: projectCode,
   });

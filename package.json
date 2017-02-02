@@ -1,6 +1,6 @@
 {
   "name": "habemus-editor-v2",
-  "version": "1.0.0-alpha.13",
+  "version": "1.0.0",
   "description": "",
   "main": "environments/electron/main.js",
   "scripts": {
@@ -19,6 +19,7 @@
     "h-urls": "git+ssh://git@bitbucket.org/habemus-tutti/h-urls.git",
     "h-workspace-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-workspace-client.git",
     "hab-ui-file-editor": "git+ssh://git@bitbucket.org/habemus-tutti/hab-ui-file-editor.git",
+    "hab-ui-inspector": "git+ssh://git@bitbucket.org/habemus-tutti/hab-ui-inspector.git",
     "happiness-tree": "git+ssh://git@bitbucket.org/habemus-tutti/happiness-tree.git",
     "node-polyglot": "^2.2.0",
     "path-to-regexp": "^1.5.3",
