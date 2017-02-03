@@ -7,7 +7,14 @@ module.exports = function (habemus, options) {
   
   var MENU_OPTIONS = [
     {
-      label: 'close side bar',
+      label: 'open preview iframe',
+      callback: function (data) {
+        data.menuElement.close();
+        habemus.ui.iframeBrowser.open();
+      },
+    },
+    {
+      label: 'close file tree',
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
         return habemus.ui.structure.statusL === 'collapsed';
@@ -19,7 +26,7 @@ module.exports = function (habemus, options) {
       },
     },
     {
-      label: 'open side bar',
+      label: 'open file tree',
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
         return habemus.ui.structure.statusL !== 'collapsed';
@@ -29,6 +36,30 @@ module.exports = function (habemus, options) {
         
         habemus.ui.structure.uncollapse('left');
       },
+    },
+    {
+      label: 'save file',
+      shortcut: 'Cmd+S',
+      callback: function (data) {
+        data.menuElement.close();
+        habemus.ui.tabbedEditor.saveActiveFile();
+      }
+    },
+    {
+      label: 'reload editor',
+      shortcut: 'Cmd+R',
+      callback: function (data) {
+        data.menuElement.close();
+        window.location.assign(window.location);
+      }
+    },
+    {
+      type: 'divider',
+    },
+    {
+      type: 'url',
+      label: 'go to dashboard',
+      url: 'https://habemus.io/dashboard',
     }
   ];
   
