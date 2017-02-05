@@ -1,6 +1,12 @@
 module.exports = function (habemus, options) {
   
   var menu = document.createElement('hab-context-menu');
+  menu.set('optionGroups', [
+    'priority',
+    'fs',
+    'project-management',
+    'config',
+  ]);
   menu.set(
     'options',
     require('./options')(habemus, options)

@@ -7,6 +7,7 @@ module.exports = function (habemus, options) {
   
   var MENU_OPTIONS = [
     {
+      group: 'priority',
       label: 'open preview iframe',
       callback: function (data) {
         data.menuElement.close();
@@ -14,6 +15,7 @@ module.exports = function (habemus, options) {
       },
     },
     {
+      group: 'priority',
       label: 'close file tree',
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
@@ -26,6 +28,7 @@ module.exports = function (habemus, options) {
       },
     },
     {
+      group: 'priority',
       label: 'open file tree',
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
@@ -38,6 +41,7 @@ module.exports = function (habemus, options) {
       },
     },
     {
+      group: 'priority',
       label: 'save file',
       shortcut: 'Cmd+S',
       callback: function (data) {
@@ -46,6 +50,7 @@ module.exports = function (habemus, options) {
       }
     },
     {
+      group: 'priority',
       label: 'reload editor',
       shortcut: 'Cmd+R',
       callback: function (data) {
@@ -54,12 +59,22 @@ module.exports = function (habemus, options) {
       }
     },
     {
-      type: 'divider',
+      group: 'fs',
+      label: 'new file',
+      callback: function (data) {
+        data.menuElement.close();
+        // TODO: stop using rootModel
+        return habemus.ui.fileTree.promptNewFile(habemus.ui.fileTree.rootModel);
+      },
     },
     {
-      type: 'url',
-      label: 'go to dashboard',
-      url: 'https://habemus.io/dashboard',
+      group: 'fs',
+      label: 'new directory',
+      callback: function (data) {
+        data.menuElement.close();
+        // TODO: stop using rootModel
+        return habemus.ui.fileTree.promptNewDirectory(habemus.ui.fileTree.rootModel);
+      },
     }
   ];
   
