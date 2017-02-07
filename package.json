@@ -1,5 +1,5 @@
 {
-  "name": "habemus-editor-v2",
+  "name": "webeditor",
   "version": "1.0.0",
   "description": "",
   "main": "environments/electron/main.js",

@@ -64,6 +64,7 @@ function IframeBrowser(options) {
    */
   this.iframeEl = document.createElement('iframe');
   var iframeEl = this.iframeEl;
+  iframeEl.setAttribute('name', 'webeditor_iframe_browser');
 
   /**
    * Browser control events

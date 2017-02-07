@@ -32,6 +32,7 @@ module.exports = function (habemus, options) {
   return function genFileMenu(tree) {
     return [
       {
+        group: 'auxiliary',
         label: _t('file-tree-menu.preview'),
         callback: function (data) {
           data.menuElement.close();

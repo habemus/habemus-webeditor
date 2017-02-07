@@ -63,7 +63,7 @@ module.exports = function (habemus, options) {
       label: 'new file',
       callback: function (data) {
         data.menuElement.close();
-        // TODO: stop using rootModel
+        // TODO: stop using rootModel directly
         return habemus.ui.fileTree.promptNewFile(habemus.ui.fileTree.rootModel);
       },
     },
@@ -72,9 +72,48 @@ module.exports = function (habemus, options) {
       label: 'new directory',
       callback: function (data) {
         data.menuElement.close();
-        // TODO: stop using rootModel
+        // TODO: stop using rootModel directly
         return habemus.ui.fileTree.promptNewDirectory(habemus.ui.fileTree.rootModel);
       },
+    },
+    {
+      group: 'fs',
+      label: 'upload file',
+      type: 'input:file',
+      callback: function (data) {
+        data.menuElement.close();
+        
+        // TODO: stop using rootModel directly
+        var basepath = habemus.ui.fileTree.rootModel.path;
+        var files    = data.files;
+
+        if (!files) {
+          return;
+        }
+        
+        return habemus.ui.fileTree.upload.fromFilesArray(basepath, files);
+      }
+    },
+    {
+      group: 'fs',
+      label: 'upload directory',
+      type: 'input:directory',
+      callback: function (data) {
+        data.menuElement.close();
+        
+        // TODO: stop using rootModel directly
+        var basepath = habemus.ui.fileTree.rootModel.path;
+        var files    = data.files;
+
+        if (!files) {
+          return;
+        }
+        
+        return habemus.ui.fileTree.upload.fromWebkitDirectoryInput(
+          basepath,
+          files
+        );
+      }
     }
   ];
   

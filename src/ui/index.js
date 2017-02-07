@@ -64,5 +64,10 @@ module.exports = function (habemus, options) {
     if (habemus.ui.footer) {
       habemus.ui.structure.set('footer', true);
     }
+    
+    // cancel all contextmenu events on window
+    document.querySelector('body').addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
   });
 };
