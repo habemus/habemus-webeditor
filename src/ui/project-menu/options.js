@@ -114,6 +114,13 @@ module.exports = function (habemus, options) {
           files
         );
       }
+    },
+    {
+      group: 'support',
+      label: 'chat with us at @slack!',
+      type: 'url',
+      target: 'habemus_web_editor_slack',
+      url: 'https://habemusio.slack.com',
     }
   ];
   
