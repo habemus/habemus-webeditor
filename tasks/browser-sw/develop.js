@@ -21,7 +21,9 @@ module.exports = function (gulp, $, config) {
 
   gulp.task('browser-sw:js-dev:service-worker', function () {
     return auxBrowserify.createBrowserifyPipe({
-      entry: config.root + '/environments/browser-sw/service-worker/index.js',
+      entry: [
+        config.root + '/environments/browser-sw/service-worker/index.js',
+      ],
       destFilename: 'service-worker.js',
       standalone: 'HABEMUS_SW',
     })

@@ -9,12 +9,6 @@ const HFs = require('h-fs');
 
 function HFsIntercomm(options) {
   /**
-   * The id must be `h-fs`
-   * @type {String}
-   */
-  options.id = 'h-fs';
-
-  /**
    * h-fs is exclusively a server node.
    * @type {String}
    */
@@ -79,3 +73,25 @@ function HFsIntercomm(options) {
   hFs.on('directory-removed', this.publish.bind(this, 'directory-removed'));
 }
 util.inherits(HFsIntercomm, Intercomm);
+
+HFsIntercomm.prototype.sendMessage = function (message) {
+  console.log('!!!HFsIntercomm#sendMessage', arguments);
+  
+  console.log(this.sw);
+  
+  this.sw.clients.matchAll().then(function(clients) {
+    
+    console.log('matched clients', clients);
+    
+    clients.forEach(function(client) {
+
+      // var parsedUrl = url.parse(client.url);
+      
+      // if (parsedUrl.path === '/') {
+        client.postMessage(message.toJSON());
+      // }
+    });
+  });
+};
+
+module.exports = HFsIntercomm;

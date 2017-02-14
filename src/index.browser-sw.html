@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <title>habemus editor</title>
 
+    <!-- TODO: carefully select fonts -->
     <!-- fonts: source code pro and source sans pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro" rel="stylesheet">
+    
+    <!-- Open Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
 
     <!-- webcomponents-lite -->
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js" charset="utf-8">
+    </script>
     <script>
       /* this script must run before Polymer is imported */
       // window.Polymer = {
@@ -33,11 +39,11 @@
     <link rel="import" href="bower_components/iron-pages/iron-pages.html">
 
     <!-- habemus's version of ace editor -->
-    <script src="bower_components/ace-builds/src-noconflict/ace.js"></script>
-    <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js"></script>
-    <script src="bower_components/ace-builds/src-noconflict/ext-modelist.js"></script>
-    <script src="bower_components/ace-builds/src-noconflict/ext-emmet.js"></script>
-    <script src="bower_components/ace-emmet-core/emmet.js"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ace.js" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-language_tools.js" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-modelist.js" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src-noconflict/ext-emmet.js" charset="utf-8"></script>
+    <script src="bower_components/ace-emmet-core/emmet.js" charset="utf-8"></script>
     <!-- dependencies -->
 
     <!-- keypress -->
@@ -70,10 +76,42 @@
 
         <header id="header"></header>
 
-        <div panel="left" id="file-tree-container"></div>
-        <div panel="center" id="tabbed-editor"></div>
+        <div
+          id="left-panel"
+          panel="left">
+          <div id="left-panel-header">
+            <img
+              id="habemus-webeditor-logo"
+              src="resources/img/logo-webeditor-vert.svg"
+              alt="habemus editor logo">
+            <img
+              id="habemus-webeditor-beta-label"
+              src="resources/img/beta-label.svg"
+              alt="habemus editor logo">
+            <button
+              id="menu-trigger"
+              class="trigger">
+              <iron-icon icon="more-vert"></iron-icon>
+              <iron-icon icon="warning"></iron-icon>
+            </button>
+          </div>
+          <div id="left-panel-body">
+            <div id="file-tree-container"></div>
+          </div>
+          <button
+            id="left-panel-collapse-trigger"
+            class="trigger">
+            <iron-icon icon="chevron-right"></iron-icon>
+          </button>
+        </div>
 
-        <div panel="right" class$="right {{ previewMode }}">
+        <div
+          panel="center"
+          id="tabbed-editor"></div>
+
+        <div
+          id="right-panel"
+          panel="right">
           <div id="iframe-browser"></div>
         </div>
 
@@ -82,11 +120,8 @@
 
     </template>
 
-    <!--
-      This file is built using browserify
-      and will be found at the temporary directory used for browser-sw bundles
-    -->
-    <script src="index.browser-sw-bundle.js"></script>
+    <!-- entrypoint -->
+    <script src="index.browser-sw-bundle.js" charset="utf-8"></script>
 
   </body>
 </html>

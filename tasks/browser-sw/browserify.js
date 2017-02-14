@@ -5,6 +5,19 @@ const buffer      = require('vinyl-buffer');
 const envify      = require('envify/custom');
 const strictify   = require('strictify');
 
+// transform all requires for fs into 'browserify-fs'
+const through = require('through2');
+
+// function _replaceFs(file) {
+//   return through(function (buf, enc, next) {
+//     this.push(buf.toString('utf8').replace(
+//       /require\(['"]fs['"]\);/g,
+//       "require('browserify-fs');"
+//     ));
+//     next();
+//   });
+// }
+
 /**
  * Creates a browserify gulp pipe that builds
  * the editor's js.
@@ -38,16 +51,31 @@ exports.createBrowserifyPipe = function (options) {
       envify({
         // ENV variables go here
       }),
-      strictify,
+      // strictify,
+      // _replaceFs,
     ],
 
     // standalone global object for main module
     standalone: standalone,
   });
 
-  // FS module
+  // FS modules
   b.require('browserify-fs', {
     expose: 'fs'
+  });
+  // CPR depends on graceful-fs
+  // which breaks browser builds of fs
+  // TODO: study replacements
+  b.require('ncp', {
+    expose: 'cpr',
+  });
+  
+  // Replace express with bs-express
+  b.require('bs-express', {
+    expose: 'express',
+  });
+  b.require(__dirname + '/_test-virtual-npm.js', {
+    expose: 'virtual-npm',
   });
 
   // inject modules
