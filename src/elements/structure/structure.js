@@ -583,9 +583,7 @@
      * Whenever of each of the sections change,
      * add classes to contents.
      */
-    _handleStatusChange: function (statusL, statusC, statusR) {
-      console.log(statusL, statusC, statusR);
-      
+    _handleStatusChange: function (statusL, statusC, statusR) {      
       if (statusL === PANEL_STATUSES.COLLAPSED) {
         // make the transition animated
         this._temporarilyAnimatePanels(300);

@@ -1,3 +1,6 @@
+// native
+const url = require('url');
+
 // own
 const HFsIntercomm = require('./h-fs-intercomm');
 
@@ -15,13 +18,28 @@ module.exports = function (sw, options) {
   sw.addEventListener('message', function (message) {
     
     var data = message.data;
-    
-    console.log(data.to, hFsIntercomm.id);
-    
+
     if (data.to === LOCAL_H_FS_ID) {
       
       hFsIntercomm.handleMessage(data);
       
+    } else if (data.type === 'event') {
+
+      if (data.from === 'editor-ui') {
+        // republish event to all preview clients
+        sw.clients.matchAll().then(function(clients) {
+          
+          clients.forEach(function(client) {
+
+            var parsedUrl = url.parse(client.url);
+            
+            if (parsedUrl.path.startsWith('/preview')) {
+              client.postMessage(data);
+            }
+          });
+        });
+      }
+
     } else {
       // ignore
       console.warn('ignoring received message', message);

@@ -31,9 +31,21 @@ module.exports = function (gulp, $, config) {
     .pipe(gulp.dest(TMP_DIR));
   });
 
+  gulp.task('browser-sw:js-dev:inspector', function () {
+    return auxBrowserify.createBrowserifyPipe({
+      entry: [
+        config.root + '/environments/browser-sw/inspector/index.js',
+      ],
+      destFilename: 'inspector.js',
+    })
+    .pipe($.size())
+    .pipe(gulp.dest(TMP_DIR));
+  });
+
   gulp.task('browser-sw:js-dev', [
     'browser-sw:js-dev:editor',
     'browser-sw:js-dev:service-worker',
+    'browser-sw:js-dev:inspector',
   ]);
 
   gulp.task('browser-sw:serve', ['less', 'browser-sw:js-dev'], function () {

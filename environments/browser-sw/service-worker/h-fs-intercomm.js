@@ -48,7 +48,22 @@ function HFsIntercomm(options) {
   this.expose({
     createFile: hFs.createFile.bind(hFs),
     createDirectory: hFs.createDirectory.bind(hFs),
-    readDirectory: hFs.readDirectory.bind(hFs),
+    readDirectory: function () {
+
+      console.log('READDDDD', arguments);
+
+      var args = Array.prototype.slice.call(arguments, 0);
+      return hFs.readDirectory.apply(hFs, args).then(function (res) {
+        console.log('res', res);
+
+        return res;
+      })
+      .catch(function (err) {
+        console.warn(err);
+
+        throw err;
+      });
+    },
     readFile: hFs.readFile.bind(hFs),
     updateFile: hFs.updateFile.bind(hFs),
     move: hFs.move.bind(hFs),
@@ -75,21 +90,10 @@ function HFsIntercomm(options) {
 util.inherits(HFsIntercomm, Intercomm);
 
 HFsIntercomm.prototype.sendMessage = function (message) {
-  console.log('!!!HFsIntercomm#sendMessage', arguments);
-  
-  console.log(this.sw);
-  
   this.sw.clients.matchAll().then(function(clients) {
     
-    console.log('matched clients', clients);
-    
     clients.forEach(function(client) {
-
-      // var parsedUrl = url.parse(client.url);
-      
-      // if (parsedUrl.path === '/') {
-        client.postMessage(message.toJSON());
-      // }
+      client.postMessage(message.toJSON());
     });
   });
 };

@@ -74,10 +74,7 @@ exports.createBrowserifyPipe = function (options) {
   b.require('bs-express', {
     expose: 'express',
   });
-  b.require(__dirname + '/_test-virtual-npm.js', {
-    expose: 'virtual-npm',
-  });
-
+  
   // inject modules
   b.require('./environments/browser-sw/injected_node_modules/habemus-editor-services', {
     expose: 'habemus-editor-services'

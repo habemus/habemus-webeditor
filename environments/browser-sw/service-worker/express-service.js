@@ -46,18 +46,14 @@ function expressService (app) {
 
   self.addEventListener('fetch', function (event) {
     var parsedUrl = url.parse(event.request.url);
-    
-    console.log('FETCH');
 
     if (!matchCanvasURL(event.request.url)) {
-      console.log('FETCH NOT MATCHED');
-
       return;
     }
 
     event.respondWith(new Promise(function (resolve) {
       // let Express handle the request, but get the result
-      console.log('express-service', 'handle request', JSON.stringify(parsedUrl, null, 2))
+      // console.log('express-service', 'handle request', JSON.stringify(parsedUrl, null, 2))
 
       event.request.clone().text().then(function (text) {
         var body = text

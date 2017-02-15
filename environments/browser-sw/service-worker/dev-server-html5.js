@@ -1,7 +1,3 @@
-// native
-const fs = require('fs');
-const path = require('path');
-
 // third-party
 const createDevServerHTML5 = require('dev-server-html5');
 const express = require('express');
@@ -11,20 +7,24 @@ var app = express();
 
 // instantiate the file app
 var devServerHTML5 = createDevServerHTML5({
-  enableBrowserify: false,
   apiVersion: '0.0.0',
   supportDir: '.habemus',
-  browserifyBundleRegistryURI: 'http://browserifyBundleRegistry',
+  htmlInjectors: [
+    '<script charset="utf8" type="application/javascript" src="/inspector.js"></script>'
+  ],
+  processors: {
+    'text/css': require('dev-server-html5/processors/css/autoprefixer'),
+  }
 });
 
 app.use(
   '/preview',
   function (req, res, next) {
-    // DEV!
+    /**
+     * Fixed fsRoot at /projects
+     * @type {String}
+     */
     req.fsRoot = '/projects';
-    
-    console.log('received request for project!!!!!!', req);
-
     next();
   },
   devServerHTML5
