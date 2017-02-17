@@ -31,4 +31,6 @@ module.exports = function (habemus, options) {
     
     menu.menuOpenWithContext({}, position);
   });
+
+  return menu;
 };

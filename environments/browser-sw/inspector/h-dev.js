@@ -29,7 +29,7 @@ module.exports = function (options) {
     } else if (data.type === 'event') {
       hDevIntercomm.handleMessage(data);
     } else {
-      console.warn('ignoring message on editor-ui', event);
+      console.warn('ignoring message on inspector-ui', event);
     }
     
   });

@@ -125,6 +125,9 @@ module.exports = function (habemus, options) {
   ];
   
   if (Array.isArray(habemus.services.config.projectMenuOptions)) {
+    console.warn('habemus.services.config.projectMenuOptions will be deprecated');
+    console.warn('please use `habemus.ui.projectMenu.addOptions(options)` instead');
+
     MENU_OPTIONS = MENU_OPTIONS.concat(habemus.services.config.projectMenuOptions);
   }
   
