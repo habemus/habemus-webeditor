@@ -125,9 +125,7 @@ EditorManager.prototype.createEditor = function (editorOptions) {
   fileEditor.aceEditor.setTheme('ace/theme/habemus-dark');
 
   // apply styles
-  fileEditor.element.style.fontFamily = 'Source Code Pro';
-  // fileEditor.element.style.fontFamily = 'Monaco';
-  // fileEditor.element.style.fontFamily = 'Menlo';
+  fileEditor.element.style.fontFamily = 'Source Code Pro, Monaco, Menlo, Courier, monospace';
   fileEditor.element.style.fontSize = '15px';
 
   // set aceEditor options
