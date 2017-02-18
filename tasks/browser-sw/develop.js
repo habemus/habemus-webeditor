@@ -8,12 +8,34 @@ module.exports = function (gulp, $, config) {
 
   const TMP_DIR = config.root + '/tmp-dev-sw';
 
+  const COMMON_INJECTIONS = {
+    'habemus-editor-services': {
+      require: './environments/browser-sw/injected_node_modules/habemus-editor-services',
+      expose: 'habemus-editor-services',
+    },
+    'habemus-editor-ui': {
+      require: './environments/browser-sw/injected_node_modules/habemus-editor-ui',
+      expose: 'habemus-editor-ui',
+    },
+    'habemus-editor-urls': {
+      require: './environments/browser-sw/injected_node_modules/habemus-editor-urls.js',
+      expose: 'habemus-editor-urls'
+    }
+  };
+
   gulp.task('browser-sw:js-dev:editor', function () {
     return auxBrowserify.createBrowserifyPipe({
       entry: config.srcDir + '/index.js',
 
       // careful not to overwrite the original index.js
       destFilename: 'index.browser-sw-bundle.js',
+
+      // inject modules
+      injections: [
+        COMMON_INJECTIONS['habemus-editor-services'],
+        COMMON_INJECTIONS['habemus-editor-ui'],
+        COMMON_INJECTIONS['habemus-editor-urls'],
+      ],
     })
     .pipe($.size())
     .pipe(gulp.dest(TMP_DIR));
@@ -26,6 +48,30 @@ module.exports = function (gulp, $, config) {
       ],
       destFilename: 'service-worker.js',
       standalone: 'HABEMUS_SW',
+
+      // inject modules
+      injections: [
+        // use level-db-fs backed by indexed db as the filesystem
+        {
+          require: 'browserify-fs',
+          expose: 'fs',
+        },
+        // CPR depends on graceful-fs
+        // which breaks browser builds of fs
+        // TODO: study replacements
+        {
+          require: 'ncp',
+          expose: 'cpr',
+        },
+        // Replace express with bs-express
+        {
+          require: 'bs-express',
+          expose: 'express',
+        },
+        COMMON_INJECTIONS['habemus-editor-services'],
+        COMMON_INJECTIONS['habemus-editor-ui'],
+        COMMON_INJECTIONS['habemus-editor-urls'],
+      ],
     })
     .pipe($.size())
     .pipe(gulp.dest(TMP_DIR));
@@ -37,6 +83,11 @@ module.exports = function (gulp, $, config) {
         config.root + '/environments/browser-sw/inspector/index.js',
       ],
       destFilename: 'inspector.js',
+
+      // inject modules
+      injections: [
+
+      ],
     })
     .pipe($.size())
     .pipe(gulp.dest(TMP_DIR));

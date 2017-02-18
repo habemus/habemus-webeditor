@@ -8,16 +8,6 @@ const strictify   = require('strictify');
 // transform all requires for fs into 'browserify-fs'
 const through = require('through2');
 
-// function _replaceFs(file) {
-//   return through(function (buf, enc, next) {
-//     this.push(buf.toString('utf8').replace(
-//       /require\(['"]fs['"]\);/g,
-//       "require('browserify-fs');"
-//     ));
-//     next();
-//   });
-// }
-
 /**
  * Creates a browserify gulp pipe that builds
  * the editor's js.
@@ -33,6 +23,7 @@ exports.createBrowserifyPipe = function (options) {
   var entry        = options.entry;
   var destFilename = options.destFilename;
   var standalone   = options.standalone;
+  var injections   = options.injections || [];
 
   if (!entry) {
     throw new Error('entry is required as an option');
@@ -51,40 +42,22 @@ exports.createBrowserifyPipe = function (options) {
       envify({
         // ENV variables go here
       }),
-      // strictify,
-      // _replaceFs,
     ],
 
     // standalone global object for main module
     standalone: standalone,
   });
 
-  // FS modules
-  b.require('browserify-fs', {
-    expose: 'fs'
-  });
-  // CPR depends on graceful-fs
-  // which breaks browser builds of fs
-  // TODO: study replacements
-  b.require('ncp', {
-    expose: 'cpr',
-  });
-  
-  // Replace express with bs-express
-  b.require('bs-express', {
-    expose: 'express',
-  });
-  
-  // inject modules
-  b.require('./environments/browser-sw/injected_node_modules/habemus-editor-services', {
-    expose: 'habemus-editor-services'
-  });
-  b.require('./environments/browser-sw/injected_node_modules/habemus-editor-ui', {
-    expose: 'habemus-editor-ui'
-  });
+  // replacement injections
+  injections.forEach((inj) => {
 
-  b.require('./environments/browser-sw/injected_node_modules/habemus-editor-urls.js', {
-    expose: 'habemus-editor-urls'
+    if (!inj.require || !inj.expose) {
+      throw new Error('inj.require and inj.expose are injuired');
+    }
+
+    b.require(inj.require, {
+      expose: inj.expose,
+    });
   });
 
   return b.bundle()
