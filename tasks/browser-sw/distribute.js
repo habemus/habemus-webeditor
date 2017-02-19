@@ -175,13 +175,13 @@ module.exports = function (gulp, $, config) {
       .pipe($.crisper())
       // move static resources
       // TODO: improve replacing strategy
-      .pipe($.if(
-        'index.browser-sw.html',
-        $.replace(
-          'index.browser-sw.js',
-          '/static/index.browser-sw.js'
-        )
-      ))
+      // .pipe($.if(
+      //   'index.browser-sw.html',
+      //   $.replace(
+      //     'index.browser-sw.js',
+      //     '/static/index.browser-sw.js'
+      //   )
+      // ))
       .pipe($.if(
         'index.browser-sw.html',
         $.replace(
