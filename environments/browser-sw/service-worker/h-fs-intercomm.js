@@ -48,22 +48,7 @@ function HFsIntercomm(options) {
   this.expose({
     createFile: hFs.createFile.bind(hFs),
     createDirectory: hFs.createDirectory.bind(hFs),
-    readDirectory: function () {
-
-      console.log('READDDDD', arguments);
-
-      var args = Array.prototype.slice.call(arguments, 0);
-      return hFs.readDirectory.apply(hFs, args).then(function (res) {
-        console.log('res', res);
-
-        return res;
-      })
-      .catch(function (err) {
-        console.warn(err);
-
-        throw err;
-      });
-    },
+    readDirectory: hFs.readDirectory.bind(hFs),
     readFile: hFs.readFile.bind(hFs),
     updateFile: hFs.updateFile.bind(hFs),
     move: hFs.move.bind(hFs),
