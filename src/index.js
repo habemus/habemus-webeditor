@@ -6,6 +6,9 @@ const initServices = require('./services');
 const initUI       = require('./ui');
 const initKeyboard = require('./keyboard');
 
+// injected dependencies
+const initializeApplication = require('habemus-editor-initialize');
+
 // The application wrapper
 var habemus = document.querySelector('#habemus');
 
@@ -48,6 +51,15 @@ new Bluebird(function (resolve, reject) {
     .then(function () {
       return Bluebird.resolve(
         initKeyboard(
+          habemus,
+          habemus.services.config
+        )
+      );
+    })
+    .then(function () {
+
+      return Bluebird.resolve(
+        initializeApplication(
           habemus,
           habemus.services.config
         )

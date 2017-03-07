@@ -1,4 +1,8 @@
-var path = require('path');
+// native
+const path = require('path');
+
+// third-party
+const mergeStream = require('merge-stream');
 
 var config  = require('./config');
 
@@ -63,33 +67,47 @@ module.exports = function (gulp, $) {
    * to be included
    */
   gulp.task('less:elements', function () {
-    var elementsDir     = config.srcDir + '/elements';
-    var elementsLessDir = elementsDir + '/**/*.less';
 
-    return gulp.src(elementsLessDir)
-      //.pipe($.changed(elementsDir, { extension: '.html' }))
-      .pipe($.less())
-      .on('error', $.notify.onError(lessErrorNotifyOptions))
-      .pipe($.autoprefixer(autoprefixerOptions))
-      // transform css into dom-module
-      .pipe($.polymerizeCss({
-        styleId: function (file) {
-          var basename = path.basename(file.path, '.css');
+    var elementsDirs = [
+      config.srcDir + '/elements',
+      config.srcDir + '/environments/browser-cloud/elements',
+      config.srcDir + '/environments/browser-sw/elements',
+      config.srcDir + '/environments/electron/elements',
+    ];
 
-          return basename + '-styles';
-        }
-      }))
-      .pipe($.rename(function (path) {
-        path.basename += '-styles';
-        path.extname = '.html';
-      }))
-      .pipe($.header(styleModuleMessage))
-      .pipe(gulp.dest(elementsDir))
-      .pipe($.size({
-        title: 'less',
-        showFiles: true
-      }));
+    var lessStreams = elementsDirs.map((eDir) => {
+      return gulp.src(eDir + '/**/*.less')
+        //.pipe($.changed(eDir, { extension: '.html' }))
+        .pipe($.less())
+        .on('error', $.notify.onError(lessErrorNotifyOptions))
+        .pipe($.autoprefixer(autoprefixerOptions))
+        // transform css into dom-module
+        .pipe($.polymerizeCss({
+          styleId: function (file) {
+            var basename = path.basename(file.path, '.css');
 
+            return basename + '-styles';
+          }
+        }))
+        .pipe($.rename(function (path) {
+          path.basename += '-styles';
+          path.extname = '.html';
+        }))
+        .pipe($.header(styleModuleMessage))
+        .pipe(gulp.dest(eDir))
+        .pipe($.size({
+          title: 'less',
+          showFiles: true
+        }));
+    });
+
+    var resultingStream = mergeStream();
+
+    lessStreams.forEach((s) => {
+      resultingStream.add(s);
+    });
+
+    return resultingStream;
   });
 
   /**
