@@ -89,19 +89,19 @@ exports.createEditorBrowserifyPipe = function (options) {
 
   // inject modules
   if (production) {
-    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
+    b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
       expose: 'habemus-editor-urls'
     });
   } else {
-    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
+    b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
       expose: 'habemus-editor-urls'
     });
   }
 
-  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-services', {
+  b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-services', {
     expose: 'habemus-editor-services'
   });
-  b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
+  b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
     expose: 'habemus-editor-ui'
   });
 
@@ -165,11 +165,11 @@ exports.createInspectorBrowserifyPipe = function (options) {
 
   // inject scripts
   if (production) {
-    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
+    b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-urls.js', {
       expose: 'habemus-editor-urls'
     });
   } else {
-    b.require('./environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
+    b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-urls.development.js', {
       expose: 'habemus-editor-urls'
     });
   }
