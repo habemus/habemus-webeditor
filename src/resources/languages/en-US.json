@@ -1,4 +1,7 @@
 {
+  "dev-header": {
+    "publish": "publish"
+  },
   "file-tree-menu": {
     "preview": "open in iframe"
   },
@@ -29,7 +32,7 @@
         "general": "Unknown error renaming directory",
         "path-exists": "Path to the renamed directory already exists"
       },
-      "rename-loading": "Renaming ...",
+      "rename-loading": "Renaming...",
       "rename-success": "Renamed",
       "upload-directory": "upload directory",
       "upload-file": "upload file"
@@ -41,11 +44,11 @@
       "duplicate-error": {
         "general": "Unknown error duplicating file"
       },
-      "duplicate-loading": "Duplicating ...",
+      "duplicate-loading": "Duplicating...",
       "duplicate-prompt": "duplicate file path",
       "duplicate-success": "Duplicated",
       "error-moving": "Error moving '%{fileName}'",
-      "move-loading": "Moving ...",
+      "move-loading": "Moving...",
       "new": "new file",
       "new-error": {
         "empty-name": "File name must not be empty",
@@ -59,15 +62,15 @@
       "remove-error": {
         "general": "Unknown error removing file"
       },
-      "remove-loading": "Removing ...",
+      "remove-loading": "Removing...",
       "remove-success": "Removed",
       "rename": "rename file",
       "rename-error": {
         "empty-name": "File name must not be empty",
         "general": "Unknown error renaming file",
-        "path-exists": "File exists"
+        "path-exists": "File already exists"
       },
-      "rename-loading": "Renaming ...",
+      "rename-loading": "Renaming...",
       "rename-success": "Renamed"
     },
     "upload": {
@@ -75,9 +78,9 @@
       "error-max-size-exceeded": "The file '%{fileName}' exeeds the max upload size (%{maxSize}).",
       "error-missing-file-name": "Could not identify the name of the selected file.",
       "failed": "Upload of file '%{fileName}' failed: %{errorName}",
-      "reading-file": "Reading '%{fileName}' ...",
+      "reading-file": "Reading '%{fileName}'...",
       "succeeded": "'%{fileName}' successfully uploaded.",
-      "uploading-file": "Uploading '%{fileName}' ..."
+      "uploading-file": "Uploading '%{fileName}'..."
     }
   },
   "language": {

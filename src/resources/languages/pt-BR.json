@@ -1,6 +1,6 @@
 {
   "dev-header": {
-    "publish": null
+    "publish": "publicar"
   },
   "file-tree-menu": {
     "preview": "abrir em iframe"
@@ -8,82 +8,82 @@
   "happiness-tree": {
     "directory": {
       "copy-path": "copiar caminho",
-      "copy-path-success": null,
-      "error-moving": null,
-      "error-reading": null,
-      "move-loading": null,
+      "copy-path-success": "Copiado: '%{path}'",
+      "error-moving": "Não foi possível mover '%{directoryName}'",
+      "error-reading": "Não for possível encontrar '%{directoryName}'",
+      "move-loading": "Movendo...",
       "new": "novo diretório",
       "new-error": {
-        "empty-name": null,
-        "general": null
+        "empty-name": "O diretório precisa de um nome",
+        "general": "Não foi possível criar diretório"
       },
-      "new-loading": null,
-      "new-placeholder": null,
-      "remove": "remover",
-      "remove-confirm": null,
+      "new-loading": "Criando diretórico",
+      "new-placeholder": "novo diretório",
+      "remove": "excluir",
+      "remove-confirm": "Deseja mesmo excluir diretório? Esta ação não poderá ser desfeita.",
       "remove-error": {
-        "general": null
+        "general": "Não foi possível excluir diretório"
       },
-      "remove-loading": null,
-      "remove-success": null,
-      "rename": "renomear diretório",
+      "remove-loading": "Excluindo diretório",
+      "remove-success": "Excluído com sucesso!",
+      "rename": "Renomear diretório",
       "rename-error": {
-        "empty-name": null,
-        "general": null,
-        "path-exists": null
+        "empty-name": "Diretório precisa de um nome",
+        "general": "Não foi possível renomear diretório",
+        "path-exists": "Já existe um diretório com este nome neste caminho"
       },
-      "rename-loading": null,
-      "rename-success": null,
-      "upload-directory": null,
-      "upload-file": null
+      "rename-loading": "Renomeando...",
+      "rename-success": "Renomeado com sucesso!",
+      "upload-directory": "subir diretório",
+      "upload-file": "subir arquivo"
     },
     "file": {
       "copy-path": "copiar caminho",
-      "copy-path-success": null,
-      "duplicate": "duplicar",
+      "copy-path-success": "Copiado: '%{path}'",
+      "duplicate": "duplicar arquivo",
       "duplicate-error": {
-        "general": null
+        "general": "Não foi possível duplicar arquivo"
       },
-      "duplicate-loading": null,
-      "duplicate-prompt": "Caminho do arquivo duplicado",
-      "duplicate-success": null,
-      "error-moving": null,
-      "move-loading": null,
+      "duplicate-loading": "Duplicando...",
+      "duplicate-prompt": "Caminho para duplicar arquivo",
+      "duplicate-success": "Duplicado com sucesso!",
+      "error-moving": "Não foi possível mover '%{fileName}'",
+      "move-loading": "Movendo...",
       "new": "novo arquivo",
       "new-error": {
-        "empty-name": null,
-        "general": null
+        "empty-name": "O arquivo precisa de um nome",
+        "general": "Não foi possível criar arquivo"
       },
-      "new-loading": null,
-      "new-placeholder": null,
+      "new-loading": "Criando arquivo",
+      "new-placeholder": "novo arquivo",
       "open-in-new-tab": "abrir em nova aba",
-      "remove": "remover",
-      "remove-confirm": "Você tem certeza de que deseja remover '%{path}'? Esta ação não poderá ser desfeita.",
+      "remove": "excluir",
+      "remove-confirm": "Deseja mesmo remover '%{path}'? Esta ação não poderá ser desfeita.",
       "remove-error": {
-        "general": null
+        "general": "Não foi possível excluir arquivo"
       },
-      "remove-loading": null,
-      "remove-success": null,
+      "remove-loading": "Excluindo...",
+      "remove-success": "Excluído com sucesso!",
       "rename": "renomear arquivo",
       "rename-error": {
-        "empty-name": null,
-        "general": null,
-        "path-exists": null
+        "empty-name": "O arquivo precisa de um nome",
+        "general": "Não foi possível criar arquivo",
+        "path-exists": "Este arquivo já existe"
       },
-      "rename-loading": null,
-      "rename-success": null
+      "rename-loading": "Renomeando...",
+      "rename-success": "Renomeado com sucesso!"
     },
     "upload": {
-      "all-files-succeeded": null,
+      "all-files-succeeded": "Arquivos enviados com sucesso!",
       "error-max-size-exceeded": "O arquivo '%{fileName}' é maior que o tamanho máximo de upload (%{maxSize}).",
       "error-missing-file-name": "Não foi possível ler o nome do arquivo selecionado.",
       "failed": "Envio do arquivo '%{fileName}' falhou: %{errorName}",
-      "reading-file": "Lendo '%{fileName}' ...",
-      "succeeded": "'%{fileName}' enviado com sucesso.",
-      "uploading-file": "Enviando '%{fileName}' ..."
+      "reading-file": "Lendo '%{fileName}'...",
+      "succeeded": "'%{fileName}' enviado com sucesso!",
+      "uploading-file": "Enviando '%{fileName}'..."
     }
   },
   "language": {
-    "reset-confirm": "pt-BR: Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
+    "reset-confirm": "A linguagem foi alterada. Para que o conteúdo atualize, é necessário recarrecar o navegador. Deseja recarregar agora?"
   }
 }
