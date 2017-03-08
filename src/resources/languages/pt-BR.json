@@ -3,7 +3,7 @@
     "publish": "publicar"
   },
   "file-tree-menu": {
-    "preview": "abrir em iframe"
+    "preview": "abrir no iframe"
   },
   "happiness-tree": {
     "directory": {
@@ -17,7 +17,7 @@
         "empty-name": "O diretório precisa de um nome",
         "general": "Não foi possível criar diretório"
       },
-      "new-loading": "Criando diretórico",
+      "new-loading": "Criando diretório",
       "new-placeholder": "novo diretório",
       "remove": "excluir",
       "remove-confirm": "Deseja mesmo excluir diretório? Esta ação não poderá ser desfeita.",
