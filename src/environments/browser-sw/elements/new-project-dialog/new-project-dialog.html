@@ -1,0 +1,93 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../../elements/core-dialogs/dialog-styles.html">
+<link rel="import" href="new-project-dialog-styles.html">
+
+<dom-module id="habemus-new-project-dialog">
+  
+  <style include="dialog-styles"></style>
+
+  <style include="new-project-dialog-styles">
+  </style>
+
+  <template>
+    <div id="dialog">
+      <header>
+        <h1>Create a new project</h1>
+      </header>
+
+      <section id="body">
+        <ul id="new-project-options">
+          <li
+            id="from-file"
+            on-drop="_handleDrop">
+            <div>
+              <iron-icon icon="file-upload"></iron-icon>
+              <span
+                class="label"
+                hidden$="[[ _supportsDirectoryInput ]]">
+                upload a <br>zip file
+              </span>
+              <span
+                class="label"
+                hidden$="[[ !_supportsDirectoryInput ]]">upload a <br>folder
+              </span>
+            </div>
+            <input
+              id="file-input"
+              hidden$="[[ _supportsDirectoryInput ]]"
+              type="file"
+              accept="application/zip"
+              on-change="_handleFileInputChange">
+            <input
+              id="directory-input"
+              hidden$="[[ !_supportsDirectoryInput ]]"
+              type="file"
+              webkitdirectory
+              directory
+              on-change="_handleDirectoryInputChange">
+          </li>
+          <li
+            id="from-blank"
+            on-tap="_handleFromBlankTap">
+            <a href="/?template_url=/resources/blank-project.zip">
+              <iron-icon icon="create-new-folder"></iron-icon>
+              <span class="label">start a new <br>blank project</span>
+            </a>
+          </li>
+          <li
+            id="from-starter-project"
+            on-tap="_handleFromStarterProjectsTap">
+            <!-- <a href="https://habemus.io/starter-projects/" target="_blank"> -->
+            <div>
+              <iron-icon icon="dashboard"></iron-icon>
+              <span class="label">choose a <br>starter project</span>
+            </div>
+            <!-- </a> -->
+          </li>
+        </ul>
+      </section>
+
+      <section id="controls" hidden$="[[ !cancellable ]]">
+        <button dialog-dismiss>
+          cancel
+        </button>
+      </section>
+    </div>
+
+    <!-- starter projects iframe controls -->
+    <div
+      id="starter-projects-iframe-container"
+      on-tap="_handleFromStarterProjectsCloseTap"
+      hidden$="[[ !_showStarterProjectsIframe ]]">
+      <iframe
+        id="starter-projects-iframe"
+        src="[[ _starterProjectsURL ]]"></iframe>
+    </div>
+  </template>
+
+  <script type="text/javascript" src="new-project-dialog.js"></script>
+
+</dom-module>

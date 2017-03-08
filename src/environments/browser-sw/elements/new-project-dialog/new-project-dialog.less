@@ -1,0 +1,110 @@
+@import '../../../../less/variables.less';
+
+:host {
+  top: auto;
+}
+
+#dialog {
+  // TODO: acertar cor
+  background-color: lighten(@dialogs-neutral-color, 50%);
+  max-width: 100vh;
+}
+
+#new-project-options {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 0 0;
+  margin: 0 0;
+
+  width: 630px;
+}
+
+#new-project-options > li {
+  cursor: pointer;
+  background-color: white;
+
+  height: 200px;
+  width: 200px;
+  flex-grow: 0;
+}
+
+// flex wrapper
+#new-project-options > li > * {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#new-project-options > li iron-icon {
+  // TODO COLOR!
+  fill: @dialogs-neutral-color;
+
+  height: 75px;
+  width: 75px;
+}
+
+#new-project-options > li .label {
+  text-align: center;
+}
+
+#from-file {
+  position: relative;
+}
+
+#new-project-options > #from-file > div {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 180px;
+  width: 180px;
+
+  // TODO Acertar cor
+  border: 1px dashed @dialogs-neutral-color;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#from-file > input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+}
+
+#starter-projects-iframe-container {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#starter-projects-iframe {
+  position: fixed;
+  z-index: 11;
+  top: 50px;
+  left: 70px;
+  width: ~'calc(100vw - 140px)';
+  height: ~'calc(100vh - 100px)';
+
+  border: none;
+}
+
+#controls {
+  margin-top: 20px;
+}

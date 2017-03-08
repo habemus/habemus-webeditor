@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.1",
+    "browser-parse-files": "git+ssh://git@bitbucket.org/habemus-tutti/browser-parse-files.git",
     "bs-express": "git+ssh://git@github.com/habemus/express.git",
     "chokidar": "^1.6.1",
     "clipboard-js": "^0.2.0",

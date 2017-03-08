@@ -1,0 +1,78 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../../elements/core-dialogs/dialog-styles.html">
+
+<dom-module id="habemus-sw-installation-dialog">
+  <style include="dialog-styles"></style>
+
+  <style type="text/css">
+    :host {
+      top: auto;
+    }
+
+    @-moz-keyframes loading-spin {
+      from { -moz-transform: rotate(0deg); }
+      to { -moz-transform: rotate(360deg); }
+    }
+    @-webkit-keyframes loading-spin {
+      from { -webkit-transform: rotate(0deg); }
+      to { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes loading-spin {
+      from {transform:rotate(0deg);}
+      to {transform:rotate(360deg);}
+    }
+
+    #dialog[mode='installing'] {
+      
+    }
+
+    #dialog[mode='installed'] {
+      
+    }
+
+    #dialog [icon="refresh"] {
+      animation: loading-spin 1s infinite linear;;
+    }
+  </style>
+
+  <template>
+    <div id="dialog" mode$="[[ mode ]]">
+      <header>
+        <template is="dom-if" if="[[ !_installationReady ]]">
+          <h1>Installing Service Worker</h1>
+        </template>
+        <template is="dom-if" if="[[ _installationReady ]]">
+          <h1>Service Worker successfully installed!</h1>
+        </template>
+      </header>
+
+      <section id="body">
+        <p>
+         We're using Service Workers to set up your offline Habemus version.
+         Resources are being downloaded and installed, this process should not take more than 10 seconds.
+        </p>
+        <p>
+          Once the installation is complete, you'll need to refresh the browser.
+        </p>
+        <template is="dom-if" if="[[ _installationReady ]]">
+          <p>Service Worker successfully installed! Click the start button to get started</p>
+        </template>
+      </section>
+
+      <section id="controls">
+        <button
+          disabled$="[[ !_installationReady ]]"
+          on-tap="_handleStartTap"
+          class="primary">
+          start coding
+          <iron-icon icon="refresh" hidden$="[[ _installationReady ]]"></iron-icon>
+        </button>
+      </section>
+    </div>
+  </template>
+
+  <script src="sw-installation-dialog.js"></script>
+</dom-module>

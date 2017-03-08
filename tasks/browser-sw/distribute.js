@@ -25,16 +25,20 @@ module.exports = function (gulp, $, config) {
 
   const COMMON_INJECTIONS = {
     'habemus-editor-services': {
-      require: './environments/browser-sw/injected_node_modules/habemus-editor-services',
+      require: './src/environments/browser-sw/injected_node_modules/habemus-editor-services',
       expose: 'habemus-editor-services',
     },
     'habemus-editor-ui': {
-      require: './environments/browser-sw/injected_node_modules/habemus-editor-ui',
+      require: './src/environments/browser-sw/injected_node_modules/habemus-editor-ui',
       expose: 'habemus-editor-ui',
     },
     'habemus-editor-urls': {
-      require: './environments/browser-sw/injected_node_modules/habemus-editor-urls.js',
+      require: './src/environments/browser-sw/injected_node_modules/habemus-editor-urls.js',
       expose: 'habemus-editor-urls'
+    },
+    'habemus-editor-initialize': {
+      require: './src/environments/browser-sw/injected_node_modules/habemus-editor-initialize',
+      expose: 'habemus-editor-initialize',
     }
   };
 
@@ -56,6 +60,7 @@ module.exports = function (gulp, $, config) {
         COMMON_INJECTIONS['habemus-editor-services'],
         COMMON_INJECTIONS['habemus-editor-ui'],
         COMMON_INJECTIONS['habemus-editor-urls'],
+        COMMON_INJECTIONS['habemus-editor-initialize'],
       ],
     })
     .pipe($.babel({
@@ -77,7 +82,7 @@ module.exports = function (gulp, $, config) {
 
     return auxBrowserify.createBrowserifyPipe({
       entry: [
-        config.root + '/environments/browser-sw/service-worker/index.js',
+        config.root + '/src/environments/browser-sw/service-worker/index.js',
       ],
       destFilename: 'service-worker.js',
       standalone: 'HABEMUS_SW',
@@ -126,7 +131,7 @@ module.exports = function (gulp, $, config) {
 
     return auxBrowserify.createBrowserifyPipe({
       entry: [
-        config.root + '/environments/browser-sw/inspector/index.js',
+        config.root + '/src/environments/browser-sw/inspector/index.js',
       ],
       destFilename: 'inspector.js',
 
