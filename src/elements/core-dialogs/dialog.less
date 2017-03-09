@@ -10,18 +10,39 @@
   min-width: 250px;
   max-width: 600px;
 
-  padding: 20px;
+  padding: 32px;
 }
 
 #dialog h1 {
-  font-size: 18px;
-  font-weight: bold;
-  color: black;
-  margin: 0 0 15px 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  color: @dialog-text-color;
+  margin: 0 0 24px 0;
 }
 
 #dialog p {
   margin: 0 0 15px 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  color: @dialog-text-color;
+}
+
+#dialog li {
+  margin: 0 0 15px 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  color: @dialog-text-color;
+}
+
+#dialog ol,
+#dialog ul,  {
+  margin: 0 0 30px 0;
+}
+
+#dialog li a {
+  font-size: 14px;
+  color: @dialogs-primary-color;
 }
 
 #dialog #controls {
@@ -36,6 +57,8 @@
 #dialog #controls a.button {
   display: block;
   background-color: @dialogs-neutral-color;
+  color: @dialog-text-color;
+
 
   text-decoration: none;
   
@@ -50,6 +73,7 @@
 #dialog #controls button.primary,
 #dialog #controls a.button.primary {
   background-color: @dialogs-primary-color;
+  color: @dialog-text-color;
 }
 
 #dialog #controls button.primary[disabled] {
@@ -58,12 +82,17 @@
 
 #dialog #controls button:hover,
 #dialog #controls a.button:hover {
-  opacity: 0.8;
+  background-color: #dbdbdb;
+  cursor: pointer;
+}
+
+#dialog #controls button.primary:hover,
+#dialog #controls a.button.primary:hover {
+  background-color: #3eeeb7;
   cursor: pointer;
 }
 
 #dialog #controls button:active,
 #dialog #controls a.button:active {
-  // background-color: magenta;
-  opacity: 0.9;
+  color: black;
 }

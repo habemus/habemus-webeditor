@@ -24,7 +24,7 @@
             id="from-file"
             on-drop="_handleDrop">
             <div>
-              <iron-icon icon="file-upload"></iron-icon>
+              <img src="../../../../resources/img/new-project-upload.svg" class="icon">
               <span
                 class="label"
                 hidden$="[[ _supportsDirectoryInput ]]">
@@ -54,7 +54,7 @@
             id="from-blank"
             on-tap="_handleFromBlankTap">
             <a href="/?template_url=/resources/blank-project.zip">
-              <iron-icon icon="create-new-folder"></iron-icon>
+              <img src="../../../../resources/img/new-project-basic-project.svg" class="icon">
               <span class="label">
                 [[ translate('browser-sw.new-project-dialog.from-blank-project-1') ]]<br>
                 [[ translate('browser-sw.new-project-dialog.from-blank-project-2') ]]
@@ -63,7 +63,7 @@
           </li>
           <li id="from-starter-project">
             <a href="https://habemus.io/starter-projects/">
-              <iron-icon icon="dashboard"></iron-icon>
+              <img src="../../../../resources/img/new-project-starter-project.svg" class="icon">
               <span class="label">
                 [[ translate('browser-sw.new-project-dialog.from-starter-project-1') ]]<br>
                 [[ translate('browser-sw.new-project-dialog.from-starter-project-2') ]]

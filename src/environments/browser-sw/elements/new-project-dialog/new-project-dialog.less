@@ -6,8 +6,10 @@
 
 #dialog {
   // TODO: acertar cor
-  background-color: lighten(@dialogs-neutral-color, 50%);
+  background-color: @panel-text-color;
   max-width: 100vh;
+
+  padding: 46px;
 }
 
 #new-project-options {
@@ -29,6 +31,13 @@
   height: 200px;
   width: 200px;
   flex-grow: 0;
+
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+  transition: box-shadow 0.1s ease, color 0.3s ease;
+}
+
+#new-project-options > li:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,.16), 0 4px 10px rgba(0,0,0,.23);
 }
 
 // flex wrapper
@@ -41,16 +50,23 @@
   align-items: center;
 }
 
-#new-project-options > li iron-icon {
-  // TODO COLOR!
-  fill: @dialogs-neutral-color;
+#new-project-options > li img.icon {
 
-  height: 75px;
-  width: 75px;
+  width: 60px;
+  margin-bottom: 14px;
 }
 
-#new-project-options > li .label {
+#new-project-options > li .label,
+#new-project-options > li a {
   text-align: center;
+  font-size: 14px;
+  color: @dialog-text-new-project-color;
+  text-decoration: none;
+}
+
+#new-project-options > li:hover .label,
+#new-project-options > li:hover a {
+  color: @dialog-text-new-project-color;
 }
 
 #from-file {
