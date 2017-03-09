@@ -2,10 +2,14 @@
 const clipboard = require('clipboard-js');
 
 module.exports = function (habemus, options) {
+
+  // shortcut for the translation method
+  var _t = habemus.services.language.t;
   
   var EDITOR_MENU_OPTIONS = [
     {
-      label: 'copy',
+      group: 'priority',
+      label: _t('file-editor-menu.copy'),
       callback: function (data) {
         data.menuElement.close();
         
@@ -25,7 +29,22 @@ module.exports = function (habemus, options) {
       }
     },
     {
-      label: 'show in sidebar',
+      group: 'priority',
+      label: _t('file-editor-menu.save-file'),
+      callback: function (data) {
+        data.menuElement.close();
+        
+        var fileEditor = data.context;
+        
+        if (!fileEditor) {
+          return;
+        }
+
+        return habemus.ui.tabbedEditor.saveFile(fileEditor.filepath);
+      }
+    },
+    {
+      label: _t('file-editor-menu.show-in-file-tree'),
       callback: function (data) {
         data.menuElement.close();
         
@@ -42,22 +61,35 @@ module.exports = function (habemus, options) {
       },
     },
     {
-      label: 'show in preview',
+      label: _t('file-editor-menu.show-in-preview-iframe'),
       callback: function (data) {
         data.menuElement.close();
 
         habemus.ui.iframeBrowser.open(data.context.filepath);
       },
     },
+
+    // file-tree
     // {
-    //   label: 'show in new tab',
-    //   type: 'url',
-    //   target: '_blank',
-    //   url: function (data) {
-    //     return habemus.services.hDev.projectRootURL + data.context.filepath;
+    //   label: _t('file-editor-menu.hide-file-tree'),
+    //   hide: function (data) {
+    //     // TODO: probably statusL will be deprecated as PUBLIC API
+    //     return habemus.ui.structure.statusL === 'collapsed';
     //   },
     //   callback: function (data) {
     //     data.menuElement.close();
+    //     habemus.ui.structure.collapse('left');
+    //   },
+    // },
+    // {
+    //   label: _t('file-editor-menu.open-file-tree'),
+    //   hide: function (data) {
+    //     // TODO: probably statusL will be deprecated as PUBLIC API
+    //     return habemus.ui.structure.statusL !== 'collapsed';
+    //   },
+    //   callback: function (data) {
+    //     data.menuElement.close();
+    //     habemus.ui.structure.uncollapse('left');
     //   },
     // },
   ];

@@ -17,6 +17,12 @@
   "file-tree-menu": {
     "preview": "abrir no iframe"
   },
+  "file-editor-menu": {
+    "copy": "copiar",
+    "save-file": "salvar",
+    "show-in-file-tree": "mostrar na árvore de arquivos",
+    "show-in-preview-iframe": "mostrar no iframe"
+  },
   "happiness-tree": {
     "directory": {
       "copy-path": "copiar caminho",
