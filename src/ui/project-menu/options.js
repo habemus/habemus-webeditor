@@ -8,7 +8,7 @@ module.exports = function (habemus, options) {
   var MENU_OPTIONS = [
     {
       group: 'priority',
-      label: 'open preview iframe',
+      label: _t('project-menu.open-preview-iframe'),
       callback: function (data) {
         data.menuElement.close();
         habemus.ui.iframeBrowser.open();
@@ -16,7 +16,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'priority',
-      label: 'close file tree',
+      label: _t('project-menu.hide-file-tree'),
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
         return habemus.ui.structure.statusL === 'collapsed';
@@ -29,7 +29,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'priority',
-      label: 'open file tree',
+      label: _t('project-menu.open-file-tree'),
       hide: function (data) {
         // TODO: probably statusL will be deprecated as PUBLIC API
         return habemus.ui.structure.statusL !== 'collapsed';
@@ -42,7 +42,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'priority',
-      label: 'save file',
+      label: _t('project-menu.save-file'),
       shortcut: 'Cmd+S',
       callback: function (data) {
         data.menuElement.close();
@@ -51,7 +51,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'priority',
-      label: 'reload editor',
+      label: _t('project-menu.reload-editor'),
       shortcut: 'Cmd+R',
       callback: function (data) {
         data.menuElement.close();
@@ -60,7 +60,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'fs',
-      label: 'new file',
+      label: _t('project-menu.new-file'),
       callback: function (data) {
         data.menuElement.close();
         // TODO: stop using rootModel directly
@@ -69,7 +69,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'fs',
-      label: 'new directory',
+      label: _t('project-menu.new-directory'),
       callback: function (data) {
         data.menuElement.close();
         // TODO: stop using rootModel directly
@@ -78,7 +78,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'fs',
-      label: 'upload file',
+      label: _t('project-menu.upload-file'),
       type: 'input:file',
       callback: function (data) {
         data.menuElement.close();
@@ -96,7 +96,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'fs',
-      label: 'upload directory',
+      label: _t('project-menu.upload-directory'),
       type: 'input:directory',
       callback: function (data) {
         data.menuElement.close();
@@ -117,7 +117,7 @@ module.exports = function (habemus, options) {
     },
     {
       group: 'support',
-      label: 'chat with us at @slack!',
+      label: _t('project-menu.chat-with-us-at-slack'),
       type: 'url',
       target: 'habemus_web_editor_slack',
       url: 'https://habemusio.slack.com',
@@ -130,6 +130,6 @@ module.exports = function (habemus, options) {
 
     MENU_OPTIONS = MENU_OPTIONS.concat(habemus.services.config.projectMenuOptions);
   }
-  
+
   return MENU_OPTIONS;
 };

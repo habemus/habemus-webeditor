@@ -185,6 +185,9 @@ module.exports = function (habemus, options) {
         phrases: languageData,
       });
 
+      console.log('SELECTED_LANGUAGE', selectedLanguageKey);
+      console.log(languageData);
+
       return {
         t: function translate(key, data) {
           if (polyglot.has(key)) {

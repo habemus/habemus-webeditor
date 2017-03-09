@@ -42,23 +42,26 @@
     <div id="dialog" mode$="[[ mode ]]">
       <header>
         <template is="dom-if" if="[[ !_installationReady ]]">
-          <h1>Installing Service Worker</h1>
+          <h1>[[ translate('browser-sw.sw-installation-dialog.installing') ]]</h1>
         </template>
         <template is="dom-if" if="[[ _installationReady ]]">
-          <h1>Service Worker successfully installed!</h1>
+          <h1>[[ translate('browser-sw.sw-installation-dialog.installed') ]]</h1>
         </template>
       </header>
 
       <section id="body">
         <p>
-         We're using Service Workers to set up your offline Habemus version.
-         Resources are being downloaded and installed, this process should not take more than 10 seconds.
+          [[ translate('browser-sw.sw-installation-dialog.tech-explanation') ]]
         </p>
-        <p>
-          Once the installation is complete, you'll need to refresh the browser.
-        </p>
+        <template is="dom-if" if="[[ !_installationReady ]]">
+          <p>
+            [[ translate('browser-sw.sw-installation-dialog.refresh-explanation') ]]
+          </p>
+        </template>
         <template is="dom-if" if="[[ _installationReady ]]">
-          <p>Service Worker successfully installed! Click the start button to get started</p>
+          <p>
+            [[ translate('browser-sw.sw-installation-dialog.installed-explanation') ]]
+          </p>
         </template>
       </section>
 
@@ -67,7 +70,7 @@
           disabled$="[[ !_installationReady ]]"
           on-tap="_handleStartTap"
           class="primary">
-          start coding
+          [[ translate('browser-sw.sw-installation-dialog.start-coding') ]]
           <iron-icon icon="refresh" hidden$="[[ _installationReady ]]"></iron-icon>
         </button>
       </section>

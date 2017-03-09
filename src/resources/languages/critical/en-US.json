@@ -8,5 +8,16 @@
       "unauthorized": "Your account does not have the right permissions to access this workspace. We are sorry :("
     }
   },
-  "unexpected-error": "An unexpected error occurred: %{errorName}"
+  "unexpected-error": "An unexpected error occurred: %{name}",
+  "browser-sw": {
+    "sw-installation-dialog": {
+      "installing": "Installing Service Worker",
+      "installed": "Service Worker successfully installed!",
+      "tech-explanation": "We're using Service Workers to set up your offline Habemus version. Resources are being downloaded and installed, this process should not take more than 15 seconds.",
+      "refresh-explanation": "Once the installation is complete, you'll need to refresh the browser.",
+      "installed-explanation": "Service Worker successfully installed! Click the start button to get started",
+      "start-coding": "start coding"
+    },
+    "service-workers-unsupported": "We are sorry but your browser does not support ServiceWorkers, thus the offline version is not available. Please try using the latest version of <a href=\"https://www.google.com/chrome/\" target=\"_blank\">Google Chrome</a> or <a href=\"https://www.mozilla.org/en-US/firefox/products/\" target=\"_blank\">Mozilla Firefox</a>! The cloud version of Habemus also supports Safari."
+  }
 }

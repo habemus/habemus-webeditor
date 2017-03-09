@@ -56,8 +56,16 @@
       cancellable: {
         value: false,
       },
-    },
 
+      /**
+       * Translations
+       * @type {Object}
+       */
+      translate: {
+        type: Function,
+      }
+    },
+    
     behaviors: [
       Polymer.PaperDialogBehavior,
     ],

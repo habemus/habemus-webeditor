@@ -15,7 +15,7 @@
   <template>
     <div id="dialog">
       <header>
-        <h1>Create a new project</h1>
+        <h1>[[ translate('browser-sw.new-project-dialog.create-new-project') ]]</h1>
       </header>
 
       <section id="body">
@@ -28,12 +28,13 @@
               <span
                 class="label"
                 hidden$="[[ _supportsDirectoryInput ]]">
-                upload a <br>zip file
+                [[ translate('browser-sw.new-project-dialog.from-zip-file-1') ]]<br>
+                [[ translate('browser-sw.new-project-dialog.from-zip-file-2') ]]
               </span>
-              <span
+<!--               <span
                 class="label"
                 hidden$="[[ !_supportsDirectoryInput ]]">upload a <br>folder
-              </span>
+              </span> -->
             </div>
             <input
               id="file-input"
@@ -41,38 +42,40 @@
               type="file"
               accept="application/zip"
               on-change="_handleFileInputChange">
-            <input
+<!--             <input
               id="directory-input"
               hidden$="[[ !_supportsDirectoryInput ]]"
               type="file"
               webkitdirectory
               directory
-              on-change="_handleDirectoryInputChange">
+              on-change="_handleDirectoryInputChange"> -->
           </li>
           <li
             id="from-blank"
             on-tap="_handleFromBlankTap">
             <a href="/?template_url=/resources/blank-project.zip">
               <iron-icon icon="create-new-folder"></iron-icon>
-              <span class="label">start a new <br>blank project</span>
+              <span class="label">
+                [[ translate('browser-sw.new-project-dialog.from-blank-project-1') ]]<br>
+                [[ translate('browser-sw.new-project-dialog.from-blank-project-2') ]]
+              </span>
             </a>
           </li>
-          <li
-            id="from-starter-project"
-            on-tap="_handleFromStarterProjectsTap">
-            <!-- <a href="https://habemus.io/starter-projects/" target="_blank"> -->
-            <div>
+          <li id="from-starter-project">
+            <a href="https://habemus.io/starter-projects/">
               <iron-icon icon="dashboard"></iron-icon>
-              <span class="label">choose a <br>starter project</span>
-            </div>
-            <!-- </a> -->
+              <span class="label">
+                [[ translate('browser-sw.new-project-dialog.from-starter-project-1') ]]<br>
+                [[ translate('browser-sw.new-project-dialog.from-starter-project-2') ]]
+              </span>
+            </a>
           </li>
         </ul>
       </section>
 
       <section id="controls" hidden$="[[ !cancellable ]]">
         <button dialog-dismiss>
-          cancel
+          [[ translate('browser-sw.new-project-dialog.cancel') ]]
         </button>
       </section>
     </div>

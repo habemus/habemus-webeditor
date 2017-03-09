@@ -14,6 +14,11 @@
       },
       withBackdrop: {
         value: true,
+      },
+
+      // translation fn
+      translate: {
+        type: Function,
       }
     },
 
@@ -32,7 +37,7 @@
     },
 
     _handleStartTap: function (e) {
-      window.location.assign(window.location);
+      window.location.reload();
     },
   });
 

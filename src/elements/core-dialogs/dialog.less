@@ -32,8 +32,12 @@
   align-items: center;
 }
 
-#dialog #controls button {
+#dialog #controls button,
+#dialog #controls a.button {
+  display: block;
   background-color: @dialogs-neutral-color;
+
+  text-decoration: none;
   
   border: none;
   outline: none;
@@ -43,7 +47,8 @@
   margin-right: 10px;
 }
 
-#dialog #controls button.primary {
+#dialog #controls button.primary,
+#dialog #controls a.button.primary {
   background-color: @dialogs-primary-color;
 }
 
@@ -51,12 +56,14 @@
   background-color: @dialogs-neutral-color;
 }
 
-#dialog #controls button:hover {
+#dialog #controls button:hover,
+#dialog #controls a.button:hover {
   opacity: 0.8;
   cursor: pointer;
 }
 
-#dialog #controls button:active {
+#dialog #controls button:active,
+#dialog #controls a.button:active {
   // background-color: magenta;
   opacity: 0.9;
 }

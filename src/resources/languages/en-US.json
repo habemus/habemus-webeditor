@@ -2,6 +2,18 @@
   "dev-header": {
     "publish": "publish"
   },
+  "project-menu": {
+    "open-preview-iframe": "open preview iframe",
+    "hide-file-tree": "hide file tree",
+    "open-file-tree": "show file tree",
+    "save-file": "save file",
+    "reload-editor": "reload editor",
+    "new-file": "new file",
+    "new-directory": "new directory",
+    "upload-file": "upload file",
+    "upload-directory": "upload directory",
+    "chat-with-us-at-slack": "chat with us at @slack!"
+  },
   "file-tree-menu": {
     "preview": "open in iframe"
   },
@@ -84,6 +96,40 @@
     }
   },
   "language": {
+    "languages": "languages 🌐",
     "reset-confirm": "Language changed. For it to take effect, the browser must be refreshed. Would you like to refresh now?"
+  },
+  "project": {
+    "new": "create new project",
+    "publish": "publish project",
+    "download": "download project"
+  },
+  "browser-sw": {
+    "new-project-dialog": {
+      "create-new-project": "Create a new project",
+      "from-zip-file-1": "upload a",
+      "from-zip-file-2": "zip file",
+      "from-blank-project-1": "start a new",
+      "from-blank-project-2": "blank project",
+      "from-starter-project-1": "choose a",
+      "from-starter-project-2": "starter project",
+      "cancel": "cancel"
+    },
+    "publish-project-dialog": {
+      "publish": "Publish your project",
+      "three-steps": "Publish your project in 3 simple steps:",
+      "download": "download your project",
+      "create-an-habemus-account": "create an habemus account",
+      "upload-zip-file": "upload the .zip file you've downloaded to your account",
+      "cancel": "cancel",
+      "create-your-account": "create your account"
+    },
+    "cta-banner": {
+      "apis-explanation": "uses Service Workers and IndexedDB APIs, so that your data is stored in your browser.",
+      "safely-store": "To safely store it in the cloud, please",
+      "create-account": "create an account",
+      "or": "or",
+      "login": "login"
+    }
   }
 }

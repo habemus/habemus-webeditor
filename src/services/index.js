@@ -25,6 +25,7 @@ module.exports = function (habemus, options) {
   // so that we can inform the user about setup progress
   return Bluebird.all([
     require('./notification')(habemus, options),
+    require('./notification-banner')(habemus, options),
     require('./dialogs')(habemus, options),
     require('./critical-language')(habemus, options),
   ])
@@ -32,8 +33,9 @@ module.exports = function (habemus, options) {
 
     aux.defineFrozenProperties(habemus.services, {
       notification: services[0],
-      dialogs: services[1],
-      criticalLanguage: services[2],
+      notificationBanner: services[1],
+      dialogs: services[2],
+      criticalLanguage: services[3],
     });
 
     /**

@@ -1,0 +1,63 @@
+<link rel="import" href="../../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../../../../elements/core-dialogs/dialog-styles.html">
+
+<dom-module id="habemus-publish-project-dialog">
+  
+  <style include="dialog-styles"></style>
+  <style type="text/css">
+    :host {
+      top: auto;
+    }
+
+    #controls a {
+      display: block;
+    }
+  </style>
+
+  <template>
+    <div id="dialog">
+      <header>
+        <h1>[[ translate('browser-sw.publish-project-dialog.publish') ]]</h1>
+      </header>
+
+      <section id="body">
+        <p>[[ translate('browser-sw.publish-project-dialog.three-steps') ]]</p>
+        <ol>
+          <li>
+            <a
+              href="#"
+              on-tap="_handleDownloadTap">
+              [[ translate('browser-sw.publish-project-dialog.download') ]]
+            </a> 
+          </li>
+          <li>
+            <a
+              href="https://habemus.io/#login"
+              target="_blank">
+              [[ translate('browser-sw.publish-project-dialog.create-an-habemus-account') ]]
+            </a>
+          </li>
+          <li>
+            [[ translate('browser-sw.publish-project-dialog.upload-zip-file') ]]
+          </li>
+        </ol>
+      </section>
+
+      <div id="controls">
+        <button dialog-dismiss>
+          [[ translate('browser-sw.publish-project-dialog.cancel') ]]
+        </button>
+        <a
+          class="primary button"
+          href="https://habemus.io/#login"
+          target="_blank">
+          [[ translate('browser-sw.publish-project-dialog.create-your-account') ]]
+        </a>
+      </div>
+    </div>
+  </template>
+
+  <script type="text/javascript" src="publish-project-dialog.js"></script>
+
+</dom-module>

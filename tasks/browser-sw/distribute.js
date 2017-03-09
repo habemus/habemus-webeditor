@@ -197,6 +197,13 @@ module.exports = function (gulp, $, config) {
       .pipe($.if(
         'index.browser-sw.html',
         $.replace(
+          'template_url=/resources/blank-project.zip',
+          'template_url=/static/blank-project.zip'
+        )
+      ))
+      .pipe($.if(
+        'index.browser-sw.html',
+        $.replace(
           'url("bower_components/',
           'url("/static/'
         )

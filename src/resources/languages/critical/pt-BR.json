@@ -8,5 +8,16 @@
       "unauthorized": "Sua conta não tem as permissões necessárias para acessar este projeto. :("
     }
   },
-  "unexpected-error": "Um erro desconhecido ocorreu: %{errorName}"
+  "unexpected-error": "Um erro desconhecido ocorreu: %{name}",
+  "browser-sw": {
+    "sw-installation-dialog": {
+      "installing": "Instalando Service Worker",
+      "installed": "Service Worker instalado com sucesso!",
+      "tech-explanation": "Estamos utilizando a tecnologia de Service Workers para criar uma versão do WebEditor para você testar. Os recursos necessários estão sendo instalados no seu browser (geralmente demora menos de 15s).",
+      "refresh-explanation": "Quando a instalação for efetivada, você terá que recarregar o browser.",
+      "installed-explanation": "A instalação foi feita com sucesso! Clique no botão 'iniciar' para começar a programar!",
+      "start-coding": "iniciar"
+    },
+    "service-workers-unsupported": "Parece que o seu navegador ainda não suporta a API de Service Workers :(. Nosso editor para demonstração só funciona nos navegadores <a href=\"https://www.google.com/chrome/\" target=\"_blank\">Google Chrome</a> ou <a href=\"https://www.mozilla.org/en-US/firefox/products/\" target=\"_blank\">Mozilla Firefox</a>! A versão na nuvem da Habemus também funciona no Safari."
+  }
 }

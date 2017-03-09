@@ -1,5 +1,6 @@
 // third-party
 const Bluebird  = require('bluebird');
+const fileSaver = require('file-saver');
 
 module.exports = function (habemus, options) {
 
@@ -38,6 +39,36 @@ module.exports = function (habemus, options) {
           data.menuElement.close();
 
           iframeBrowser.open(data.context.path);
+        }
+      },
+      // {
+      //   group: 'fs',
+      //   label: 'download',
+      //   // label: _t('file-tree-menu.download'),
+      //   callback: function (data) {
+
+      //     var filepath = data.context.path;
+      //     var split    = filepath.split('/');
+      //     var basename = split[split.length - 1];
+
+      //     // TODO: analyze mimetype
+      //     habemus.services.hDev.readFile(data.context.path).then(function (contents) {
+      //       var blob = new Blob(contents, {
+      //         type: 'text/plain;charset=utf-8'
+      //       });
+
+      //       fileSaver.saveAs(blob, basename);
+      //     });
+      //   },
+      // },
+      {
+        group: 'fs',
+        label: 'save',
+        shortcut: 'Cmd + S',
+        callback: function (data) {
+          var filepath = data.context.path;
+
+          habemus.ui.tabbedEditor.saveFile(filepath);
         }
       }
     ];

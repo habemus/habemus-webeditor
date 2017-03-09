@@ -2,6 +2,18 @@
   "dev-header": {
     "publish": "publicar"
   },
+  "project-menu": {
+    "open-preview-iframe": "abrir iframe",
+    "hide-file-tree": "fechar árvore de arquivos",
+    "open-file-tree": "abrir árvore de arquivos",
+    "save-file": "salvar arquivo",
+    "reload-editor": "recarrecar editor",
+    "new-file": "novo arquivo",
+    "new-directory": "nova pasta",
+    "upload-file": "upload arquivo",
+    "upload-directory": "upload pasta",
+    "chat-with-us-at-slack": "converse com a gente no @slack!"
+  },
   "file-tree-menu": {
     "preview": "abrir no iframe"
   },
@@ -84,6 +96,40 @@
     }
   },
   "language": {
+    "languages": "languages 🌐",
     "reset-confirm": "A linguagem foi alterada. Para que o conteúdo atualize, é necessário recarrecar o navegador. Deseja recarregar agora?"
+  },
+  "project": {
+    "new": "criar novo projeto",
+    "publish": "publicar projeto",
+    "download": "baixar projeto"
+  },
+  "browser-sw": {
+    "new-project-dialog": {
+      "create-new-project": "Criar novo projeto",
+      "from-zip-file-1": "enviar",
+      "from-zip-file-2": "arquivo zip",
+      "from-blank-project-1": "começar projeto",
+      "from-blank-project-2": "em branco",
+      "from-starter-project-1": "escolher um",
+      "from-starter-project-2": "projeto base",
+      "cancel": "cancelar"
+    },
+    "publish-project-dialog": {
+      "publish": "Publicar projeto",
+      "three-steps": "Publique seu projeto em apenas 3 passos:",
+      "download": "faça o download do projeto",
+      "create-an-habemus-account": "crie sua conta habemus",
+      "upload-zip-file": "suba o projeto .zip na sua conta habemus",
+      "cancel": "cancelar",
+      "create-your-account": "crie sua conta"
+    },
+    "cta-banner": {
+      "apis-explanation": "usa as APIs de Service Workers e IndexedDB, para que o seu projeto seja guardado no próprio browser.",
+      "safely-store": "Para publicá-lo na nuvem, por favor",
+      "create-account": "crie uma conta",
+      "or": "ou",
+      "login": "faça login"
+    }
   }
 }
