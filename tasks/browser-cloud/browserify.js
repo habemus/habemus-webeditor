@@ -104,6 +104,9 @@ exports.createEditorBrowserifyPipe = function (options) {
   b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-ui', {
     expose: 'habemus-editor-ui'
   });
+  b.require('./src/environments/browser-cloud/injected_node_modules/habemus-editor-initialize', {
+    expose: 'habemus-editor-initialize'
+  });
 
   return b.bundle()
     .pipe(source(destFilename))

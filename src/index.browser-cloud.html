@@ -89,7 +89,12 @@
         preview-mode="{{ previewMode }}"
         panels>
 
-        <header id="header"></header>
+        <header id="notification-banner">
+          <div class="message-container"></div>
+          <button banner-dismiss>
+            <iron-icon icon="close"></iron-icon>
+          </button>
+        </header>
 
         <div
           id="left-panel"

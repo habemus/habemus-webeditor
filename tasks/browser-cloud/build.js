@@ -196,6 +196,7 @@ module.exports = function (gulp, $, config) {
       // add analytics script
       .pipe($.if('index.browser-cloud.html', $.cheerio(($find, file, done) => {
         $find('body').append(GA_SCRIPT);
+        $find('body').append(OLARK_SCRIPT);
         done();
       })))
       // rename index.html file
