@@ -4,7 +4,7 @@ module.exports = function (habemus, options) {
    * Shortcut for translate fn
    */
   const _t = habemus.services.language.t;
-  
+
   var MENU_OPTIONS = [
     {
       group: 'priority',
@@ -23,7 +23,7 @@ module.exports = function (habemus, options) {
       },
       callback: function (data) {
         data.menuElement.close();
-        
+
         habemus.ui.structure.collapse('left');
       },
     },
@@ -36,14 +36,14 @@ module.exports = function (habemus, options) {
       },
       callback: function (data) {
         data.menuElement.close();
-        
+
         habemus.ui.structure.uncollapse('left');
       },
     },
     {
       group: 'priority',
       label: _t('project-menu.save-file'),
-      shortcut: 'Cmd+S',
+      shortcut: 'Ctrl+S',
       callback: function (data) {
         data.menuElement.close();
         habemus.ui.tabbedEditor.saveActiveFile();
@@ -52,7 +52,7 @@ module.exports = function (habemus, options) {
     {
       group: 'priority',
       label: _t('project-menu.reload-editor'),
-      shortcut: 'Cmd+R',
+      shortcut: 'Ctrl+R',
       callback: function (data) {
         data.menuElement.close();
         window.location.assign(window.location);
@@ -82,7 +82,7 @@ module.exports = function (habemus, options) {
       type: 'input:file',
       callback: function (data) {
         data.menuElement.close();
-        
+
         // TODO: stop using rootModel directly
         var basepath = habemus.ui.fileTree.rootModel.path;
         var files    = data.files;
@@ -90,7 +90,7 @@ module.exports = function (habemus, options) {
         if (!files) {
           return;
         }
-        
+
         return habemus.ui.fileTree.upload.fromFilesArray(basepath, files);
       }
     },
@@ -100,7 +100,7 @@ module.exports = function (habemus, options) {
       type: 'input:directory',
       callback: function (data) {
         data.menuElement.close();
-        
+
         // TODO: stop using rootModel directly
         var basepath = habemus.ui.fileTree.rootModel.path;
         var files    = data.files;
@@ -108,7 +108,7 @@ module.exports = function (habemus, options) {
         if (!files) {
           return;
         }
-        
+
         return habemus.ui.fileTree.upload.fromWebkitDirectoryInput(
           basepath,
           files
@@ -120,10 +120,10 @@ module.exports = function (habemus, options) {
       label: _t('project-menu.chat-with-us-at-slack'),
       type: 'url',
       target: 'habemus_web_editor_slack',
-      url: 'https://habemusio.slack.com',
+      url: 'http://slack.habemus.io',
     }
   ];
-  
+
   if (Array.isArray(habemus.services.config.projectMenuOptions)) {
     console.warn('habemus.services.config.projectMenuOptions will be deprecated');
     console.warn('please use `habemus.ui.projectMenu.addOptions(options)` instead');

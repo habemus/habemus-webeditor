@@ -3,11 +3,11 @@
     "publish": "publicar"
   },
   "project-menu": {
-    "open-preview-iframe": "abrir iframe",
+    "open-preview-iframe": "abrir preview",
     "hide-file-tree": "fechar árvore de arquivos",
     "open-file-tree": "abrir árvore de arquivos",
     "save-file": "salvar arquivo",
-    "reload-editor": "recarrecar editor",
+    "reload-editor": "recarregar editor",
     "new-file": "novo arquivo",
     "new-directory": "nova pasta",
     "upload-file": "upload arquivo",

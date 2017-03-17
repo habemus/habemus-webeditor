@@ -3,7 +3,7 @@
     "publish": "publish"
   },
   "project-menu": {
-    "open-preview-iframe": "open preview iframe",
+    "open-preview-iframe": "open preview",
     "hide-file-tree": "hide file tree",
     "open-file-tree": "show file tree",
     "save-file": "save file",
