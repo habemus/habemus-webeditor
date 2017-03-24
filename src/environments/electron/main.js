@@ -25,7 +25,7 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + path.join(__dirname, '../../src/index.electron.html'))
+  mainWindow.loadURL('file://' + path.join(__dirname, '../../index.electron.html'))
 
   // Open the DevTools if in development
   if (process.env.NODE_ENV === 'development') {

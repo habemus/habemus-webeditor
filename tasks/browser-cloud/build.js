@@ -106,6 +106,20 @@ module.exports = function (gulp, $, config) {
   });
 
   /**
+   * Copies over font files
+   * TODO: generalize copy-resources
+   */
+  gulp.task('browser-cloud:copy-fonts', function () {
+    var files = [
+      config.srcDir + '/bower_components/open-sans-fontface/**/*',
+      config.srcDir + '/bower_components/source-code-pro/**/*',
+    ];
+
+    return gulp.src(files, { base: config.srcDir })
+      .pipe(gulp.dest(BROWSER_CLOUD_DIST_DIR));
+  });
+
+  /**
    * Copies over language files
    * TODO: generalize copy-resources
    */
@@ -115,7 +129,7 @@ module.exports = function (gulp, $, config) {
   });
 
   /**
-   * Copies over language files
+   * Copies over image files
    * TODO: generalize copy-resources
    */
   gulp.task('browser-cloud:copy-images', function () {
@@ -234,6 +248,7 @@ module.exports = function (gulp, $, config) {
     runSequence([
       'browser-cloud:polybuild-editor',
       'browser-cloud:copy-ace',
+      'browser-cloud:copy-fonts',
       'browser-cloud:copy-languages',
       'browser-cloud:copy-images'
     ])
