@@ -15,13 +15,13 @@
     "chat-with-us-at-slack": "chat with us at @slack!"
   },
   "file-tree-menu": {
-    "preview": "open in iframe"
+    "preview": "open in preview"
   },
   "file-editor-menu": {
     "copy": "copy",
     "save-file": "save",
     "show-in-file-tree": "show in file tree",
-    "show-in-preview-iframe": "show in preview iframe",
+    "show-in-preview-iframe": "show in preview",
     "hide-file-tree": "<",
     "open-file-tree": ">"
   },
