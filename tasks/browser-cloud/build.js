@@ -54,8 +54,8 @@ module.exports = function (gulp, $, config) {
     .pipe($.babel({
       presets: ['es2015']
     }))
-    // .pipe($.uglify())
-    // .pipe($.stripDebug())
+    .pipe($.uglify())
+    .pipe($.stripDebug())
     .pipe($.size({
       title: 'js:inspector',
       showFiles: true,

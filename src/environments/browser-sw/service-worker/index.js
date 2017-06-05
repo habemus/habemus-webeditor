@@ -1,3 +1,8 @@
+// define a window variable so that 
+// libraries that depend on checking for `window` do not
+// throw errors
+var window = {};
+
 // third-party
 const Bluebird = require('bluebird');
 const mkdirp = require('mkdirp');
