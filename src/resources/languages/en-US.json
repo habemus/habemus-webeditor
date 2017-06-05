@@ -12,7 +12,12 @@
     "new-directory": "new directory",
     "upload-file": "upload file",
     "upload-directory": "upload directory",
-    "chat-with-us-at-slack": "chat with us at @slack!"
+    "chat-with-us-at-slack": "chat with us at @slack!",
+    "publish-new-version": "publish new version",
+    "view-in-production": "view in production",
+    "view-my-projects": "go to dashboard",
+    "languages": "languages",
+    "logout": "logout"
   },
   "file-tree-menu": {
     "preview": "open in preview"

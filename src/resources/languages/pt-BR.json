@@ -12,7 +12,13 @@
     "new-directory": "nova pasta",
     "upload-file": "upload arquivo",
     "upload-directory": "upload pasta",
-    "chat-with-us-at-slack": "converse com a gente no @slack!"
+    "chat-with-us-at-slack": "converse com a gente no @slack!",
+
+    "publish-new-version": "publicar nova versão",
+    "view-in-production": "ver website publicado",
+    "view-my-projects": "meus projetos",
+    "languages": "linguagens",
+    "logout": "sair"
   },
   "file-tree-menu": {
     "preview": "mostrar no preview"
@@ -30,29 +36,29 @@
       "error-moving": "Não foi possível mover '%{directoryName}'",
       "error-reading": "Não for possível encontrar '%{directoryName}'",
       "move-loading": "Movendo...",
-      "new": "novo diretório",
+      "new": "nova pasta",
       "new-error": {
-        "empty-name": "O diretório precisa de um nome",
-        "general": "Não foi possível criar diretório"
+        "empty-name": "A pasta precisa de um nome",
+        "general": "Não foi possível criar pasta"
       },
-      "new-loading": "Criando diretório",
-      "new-placeholder": "novo diretório",
+      "new-loading": "Criando pasta",
+      "new-placeholder": "nova pasta",
       "remove": "excluir",
-      "remove-confirm": "Deseja mesmo excluir diretório? Esta ação não poderá ser desfeita.",
+      "remove-confirm": "Deseja mesmo excluir pasta? Esta ação não poderá ser desfeita.",
       "remove-error": {
-        "general": "Não foi possível excluir diretório"
+        "general": "Não foi possível excluir pasta"
       },
-      "remove-loading": "Excluindo diretório",
+      "remove-loading": "Excluindo pasta",
       "remove-success": "Excluído com sucesso!",
-      "rename": "renomear diretório",
+      "rename": "renomear pasta",
       "rename-error": {
-        "empty-name": "Diretório precisa de um nome",
-        "general": "Não foi possível renomear diretório",
-        "path-exists": "Já existe um diretório com este nome neste caminho"
+        "empty-name": "A pasta precisa de um nome",
+        "general": "Não foi possível renomear pasta",
+        "path-exists": "Já existe uma pasta com este nome neste caminho"
       },
       "rename-loading": "Renomeando...",
       "rename-success": "Renomeado com sucesso!",
-      "upload-directory": "subir diretório",
+      "upload-directory": "subir pasta",
       "upload-file": "subir arquivo"
     },
     "file": {
