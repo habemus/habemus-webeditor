@@ -15,13 +15,13 @@
     "chat-with-us-at-slack": "converse com a gente no @slack!"
   },
   "file-tree-menu": {
-    "preview": "abrir no iframe"
+    "preview": "mostrar no preview"
   },
   "file-editor-menu": {
     "copy": "copiar",
     "save-file": "salvar",
     "show-in-file-tree": "mostrar na árvore de arquivos",
-    "show-in-preview-iframe": "mostrar no iframe"
+    "show-in-preview-iframe": "mostrar no preview"
   },
   "happiness-tree": {
     "directory": {
@@ -44,7 +44,7 @@
       },
       "remove-loading": "Excluindo diretório",
       "remove-success": "Excluído com sucesso!",
-      "rename": "Renomear diretório",
+      "rename": "renomear diretório",
       "rename-error": {
         "empty-name": "Diretório precisa de um nome",
         "general": "Não foi possível renomear diretório",
@@ -103,7 +103,7 @@
   },
   "language": {
     "languages": "languages 🌐",
-    "reset-confirm": "A linguagem foi alterada. Para que o conteúdo atualize, é necessário recarrecar o navegador. Deseja recarregar agora?"
+    "reset-confirm": "A linguagem foi alterada. Para que o conteúdo atualize, é necessário recarregar o navegador. Deseja recarregar agora?"
   },
   "project": {
     "new": "criar novo projeto",
