@@ -1,5 +1,6 @@
 // third-party
-const createDevServerHTML5 = require('dev-server-html5');
+const createDevServerHTML5 = require('habemus-dev-server');
+const devServerProcessorCSS = require('habemus-dev-server-processor-css');
 const express = require('express');
 
 // instantiate the main app
@@ -13,7 +14,7 @@ var devServerHTML5 = createDevServerHTML5({
     '<script charset="utf8" type="application/javascript" src="/inspector.js"></script>'
   ],
   processors: {
-    'text/css': require('dev-server-html5/processors/css/autoprefixer'),
+    'text/css': devServerProcessorCSS
   }
 });
 

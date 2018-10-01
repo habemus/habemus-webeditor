@@ -1,5 +1,5 @@
 // external habemus-modules
-const happinessTree = require('happiness-tree');
+const happinessTree = require('habemus-ui-file-tree');
 
 module.exports = function (habemus, options) {
 

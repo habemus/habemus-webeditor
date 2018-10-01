@@ -29,7 +29,7 @@
     "show-in-file-tree": "mostrar na árvore de arquivos",
     "show-in-preview-iframe": "mostrar no preview"
   },
-  "happiness-tree": {
+  "habemus-ui-file-tree": {
     "directory": {
       "copy-path": "copiar caminho",
       "copy-path-success": "Copiado: '%{path}'",

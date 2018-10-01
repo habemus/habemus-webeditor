@@ -68,9 +68,9 @@ module.exports = function (gulp, $, config) {
           require: 'ncp',
           expose: 'cpr',
         },
-        // Replace express with bs-express
+        // Replace express with browser-sw-express
         {
-          require: 'bs-express',
+          require: 'browser-sw-express',
           expose: 'express',
         },
         COMMON_INJECTIONS['habemus-editor-services'],

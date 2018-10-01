@@ -1,7 +1,7 @@
 // const 
 
 // hab
-const HabUIInspector = require('hab-ui-inspector');
+const HabUIInspector = require('habemus-ui-inspector');
 
 const loadHDev = require('./h-dev');
 

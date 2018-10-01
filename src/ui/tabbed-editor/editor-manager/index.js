@@ -5,7 +5,7 @@ const EventEmitter = require('events');
 // third-party dependencies
 const Bluebird = require('bluebird');
 
-const FileEditor = require('hab-ui-file-editor');
+const FileEditor = require('habemus-ui-file-editor');
 
 const CLEAN_UP_INTERVAL = 4000;
 const CLEAN_UP_DELAY    = 10000;

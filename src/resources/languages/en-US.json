@@ -30,7 +30,7 @@
     "hide-file-tree": "<",
     "open-file-tree": ">"
   },
-  "happiness-tree": {
+  "habemus-ui-file-tree": {
     "directory": {
       "copy-path": "copy directory path",
       "copy-path-success": "Copied '%{path}'",

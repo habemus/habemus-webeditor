@@ -1,6 +1,6 @@
 // hab
-const HabUIInspector      = require('hab-ui-inspector');
-const AnonymousHWorkspaceClient = require('h-workspace-client/public/anonymous');
+const HabUIInspector      = require('habemus-ui-inspector');
+const AnonymousHWorkspaceClient = require('habemus-workspace-client/public/anonymous');
 
 // own
 const loadConfig = require('./config');
