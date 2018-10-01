@@ -5,7 +5,7 @@ const util = require('util');
 const Intercomm = require('intercomm');
 
 // h-deps
-const HFs = require('h-fs');
+const HFs = require('@habemus/virtual-fs');
 
 function HFsIntercomm(options) {
   /**

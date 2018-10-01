@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@habemus/virtual-fs": "^1.3.1",
     "bluebird": "^3.4.1",
     "browser-parse-files": "git+https://github.com/habemus/browser-parse-files.git",
     "browser-sw-express": "git+https://github.com/habemus/browser-sw-express.git",

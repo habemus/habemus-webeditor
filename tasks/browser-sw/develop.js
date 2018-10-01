@@ -106,7 +106,7 @@ module.exports = function (gulp, $, config) {
 
   gulp.task('browser-sw:serve', ['less', 'browser-sw:js-dev'], function () {
     browserSync.init({
-      port: process.env.EDITOR_PORT || 4000,
+      port: 5001,
       server: {
         baseDir: './src',
         index: 'index.browser-sw.html',
