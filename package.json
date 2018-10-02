@@ -59,6 +59,7 @@
     "gulp-size": "^2.1.0",
     "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-uglify-es": "^1.0.4",
     "gulp-util": "^3.0.7",
     "gulp-vulcanize": "^6.1.0",
     "merge-stream": "^1.0.0",

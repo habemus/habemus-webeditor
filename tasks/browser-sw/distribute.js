@@ -111,12 +111,13 @@ module.exports = function (gulp, $, config) {
         COMMON_INJECTIONS['habemus-editor-urls'],
       ],
     })
-    .pipe($.stripDebug())
+    // .pipe($.stripDebug())
     .pipe($.replace('arguments.callee', '(function () {})'))
-    .pipe($.babel({
-      presets: ['es2015']
-    }))
-    .pipe($.uglify())
+    // .pipe($.babel({
+    //   presets: ['es2015']
+    // }))
+    // .pipe($.uglify())
+    .pipe($.uglifyEs.default())
     .pipe($.size())
     .pipe(gulp.dest(DIST_DIR));
   });
